@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level A1 - Smart English Resources</title>
+    <style>
+        :root {
+            --smart-red: #E3000F;
+            --smart-blue: #00205B;
+            --smart-white: #FFFFFF;
+            --light-gray: #f4f4f4;
+            --class-gray: #e9ecef;
+        }
+        body { font-family: Arial, sans-serif; background-color: var(--light-gray); margin: 0; padding: 0; color: #333; }
+        header { background-color: var(--smart-blue); color: var(--smart-white); padding: 20px; text-align: center; border-bottom: 5px solid var(--smart-red); }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        
+        /* Top Navigation & Toolkits */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .back-btn { background-color: var(--smart-blue); color: var(--smart-white); text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; }
+        .toolkit { background-color: var(--smart-white); border: 2px solid var(--smart-blue); border-radius: 8px; padding: 15px; flex-grow: 1; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .toolkit input { padding: 8px; width: 60%; border: 1px solid #ccc; border-radius: 4px; }
+        .toolkit button { background-color: var(--smart-red); color: var(--smart-white); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        /* Unit Accordion */
+        .unit-block { background-color: var(--smart-white); margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
+        .unit-header { background-color: var(--smart-blue); color: var(--smart-white); padding: 15px; cursor: pointer; font-size: 1.2em; font-weight: bold; }
+        .unit-header:hover { background-color: #003380; }
+        .unit-content { display: none; padding: 10px; }
+        
+        /* Class Accordion (Nested) */
+        .class-block { background-color: var(--class-gray); margin-bottom: 10px; border-radius: 4px; border-left: 4px solid var(--smart-red); }
+        .class-header { padding: 12px; cursor: pointer; font-weight: bold; color: var(--smart-blue); }
+        .class-header:hover { background-color: #dadddf; }
+        .class-content { display: none; padding: 15px; background-color: var(--smart-white); border: 1px solid var(--class-gray); }
+        
+        /* Resources */
+        .resource-tag { display: inline-block; background-color: var(--smart-red); color: var(--smart-white); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 10px; min-width: 80px; text-align: center; }
+        .resource-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .resource-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .resource-item a { color: var(--smart-blue); text-decoration: none; font-weight: bold; }
+        .resource-item a:hover { text-decoration: underline; }
+        
+        /* Visibility Classes */
+        .active { display: block; }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
+            .toolkit input { width: 100%; box-sizing: border-box; }
+        }
+        /* Marca de agua / Firma */
+.footer-signature {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    font-size: 0.7em;
+    color: rgba(0, 32, 91, 0.3); /* Color azul oscuro con 30% de transparencia */
+    pointer-events: none; /* Esto evita que tape los clics */
+    z-index: 1000;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Level A1 - Communicative Objectives</h1>
+        <p>Smart English Academy</p>
+    </header>
+
+    <div class="container">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn">⬅ Home</a>
+            <div class="toolkit">
+    <div style="flex-grow: 1; display: flex; gap: 10px;">
+        <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
+        <button onclick="spinRoulette()">Spin</button>
+        <!-- BOTÓN NUEVO -->
+        <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
+    </div>
+    <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
+</div>
+        </div>
+
+        <div id="unitsContainer"></div>
+    </div>
+
+    <script>
+        // 1. DATOS
+        const a1_data = [
+            {
+                unit_id: "u1_2",
+                title: "Units 1 & 2 (Classes 1 - 9)",
+                classes: [
+                    { 
+    class_id: "c1", 
+    title: "Class 1", 
+    objective: "Introduce myself and others.", 
+    warmup: "Name Chain Game: 'My name is... His/Her name is...'", 
+    resources: [
+        { tag: "PDF", text: "Introduction Guide", link: "https://drive.google.com/file/d/11S057-8Xc77uWONIHmKgwWwcYi-dRxvg/view?usp=sharing" },
+        { tag: "WordWall", text: "Pronouns", link: "https://wordwall.net/es/resource/89028724/english/pronouns-game" },
+        { tag: "WordWall", text: "Pronouns Game", link: "https://wordwall.net/es/resource/2889122/pronouns" },
+        { tag: "Wordwall", text: "Possessive Adjectives Exercise", link: "https://wordwall.net/es/resource/52652993/possessive-adjectives-exercises" },
+        { tag: "Wordwall", text: "WH-Questions & Verb To Be", link: "https://wordwall.net/es/resource/28993430/english/wh-questions-verb-to-be" }
+    ] 
+},
+                    { class_id: "c2", title: "Class 2", objective: "Confirm and correct information with yes/no questions.", warmup: "Two Truths and a Lie", resources: [
+                        { tag: "PDF", text: "Verb To Be Structure Guide", link: "https://drive.google.com/file/d/11S057-8Xc77uWONIHmKgwWwcYi-dRxvg/view?usp=sharing" },
+        { tag: "Wordwall", text: "Verb To Be: Negative", link: "https://wordwall.net/es/resource/31099296/ingl%C3%A9s/verb-to-be-negative" },
+        { tag: "Wordwall", text: "Verb To Be: Yes/No Questions", link: "https://wordwall.net/es/resource/15856459/yes-no-questions-verb-to-be" },
+        { tag: "Wordwall", text: "Vocabulary: School Subjects", link: "https://wordwall.net/es/resource/3944298/school-subjects" }
+                    ] },
+                    { class_id: "c3", title: "Class 3", objective: "Validate and complement knowledge, practice greetings and farewells, and talk about yourself and others (Grammar Plus).", warmup: "Roleplay: Business Card exchange", resources: [{ tag: "PDF", text: "Vocabulary & Structure Guide", link: "PEGAR_LINK_DEL_PDF_AQUI" },
+        { tag: "Baamboozle", text: "Warm-up Game", link: "https://www.baamboozle.com/game/529992" },
+        { tag: "Liveworksheets", text: "Vocabulary Practice", link: "https://www.liveworksheets.com/worksheet/en/esl-vocabulary/44598#google_vignette" },
+        { tag: "Wordwall", text: "WH-Questions Review", link: "https://www.wordwall.net/es/resource/28993430/english/wh-questions-verb-to-be" }] },
+                    { class_id: "c4", title: "Class 4", objective: "Watch in context how people get to know themselves (Video).", warmup: "Pre-video vocabulary match", resources: [{ tag: "PDF", text: "Worksheet", link: "https://www.liveworksheets.com/worksheet/en/english-second-language-esl/967684" },
+        { tag: "Baamboozle", text: "Warm-up Review Game", link: "https://www.baamboozle.com/game/23218" },
+        { tag: "Wordwall", text: "Possessive Adjectives Review", link: "https://wordwall.net/es/resource/99402573/exercises-with-possessive-adjective" },
+        { tag: "Wordwall", text: "Yes/No Questions Review", link: "https://wordwall.net/es/resource/15856459/yes-no-questions-verb-to-be" }] },
+                    { class_id: "c5", title: "Class 5", objective: "Ask and answer questions about different types of jobs.", warmup: "Memory Game: Jobs and Occupations.", 
+    resources: [
+        { tag: "PDF", text: "Occupations & Routines Guide", link: "PEGAR_LINK_DEL_PDF_AQUI" },
+        { tag: "Wordwall", text: "Jobs & Occupations Memory Game", link: "https://wordwall.net/es/resource/17460334/english/jobs-and-occupations-memory-game" },
+        { tag: "Wordwall", text: "WH-Questions: Present Simple", link: "https://wordwall.net/es/resource/5883205/english/wh-questions-simple-present" },
+        { tag: "Wordwall", text: "Basic Verbs: Present Simple", link: "https://wordwall.net/es/resource/75133986/ingl%C3%A9s/present-simple-basic-verbs" }
+    ] },
+                    { class_id: "c6", title: "Class 6", objective: "Describe my routines including time expressions.", warmup: "Interactive worksheet review to activate prior knowledge.", 
+    resources: [
+        { tag: "Liveworksheets", text: "Warm-up Review", link: "http://liveworksheets.com/worksheet/en/english-second-language-esl/889694" },
+        { tag: "Agendaweb", text: "Prepositions of Time Practice", link: "https://agendaweb.org/exercises/grammar/prepositions/time-1.htm" },
+        { tag: "Wordwall", text: "Prepositions of Time: In/On/At", link: "https://wordwall.net/es/resource/60635220/ingl%C3%A9s/prepositions-of-time-in-on-at" },
+        { tag: "PDF", text: "Daily Routine Exercises", link: "https://learnenglishteens.britishcouncil.org/sites/teens/files/daily_routine_-_exercises.pdf" }
+    ] },
+                    { class_id: "c7", title: "Class 7", objective: "Validate knowledge, describe daily schedules, and talk about jobs (Grammar Plus).", warmup: "Interview a partner about their morning", resources: [{ tag: "Gamestolearnenglish", text: "Telling the Time", link: "https://www.gamestolearnenglish.com/telling-the-time/" },
+        { tag: "Agendaweb", text: "Prepositions of Time Practice", link: "https://agendaweb.org/exercises/grammar/prepositions/time-1.htm" },
+        { tag: "Wordwall", text: "Prepositions of Time: In/On/At", link: "https://wordwall.net/es/resource/59507748/prepositions-of-time-in-on-at" }
+    ] },
+                    { class_id: "c8", title: "Class 8", objective: "Watch in context how people describe their jobs (Video).", warmup: "Job guessing game", resources: [
+        { tag: "PDF", text: "Jobs & Routines Guide", link: "https://drive.google.com/file/d/1jiSuu1Sk2ognOq7lNMY7PUusXDfsOQ9j/view?usp=sharing" },
+        { tag: "CustomStrands", text: "Jobs & Occupations Word Search", link: "https://customstrandsnyt.com/play/Whatdoyoudo-Findthewordsrelatedtojobsandoccupations/" },
+        { tag: "Wordwall", text: "Sequence Practice: Before and After", link: "https://wordwall.net/es/resource/3055464/before-and-after" },
+        { tag: "Agendaweb", text: "Present Simple Affirmative Forms", link: "https://agendaweb.org/exercises/verbs/present/affirmative-forms-1.htm" }
+    ] 
+},
+                    { class_id: "c9", title: "Class 9", objective: "Ask and answer questions about myself and other people, about work, habits and routines (Progress Check).", warmup: "Review Q&A Carousel", resources: [{ tag: "Wordwall", text: "Progress Check Assessment", link: "http://wordwall.net/es/resource/75822960/ingl%C3%A9s/daily-routine-quizz" },
+        { tag: "Wordwall", text: "Possessive Adjectives Mastery", link: "https://wordwall.net/es/resource/6284179/possessive-adjectives" },] }
+                ]
+            },
+            {
+                unit_id: "u3_4",
+                title: "Units 3 & 4 (Classes 10 - 18)",
+                classes: [
+                    { class_id: "c10", title: "Class 10", objective: "Ask for and give prices.", warmup: "Price Guessing Game", resources: [
+        { tag: "Game", text: "Clothes", link: "https://www.gamestolearnenglish.com/clothes-game/" },
+        { tag: "Exercise", text: "This / that / these / those", link: "https://agendaweb.org/exercises/grammar/demonstratives/this-that-these-those-1.htm" },
+        { tag: "Wordwall", text: "One and ones - Complete", link: "https://wordwall.net/es/resource/34901834/one-and-ones" }
+    ] },
+                    { class_id: "c11", title: "Class 11", objective: "Show preferences and compare characteristics of items.", warmup: "This or That? (Preferences)", resources: [
+        { tag: "Baamboozle", text: "Going Shopping", link: "https://www.baamboozle.com/game/70397" },
+        { tag: "Exercise", text: "Exercises: comparative adjectives", link: "https://agendaweb.org/exercises/grammar/comparison/comparative-forms.htm" },
+        { tag: "Wordwall", text: "Comparatives - Questionnaire", link: "https://wordwall.net/es/resource/7739201/comparatives" }
+    ] },
+                    { class_id: "c12", title: "Class 12", objective: "Validate previous knowledge, talk about prices, and discuss preferences and comparisons (Grammar Plus).", warmup: "Shopping roleplay setup", resources: [
+        { tag: "Baamboozle", text: "Clothes", link: "https://www.baamboozle.com/game/52866" },
+        { tag: "Resource", text: "One ones - Recursos didácticos", link: "https://wordwall.net/es-us/community/one-ones" },
+        { tag: "Exercise", text: "Comparison - exercises", link: "https://agendaweb.org/exercises/grammar/comparison/comparatives-quiz.htm" }
+    ] },
+                    { class_id: "c13", title: "Class 13", objective: "Watch in context how people ask for, describe prices, and express opinions (Video).", warmup: "Pre-video discussion", resources: [
+        { tag: "Game", text: "Clothes", link: "https://www.gamestolearnenglish.com/clothes-game/" },
+        { tag: "Wordwall", text: "One Ones - Cuestionario", link: "https://wordwall.net/es/resource/19510752/one-ones" },
+        { tag: "Wordwall", text: "Comparatives - Cuestionario", link: "https://wordwall.net/es/resource/4509444/comparatives" }
+    ] },
+                    { class_id: "c14", title: "Class 14", objective: "Describe likes and dislikes.", warmup: "Thumbs up/Thumbs down to categories", resources: [
+        { tag: "Baamboozle", text: "Music", link: "https://www.baamboozle.com/game/46158" },
+        { tag: "Wordwall", text: "Do/ Does - Ordenar por grupo", link: "https://wordwall.net/es/resource/24336821/do-does" },
+        { tag: "Exercise", text: "Do vs Does: Matching Exercise", link: "https://agendaweb.org/exercises/verbs/do-does-exercises/do-does-pronouns.html" }
+    ] },
+                    { class_id: "c15", title: "Class 15", objective: "Make invitations and respond to them.", warmup: "Write a quick party invitation", resources: [
+        { tag: "Wordwall", text: "Entertainment - Ordenar por grupo", link: "https://wordwall.net/es/resource/38148449/entertainment" },
+        { tag: "Wordwall", text: "WHAT WOULD YOU LIKE? - Cuestionario", link: "https://wordwall.net/es/resource/3724687/what-would-you-like" },
+        { tag: "Wordwall", text: "Would you like? - Reordenar", link: "https://wordwall.net/es/resource/14227566/would-you-like" }
+    ] },
+                    { class_id: "c16", title: "Class 16", objective: "Validate previous knowledge about likes and dislikes, and invitations (Grammar Plus).", warmup: "Roleplay: Inviting a friend out", resources: [
+        { tag: "Conversation", text: "Music questions", link: "https://www.eslconversationquestions.com/music/" },
+        { tag: "Wordwall", text: "Would you like...? - Diagrama con etiquetas", link: "https://wordwall.net/es/resource/19392459/would-you-like" },
+        { tag: "Community", text: "Do does exercises", link: "https://wordwall.net/es-ar/community/do-does-exercises" }
+    ] },
+                    { class_id: "c17", title: "Class 17", objective: "Watch in context how people talk about likes and dislikes, and give reasons (Video).", warmup: "Reasoning game (Why do you like...?)", resources: [
+        { tag: "Wordwall", text: "Events - Acertijo visual", link: "https://wordwall.net/es/resource/38989750/events" },
+        { tag: "Wordwall", text: "Do/ Does - Ordenar por grupo", link: "https://wordwall.net/es/resource/24336821/do-does" },
+        { tag: "Wordwall", text: "What would you do? - Rueda aleatoria", link: "https://wordwall.net/es/resource/7335264/what-would-you-do" }
+    ] },
+                    { class_id: "c18", title: "Class 18", objective: "Give and understand information about prices, say what I like and dislike, describe objects, make invitations (Progress Check).", warmup: "Review Board Game", resources: [
+        { tag: "Conversation", text: "Music questions", link: "https://www.eslconversationquestions.com/music/" },
+        { tag: "Exercise", text: "Do vs Does: Pronoun Matching", link: "https://agendaweb.org/exercises/verbs/do-does-exercises/do-does-pronouns.html" },
+        { tag: "Wordwall", text: "Comparatives - Cuestionario", link: "https://wordwall.net/es/resource/4509444/comparatives" }
+    ] }
+                ]
+            },
+            {
+                unit_id: "u5_6",
+                title: "Units 5 & 6 (Classes 19 - 27)",
+                classes: [
+                    { class_id: "c19", title: "Class 19", objective: "Talk about families and current activities.", warmup: "Family Tree Sketch", resources: [
+        { tag: "Baamboozle", text: "The Royal Family", link: "https://www.baamboozle.com/game/223480" },
+        { tag: "Exercise", text: "Present Continuous Forms", link: "https://agendaweb.org/exercises/verbs/present-continuous.htm" },
+        { tag: "Wordwall", text: "Present Continuous vs Simple Present (A2)", link: "https://wordwall.net/es/resource/86744578/esl/present-continuous-vs-simple-present-a2" }
+    ] },
+                    { class_id: "c20", title: "Class 20", objective: "Discuss family activities.", warmup: "Describe a weekend with family", resources: [
+        { tag: "Baamboozle", text: "Family Member Riddles", link: "https://www.baamboozle.com/game/764283" },
+        { tag: "Exercise", text: "A few / a little - test 1", link: "https://agendaweb.org/exercises/grammar/countable-uncountable/few-little-test-1.html" },
+        { tag: "Wordwall", text: "Family Tree!", link: "https://wordwall.net/es/resource/6310721/family-tree" }
+    ] },
+                    { class_id: "c21", title: "Class 21", objective: "Validate previous knowledge about family life and use of quantifiers (Grammar Plus).", warmup: "Quantifier fill-in-the-blank", resources: [
+        { tag: "Wordwall", text: "Simpsons FAMILY - Find the match", link: "https://wordwall.net/es/resource/2774694/simpsons-family-find-the-match" },
+        { tag: "Exercise", text: "Present Continuous Forms", link: "https://agendaweb.org/exercises/verbs/present-continuous.htm" },
+        { tag: "Wordwall", text: "Much/Many - Ordenar por grupo", link: "https://wordwall.net/es/resource/580639/much-many" }
+    ] },
+                    { class_id: "c22", title: "Class 22", objective: "Watch in context a person talking about family and family relationships (Video).", warmup: "Who's who? (Family relationships)", resources: [
+        { tag: "Baamboozle", text: "Family Member Riddles", link: "https://www.baamboozle.com/game/764283" },
+        { tag: "Wordwall", text: "Present Continuous vs Simple Present (A2)", link: "https://wordwall.net/es/resource/86744578/esl/present-continuous-vs-simple-present-a2" },
+        { tag: "Wordwall", text: "Much/Many - Ordenar por grupo", link: "https://wordwall.net/es/resource/580639/much-many" }
+    ] },
+                    { class_id: "c23", title: "Class 23", objective: "Mention my favorite leisure time activities and how frequently I practice them.", warmup: "Adverbs of frequency timeline", resources: [
+        { tag: "Wordwall", text: "Sports - Une las parejas", link: "https://wordwall.net/es/resource/72680524/ingl%C3%A9s/sports" },
+        { tag: "Exercise", text: "How often...?", link: "https://agendaweb.org/exercises/grammar/adverbs/frequency-2.htm" },
+        { tag: "Wordwall", text: "How often...? - Une las parejas", link: "https://wordwall.net/es/resource/38731775/how-often" }
+    ] },
+                    { class_id: "c24", title: "Class 24", objective: "Describe details about my activities.", warmup: "Activity charades", resources: [
+        { tag: "Wordwall", text: "Adverbs of Frequency - Reordenar", link: "https://wordwall.net/es/resource/14007863/adverbs-of-frequency" },
+        { tag: "Exercise", text: "How often...?", link: "https://agendaweb.org/exercises/grammar/adverbs/frequency-2.htm" },
+        { tag: "Wordwall", text: "How long...? - Reordenar", link: "https://wordwall.net/es/resource/96642891/how-long" }
+    ] },
+                    { class_id: "c25", title: "Class 25", objective: "Validate previous knowledge about how to describe the frequency of certain activities (Grammar Plus).", warmup: "Find someone who...", resources: [
+        { tag: "Wordwall", text: "Adverbs of Frequency - Reordenar", link: "https://wordwall.net/es/resource/14007863/adverbs-of-frequency" },
+        { tag: "Exercise", text: "Adverbs of frequency", link: "https://agendaweb.org/exercises/grammar/adverbs/frequency-test-1.htm" },
+        { tag: "Exercise", text: "How often...?", link: "https://agendaweb.org/exercises/grammar/adverbs/frequency-2.htm" }
+    ] },
+                    { class_id: "c26", title: "Class 26", objective: "Watch in context people talking about routines, sports and exercise (Video).", warmup: "Sports vocabulary race", resources: [
+        { tag: "Wordwall", text: "sports and hobbies - Cuestionario", link: "https://wordwall.net/es/resource/80782675/ingl%C3%A9s/sports-and-hobbies" },
+        { tag: "Wordwall", text: "How often? - Abrecajas", link: "https://wordwall.net/es/resource/3381326/how-often" },
+        { tag: "Wordwall", text: "How well/How good", link: "https://wordwall.net/es/resource/103703177/how-well-how-good" }
+    ] },
+                    { class_id: "c27", title: "Class 27", objective: "Ask about present activities, give info about quantities, ask and answer about free time and routines (Progress Check).", warmup: "Unit review quiz", resources: [
+        { tag: "Wordwall", text: "Simpsons FAMILY - Find the match", link: "https://wordwall.net/es/resource/2774694/simpsons-family-find-the-match" },
+        { tag: "Exercise", text: "How often...?", link: "https://agendaweb.org/exercises/grammar/adverbs/frequency-2.htm" },
+        { tag: "Wordwall", text: "How long...? - Reordenar", link: "https://wordwall.net/es/resource/96642891/how-long" }
+    ] }
+                ]
+            },
+            {
+                unit_id: "u7_8",
+                title: "Units 7 & 8 (Classes 28 - 36)",
+                classes: [
+                    { class_id: "c28", title: "Class 28", objective: "Describe past experiences.", warmup: "List 3 things you did yesterday", resources: [
+                            { tag: "Game", text: "Past Tense", link: "https://www.gamestolearnenglish.com/past-tense-game/" },
+                            { tag: "Agendaweb", text: "Past Simple Questions: Irregular Verbs", link: "https://agendaweb.org/exercises/verbs/past-simple/questions-irregular-verbs.html" },
+                            { tag: "Wordwall", text: "Simple past - regular verbs - Cuestionario", link: "https://wordwall.net/es/resource/31568925/simple-past-regular-verbs" }
+                        ] },
+                    { class_id: "c29", title: "Class 29", objective: "Share stories about past adventures and vacations.", warmup: "Best/Worst vacation brainstorm", resources: [
+                            { tag: "Wordwall", text: "Past experiences - Parejas", link: "https://wordwall.net/es/resource/17928708/past-experiences" },
+                            { tag: "Wordwall", text: "Was/were - Cuestionario", link: "https://wordwall.net/es/resource/5010194/was-were" },
+                            { tag: "Wordwall", text: "Was - were - Cuestionario", link: "https://wordwall.net/es/resource/29361051/english/was-were" }
+                        ] },
+                    { class_id: "c30", title: "Class 30", objective: "Validate previous knowledge about descriptions of past activities and vacations (Grammar Plus).", warmup: "Past tense irregular verb match", resources: [
+                            { tag: "Wordwall", text: "Free time activities - Acertijo visual", link: "https://wordwall.net/es/resource/2627238/free-time-activities" },
+                            { tag: "Agendaweb", text: "Past Simple Questions with Irregular Verbs", link: "https://agendaweb.org/exercises/verbs/past-simple/questions-write.html" },
+                            { tag: "Agendaweb", text: "To be: past simple forms - exercises", link: "https://agendaweb.org/exercises/verbs/to-be/past-simple-forms.html" }
+                        ] },
+                    { class_id: "c31", title: "Class 31", objective: "Watch in context how people talk about past events and vacations (Video).", warmup: "Pre-video prediction", resources: [
+                            { tag: "Wordwall", text: "Past experiences - Parejas", link: "https://wordwall.net/es/resource/17928708/past-experiences" },
+                            { tag: "Wordwall", text: "Past simple - irregular - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/14104194/english/past-simple-irregular" },
+                            { tag: "Wordwall", text: "TO BE- PAST SIMPLE - Ordenar por grupo", link: "https://wordwall.net/es/resource/1978614/to-be-past-simple" }
+                        ] },
+                    { class_id: "c32", title: "Class 32", objective: "Ask about and describe places.", warmup: "Describe a famous landmark", resources: [
+                            { tag: "Wordwall", text: "Places in a city - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/19070849/places-in-a-city" },
+                            { tag: "Wordwall", text: "There is / There are - Concurso de preguntas", link: "https://wordwall.net/es/resource/10961041/there-is-there-are/there-is-there-are" },
+                            { tag: "Agendaweb", text: "Any - some: quiz 1.", link: "https://agendaweb.org/exercises/grammar/any-some-quiz.htm" }
+                        ] },
+                    { class_id: "c33", title: "Class 33", objective: "Describe my neighborhood.", warmup: "Draw a map of your street", resources: [
+                            { tag: "Wordwall", text: "Places of my Neighborhood - Wordwall", link: "https://wordwall.net/resource/12627467/community-workers-and-places-of-my-neighborhood" },
+                            { tag: "Wordwall", text: "Much/Many - Ordenar por grupo", link: "https://wordwall.net/es/resource/580639/much-many" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/103704626/sin-t%C3%ADtulo2" }
+                        ] },
+                    { class_id: "c34", title: "Class 34", objective: "Validate previous knowledge about places, their location, and countable/noncountable nouns (Grammar Plus).", warmup: "Countable vs Uncountable sort", resources: [
+                            { tag: "Wordwall", text: "Places in a city - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/19070849/places-in-a-city" },
+                            { tag: "Agendaweb", text: "There is - there are: exercise 1", link: "https://agendaweb.org/exercises/grammar/there-is-there-are/there-is-there-are-1.htm" },
+                            { tag: "Agendaweb", text: "Place prepositions in / on / under", link: "https://agendaweb.org/exercises/grammar/prepositions/place-1.htm" }
+                        ] },
+                    { class_id: "c35", title: "Class 35", objective: "Watch in context how people describe neighborhoods (Video).", warmup: "Neighborhood features checklist", resources: [
+                            { tag: "Wordwall", text: "Places of my Neighborhood - Wordwall", link: "https://wordwall.net/resource/12627467/community-workers-and-places-of-my-neighborhood" },
+                            { tag: "Agendaweb", text: "Any - some: quiz 1.", link: "https://agendaweb.org/exercises/grammar/any-some-quiz.htm" },
+                            { tag: "Wordwall", text: "Prepositions: next to - opposite - between - Cuestionario", link: "https://wordwall.net/es/resource/6733319/prepositions-next-to-opposite-between" }
+                        ] },
+                    { class_id: "c36", title: "Class 36", objective: "Understand descriptions of past events, give location instructions, talk about my neighborhood (Progress Check).", warmup: "Review pair-work", resources: [
+                            { tag: "Wordwall", text: "Past experiences - Parejas", link: "https://wordwall.net/es/resource/17928708/past-experiences" },
+                            { tag: "Agendaweb", text: "There is - there are: exercise 1", link: "https://agendaweb.org/exercises/grammar/there-is-there-are/there-is-there-are-1.htm" },
+                            { tag: "Wordwall", text: "Is there /Are there - Cuestionario", link: "https://wordwall.net/es/resource/61773895/ingl%C3%A9s/is-there-are-there" }
+                        ] }
+                ]
+            },
+            {
+                unit_id: "u9_10",
+                title: "Units 9 & 10 (Classes 37 - 45)",
+                classes: [
+                    { class_id: "c37", title: "Class 37", objective: "Describe people's physical appearance.", warmup: "Guess Who: Classmate edition", resources: [
+                            { tag: "Wordwall", text: "Describing People - Matching pairs", link: "https://wordwall.net/resource/1508709/describing-people" },
+                            { tag: "Wordwall", text: "Physical appearance - Abrecajas", link: "https://wordwall.net/es/resource/18461153/english/physical-appearance" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/17876497/physical-appearance" }
+                        ] },
+                    { class_id: "c38", title: "Class 38", objective: "Identify people by giving specific details like activities, clothes, accessories, and location.", warmup: "Describe the outfit", resources: [
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/27664916/describing-people" },
+                            { tag: "Wordwall", text: "Modifiers with present participles and prepositions. - Quiz", link: "https://wordwall.net/resource/88896855/modifiers-with-present-participles-and-prepositions" },
+                            { tag: "Liveworksheets", text: "Modifiers with present participles and prepositions worksheet", link: "https://www.liveworksheets.com/worksheet/en/english-second-language-esl/1425422" }
+                        ] },
+                    { class_id: "c39", title: "Class 39", objective: "Validate previous knowledge about people's physical appearance and identify them (Grammar Plus).", warmup: "Appearance adjectives brainstorm", resources: [
+                            { tag: "Wordwall", text: "Describing People - Matching pairs", link: "https://wordwall.net/resource/1508709/describing-people" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/14846120/physical-appearance" },
+                            { tag: "Liveworksheets", text: "Modifiers with present participles and prepositions worksheet", link: "https://www.liveworksheets.com/worksheet/en/english-second-language-esl/1425422" }
+                        ] },
+                    { class_id: "c40", title: "Class 40", objective: "Watch in context how people describe physical appearance (Video).", warmup: "Spot the differences", resources: [
+                            { tag: "Baamboozle", text: "What Are They Wearing? | Baamboozle", link: "https://www.baamboozle.com/game/95954" },
+                            { tag: "Agendaweb", text: "Describing people: audio", link: "https://agendaweb.org/exercises/vocabulary/people/describing-audio.htm" },
+                            { tag: "Wordwall", text: "Describing People - Open the box", link: "https://wordwall.net/resource/10432285/esol/describing-people" }
+                        ] },
+                    { class_id: "c41", title: "Class 41", objective: "Talk about finished activities in a general way.", warmup: "Have you ever...? (Brief intro)", resources: [
+                            { tag: "Game", text: "Perfect Tense", link: "https://www.gamestolearnenglish.com/perfect-tense-game/" },
+                            { tag: "Agendaweb", text: "Simple past and present perfect", link: "https://agendaweb.org/exercises/verbs/present-perfect-past-simple/time-expressions.htm" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/resource/8661104/past-participle" }
+                        ] },
+                    { class_id: "c42", title: "Class 42", objective: "Differentiate general and specific events and experiences in the past.", warmup: "General vs Specific timeline", resources: [
+                            { tag: "Baamboozle", text: "Events in Life | Baamboozle", link: "https://www.baamboozle.com/game/80462" },
+                            { tag: "Agendaweb", text: "irregular verbs 1-10 - Past participle", link: "https://agendaweb.org/exercises/verbs/past-participle/irregular-verbs-1-10.htm" },
+                            { tag: "Wordwall", text: "Since and For - Group sort", link: "https://wordwall.net/resource/19820141/since-and-for" }
+                        ] },
+                    { class_id: "c43", title: "Class 43", objective: "Validate previous knowledge about describing experiences and events in the past (Grammar Plus).", warmup: "Sentence correction (Past vs Perfect)", resources: [
+                            { tag: "Baamboozle", text: "Events in Life | Baamboozle", link: "https://www.baamboozle.com/game/80462" },
+                            { tag: "Agendaweb", text: "For / since - time.", link: "https://agendaweb.org/exercises/grammar/for-since/exercise-1.htm" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/resource/1726348/already-yet" }
+                        ] },
+                    { class_id: "c44", title: "Class 44", objective: "Watch in context how people talk about an unexpected experience (Video).", warmup: "Predict the unexpected event", resources: [
+                            { tag: "Game", text: "Perfect Tense", link: "https://www.gamestolearnenglish.com/perfect-tense-game/" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/resource/1726348/already-yet" },
+                            { tag: "Agendaweb", text: "Present Perfect Practice: Has or Have?", link: "https://agendaweb.org/exercises/verbs/present-perfect-2.htm" }
+                        ] },
+                    { class_id: "c45", title: "Class 45", objective: "Ask about and identify appearance, understand and ask questions about past experiences (Progress Check).", warmup: "Progress check Q&A", resources: [
+                            { tag: "Baamboozle", text: "What Are They Wearing? | Baamboozle", link: "https://www.baamboozle.com/game/95954" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/29359113/leer/irregular-verbs-past-participle" },
+                            { tag: "Wordwall", text: "Past or Past participle - Verdadero o falso", link: "https://wordwall.net/es/resource/11206002/past-or-past-participle" }
+                        ] }
+                ]
+            },
+            {
+                unit_id: "u11_12",
+                title: "Units 11 & 12 (Classes 46 - 54)",
+                classes: [
+                    { class_id: "c46", title: "Class 46", objective: "Describe cities and countries by including and contrasting ideas.", warmup: "City vs Countryside debate", resources: [
+                            { tag: "Baamboozle", text: "Capital Cities | Baamboozle", link: "https://www.baamboozle.com/game/47712" },
+                            { tag: "Wordwall", text: "Adverbs before adjectives - Quiz", link: "https://wordwall.net/resource/64020259/adverbs-before-adjectives" },
+                            { tag: "Wordwall", text: "Adverbs before adjectives and adverbs - Une las parejas", link: "https://wordwall.net/es/resource/60875814/adverbs-before-adjectives-and-adverbs" }
+                        ] },
+                    { class_id: "c47", title: "Class 47", objective: "Talk about possibilities and suggestions when someone visits a city or country.", warmup: "Top 3 places to visit in Colombia", resources: [
+                            { tag: "Baamboozle", text: "Famous Places and Landmarks | Baamboozle", link: "https://www.baamboozle.com/game/123" },
+                            { tag: "Wordwall", text: "Should/ Shouldn't - Cuestionario", link: "https://wordwall.net/es/resource/654928/should-shouldnt" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/61011060/ingl%c3%a9s/ability-can" }
+                        ] },
+                    { class_id: "c48", title: "Class 48", objective: "Validate previous knowledge about describing places and giving suggestions using can/should (Grammar Plus).", warmup: "Can vs Should scenarios", resources: [
+                            { tag: "Baamboozle", text: "Hometown | Baamboozle", link: "https://www.baamboozle.com/game/566149" },
+                            { tag: "Wordwall", text: "Should/ Shouldn't - Cuestionario", link: "https://wordwall.net/es/resource/654928/should-shouldnt" },
+                            { tag: "Wordwall", text: "conjunctions - Une las parejas", link: "https://wordwall.net/es/resource/15861482/conjunctions" }
+                        ] },
+                    { class_id: "c49", title: "Class 49", objective: "Watch in context how a person describes a famous city (Video).", warmup: "Famous cities word search", resources: [
+                            { tag: "Wordwall", text: "Cities in a Map | Wordwall", link: "https://wordwall.net/es/resource/18207565/cities" },
+                            { tag: "Agendaweb", text: "Articles: a / an - exercises.", link: "https://agendaweb.org/exercises/grammar/articles/a-an-2" },
+                            { tag: "Wordwall", text: "Should/ Shouldn't - Cuestionario", link: "https://wordwall.net/es/resource/654928/should-shouldnt" }
+                        ] },
+                    { class_id: "c50", title: "Class 50", objective: "Give advice about health problems.", warmup: "Pantomime a health problem", resources: [
+                            { tag: "Baamboozle", text: "Health and illnesses | Baamboozle", link: "https://www.baamboozle.com/game/25717" },
+                            { tag: "Resource", text: "Modal Verb 'Should', 'Shouldn't' for Giving Advice on Health Problems, ESL Grammar Activity", link: "https://www.eslgamesplus.com/modal-verb-should-shouldnt-for-giving-advice-on-health-problems-esl-grammar-activity/" },
+                            { tag: "Liveworksheets", text: "Health problems | Free Interactive Worksheets | 52441", link: "https://www.liveworksheets.com/worksheet/en/english-second-language-esl/52441" }
+                        ] },
+                    { class_id: "c51", title: "Class 51", objective: "Ask for advice and give suggestions about health products.", warmup: "Pharmacy roleplay setup", resources: [
+                            { tag: "Wordwall", text: "Health Random Questions - Wordwall", link: "https://wordwall.net/resource/6333160/health" },
+                            { tag: "Wordwall", text: "Modal verbs: Can, could, may, might. - Cuestionario", link: "https://wordwall.net/es/resource/15350515/modal-verbs-can-could-may-might" },
+                            { tag: "Wordwall", text: "May - Could - Can (Permission) - Reordenar", link: "https://wordwall.net/es/resource/9475752/may-could-can-permission" }
+                        ] },
+                    { class_id: "c52", title: "Class 52", objective: "Validate previous knowledge about health problems and giving advice (Grammar Plus).", warmup: "Doctor/Patient quick dialogue", resources: [
+                            { tag: "Baamboozle", text: "Health and illnesses | Baamboozle", link: "https://www.baamboozle.com/game/25717" },
+                            { tag: "Wordwall", text: "health problems - Diagrama con etiquetas", link: "https://wordwall.net/es/resource/549769/health-problems" },
+                            { tag: "Wordwall", text: "SHOULD/SHOULDN'T + HEALTH PROBLEMS - Cuestionario", link: "https://wordwall.net/es/resource/6639887/should-shouldnt-health-problems" }
+                        ] },
+                    { class_id: "c53", title: "Class 53", objective: "Watch in context how people express health problems and give suggestions about them (Video).", warmup: "Health vocabulary match", resources: [
+                            { tag: "Baamboozle", text: "Health and illnesses | Baamboozle", link: "https://www.baamboozle.com/game/25717" },
+                            { tag: "Wordwall", text: "Link", link: "https://wordwall.net/es/resource/23648770/vocabulary/health-problems" },
+                            { tag: "Resource", text: "Listening Exercises A2 - Health Problems - English Practice Online", link: "https://english-practice.net/listening-exercises-a2-health-problems/" }
+                        ] },
+                    { class_id: "c54", title: "Class 54", objective: "Understand descriptions of towns and cities, ask for and give advice about problems (Progress Check).", warmup: "Review stations", resources: [
+                            { tag: "Baamboozle", text: "Hometown | Baamboozle", link: "https://www.baamboozle.com/game/566149" },
+                            { tag: "Wordwall", text: "Should/ Shouldn't - Cuestionario", link: "https://wordwall.net/es/resource/654928/should-shouldnt" },
+                            { tag: "Wordwall", text: "May - Could - Can (Permission) - Reordenar", link: "https://wordwall.net/es/resource/9475752/may-could-can-permission" }
+                        ] }
+                ]
+            },
+            {
+                unit_id: "u13_14",
+                title: "Units 13 & 14 (Classes 55 - 63)",
+                classes: [
+                    { class_id: "c55", title: "Class 55", objective: "Agree and disagree about preferences.", warmup: "Stand up if you agree...", resources: [
+                            { tag: "Baamboozle", text: "Let's Talk About Food | Baamboozle", link: "https://www.baamboozle.com/game/754491" },
+                            { tag: "Wordwall", text: "So, too, either, neither - Cuestionario", link: "https://wordwall.net/es/resource/18801147/so-too-either-neither" },
+                            { tag: "Wordwall", text: "Too, Either, So, Neither - Cuestionario", link: "https://wordwall.net/es/resource/33679770/too-either-so-neither" }
+                        ] },
+                    { class_id: "c56", title: "Class 56", objective: "Order food at a restaurant.", warmup: "Menu category sort", resources: [
+                            { tag: "Baamboozle", text: "World Food | Baamboozle", link: "https://www.baamboozle.com/game/46861" },
+                            { tag: "Wordwall", text: "At a restaurant - Completar la frase", link: "https://wordwall.net/es/resource/18804168/vocabulary/at-a-restaurant" },
+                            { tag: "Wordwall", text: "Ordering at a restaurant - Completar la frase", link: "https://wordwall.net/es/resource/4561070/ordering-at-a-restaurant" }
+                        ] },
+                    { class_id: "c57", title: "Class 57", objective: "Validate previous knowledge about agreeing/disagreeing and ordering food (Grammar Plus).", warmup: "Waiter/Customer expressions", resources: [
+                            { tag: "Baamboozle", text: "Food & Flavor Adjectives | Baamboozle", link: "https://www.baamboozle.com/game/89670" },
+                            { tag: "Agendaweb", text: "Neither, so - exercise 1", link: "https://agendaweb.org/exercises/grammar/either-neither-so/exercise-1.htm" },
+                            { tag: "Wordwall", text: "At a restaurant - Completar la frase", link: "https://wordwall.net/es/resource/18804168/vocabulary/at-a-restaurant" }
+                        ] },
+                    { class_id: "c58", title: "Class 58", objective: "Watch in context two people deciding what to eat (Video).", warmup: "Food preference discussion", resources: [
+                            { tag: "Baamboozle", text: "Let's Talk About Food | Baamboozle", link: "https://www.baamboozle.com/game/754491" },
+                            { tag: "Agendaweb", text: "Neither, so - exercise 2", link: "https://agendaweb.org/exercises/grammar/either-neither-so/exercise-2.htm" },
+                            { tag: "Wordwall", text: "At a restaurant - Completar la frase", link: "https://wordwall.net/es/resource/18804168/vocabulary/at-a-restaurant" }
+                        ] },
+                    { class_id: "c59", title: "Class 59", objective: "Make comparisons about world geography.", warmup: "World map trivia", resources: [
+                            { tag: "Game", text: "Comparatives", link: "https://www.gamestolearnenglish.com/comparatives/" },
+                            { tag: "Agendaweb", text: "Exercises: comparative adjectives", link: "https://agendaweb.org/exercises/grammar/comparison/comparative-forms.htm" },
+                            { tag: "Wordwall", text: "Superlatives - Quiz - Cuestionario", link: "https://wordwall.net/es/resource/25659489/english-amco/superlatives-quiz" }
+                        ] },
+                    { class_id: "c60", title: "Class 60", objective: "Discuss distances, temperatures, and measurements.", warmup: "Metric vs Imperial quick conversions", resources: [
+                            { tag: "Game", text: "Weather", link: "https://www.gamestolearnenglish.com/weather/" },
+                            { tag: "Wordwall", text: "HOW QUESTIONS - Une las parejas", link: "https://wordwall.net/es/resource/3836709/how-questions" },
+                            { tag: "Wordwall", text: "How long...? - Cartas al azar", link: "https://wordwall.net/es/resource/18139710/how-long" }
+                        ] },
+                    { class_id: "c61", title: "Class 61", objective: "Validate previous knowledge about describing/comparing places using comparatives/superlatives (Grammar Plus).", warmup: "Adjective grading (Big, Bigger, Biggest)", resources: [
+                            { tag: "Game", text: "Comparatives", link: "https://www.gamestolearnenglish.com/comparatives/" },
+                            { tag: "Wordwall", text: "Comparative and Superlative Adjectives - Ordenar por grupo", link: "https://wordwall.net/es/resource/24811080/english/comparative-and-superlative-adjectives" },
+                            { tag: "Wordwall", text: "HOW QUESTIONS - Une las parejas", link: "https://wordwall.net/es/resource/3836709/how-questions" }
+                        ] },
+                    { class_id: "c62", title: "Class 62", objective: "Watch a game show where people describe and compare places (Video).", warmup: "Classroom game show setup", resources: [
+                            { tag: "Resource", text: "Geography 7 to 1: Letter 'M' Quiz", link: "https://www.sporcle.com/games/iluvgeo/geography-7-to-1-letter-m" },
+                            { tag: "Agendaweb", text: "Comparison - exercises - comparatives 1", link: "https://agendaweb.org/exercises/grammar/comparison/comparison-multiple-1.htm" },
+                            { tag: "Wordwall", text: "Comparative and Superlative Adjectives - Ordenar por grupo", link: "https://wordwall.net/es/resource/24811080/english/comparative-and-superlative-adjectives" }
+                        ] },
+                    { class_id: "c63", title: "Class 63", objective: "Express agreement/disagreement, understand restaurant questions, describe and compare things/places (Progress Check).", warmup: "Unit wrap-up trivia", resources: [
+                            { tag: "Baamboozle", text: "Food & Flavor Adjectives | Baamboozle", link: "https://www.baamboozle.com/game/89670" },
+                            { tag: "Agendaweb", text: "Comparison - exercises - comparatives 1", link: "https://agendaweb.org/exercises/grammar/comparison/comparison-multiple-1.htm" },
+                            { tag: "Agendaweb", text: "Exercises: comparative adjectives", link: "https://agendaweb.org/exercises/grammar/comparison/comparative-forms.htm" }
+                        ] }
+                ]
+            },
+            {
+                unit_id: "u15_16",
+                title: "Units 15 & 16 (Classes 64 - 72)",
+                classes: [
+                    { class_id: "c64", title: "Class 64", objective: "Make plans and arrangements.", warmup: "Weekend plans brainstorm", resources: [
+                            { tag: "Wordwall", text: "Free time activities - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/1799615/free-time-activities" },
+                            { tag: "Wordwall", text: "Be going to & Present Continuous", link: "https://wordwall.net/es/resource/9411151/be-going-to-present-continuous" },
+                            { tag: "Wordwall", text: "FUTURE: Present continuous or Be going to? - Cuestionario", link: "https://wordwall.net/es/resource/54555493/future-present-continuous-or-be-going-to" }
+                        ] },
+                    { class_id: "c65", title: "Class 65", objective: "Give messages for other people when I can't contact them.", warmup: "Telephone game (Whisper messages)", resources: [
+                            { tag: "Wordwall", text: "Making invitations - Rueda aleatoria", link: "https://wordwall.net/es/resource/3268453/making-invitations" },
+                            { tag: "Wordwall", text: "Formal messages with tell and ask", link: "https://wordwall.net/es/resource/33337461/formal-messages-with-tell-and-ask" },
+                            { tag: "Wordwall", text: "Formal and Informal messages with tell and ask - Unjumble", link: "https://wordwall.net/resource/30632512/formal-and-informal-messages-with-tell-and-ask" }
+                        ] },
+                    { class_id: "c66", title: "Class 66", objective: "Validate previous knowledge about future plans and giving messages using tell and ask (Grammar Plus).", warmup: "Present continuous for future practice", resources: [
+                            { tag: "Wordwall", text: "Summer Activities - Wordwall", link: "https://wordwall.net/resource/6215586/english/vocabulary-summer-activities" },
+                            { tag: "Wordwall", text: "Present Continuous - Une las parejas", link: "https://wordwall.net/es/resource/4592609/present-continuous/present-continuous" },
+                            { tag: "Wordwall", text: "Formal and Informal messages with tell and ask - Unjumble", link: "https://wordwall.net/resource/30632512/formal-and-informal-messages-with-tell-and-ask" }
+                        ] },
+                    { class_id: "c67", title: "Class 67", objective: "Watch in context how to make requests for a special event (Video).", warmup: "Event planning checklist", resources: [
+                            { tag: "Wordwall", text: "Making invitations - Rueda aleatoria", link: "https://wordwall.net/es/resource/3268453/making-invitations" },
+                            { tag: "Wordwall", text: "Present Continuous vs Simple Present (A2) - Completar la frase", link: "https://wordwall.net/es/resource/86744578/esl/present-continuous-vs-simple-present-a2" },
+                            { tag: "Wordwall", text: "Formal and Informal messages with tell and ask - Unjumble", link: "https://wordwall.net/resource/30632512/formal-and-informal-messages-with-tell-and-ask" }
+                        ] },
+                    { class_id: "c68", title: "Class 68", objective: "Describe changes in my life.", warmup: "Then vs Now (5 years ago vs Today)", resources: [
+                            { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" },
+                            { tag: "Liveworksheets", text: "Describing changes interactive worksheet", link: "https://www.liveworksheets.com/worksheet/en/english-second-language-esl/593193" },
+                            { tag: "Liveworksheets", text: "Link", link: "https://www.liveworksheets.com/es/worksheet/en/english-second-language-esl/363465" }
+                        ] },
+                    { class_id: "c69", title: "Class 69", objective: "Explain my objectives and expectations for the future.", warmup: "Bucket list creation", resources: [
+                            { tag: "Wordwall", text: "Events in your Life - Wordwall", link: "https://wordwall.net/es/resource/4428473/events-in-your-life" },
+                            { tag: "Wordwall", text: "Verbs + to + infinitive - Une las parejas", link: "https://wordwall.net/es/resource/30291720/verbs-to-infinitive" },
+                            { tag: "Agendaweb", text: "Will vs Going To Exercise | Future Tense Practice Quiz", link: "https://agendaweb.org/exercises/verbs/future/will-be-going-to.htm" }
+                        ] },
+                    { class_id: "c70", title: "Class 70", objective: "Validate previous knowledge about changes and future expectations and objectives (Grammar Plus).", warmup: "Future tense review", resources: [
+                            { tag: "Wordwall", text: "Childhood Memories | Wordwall", link: "https://wordwall.net/resource/12903576/how-was-life-different-when-you-were-a-child" },
+                            { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" },
+                            { tag: "Wordwall", text: "Present Perfect Game - Cuestionario", link: "https://wordwall.net/es/resource/16902905/present-perfect-game" }
+                        ] },
+                    { class_id: "c71", title: "Class 71", objective: "Watch in context how people talk about their life-changing experiences and plans for the future (Video).", warmup: "Pre-video reflection", resources: [
+                            { tag: "Wordwall", text: "Future Plans | Wordwall", link: "https://wordwall.net/resource/47387360/esl/going-to-future-plans-and-predictions" },
+                            { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" },
+                            { tag: "Wordwall", text: "Present Continuous vs Simple Present (A2) - Completar la frase", link: "https://wordwall.net/es/resource/86744578/esl/present-continuous-vs-simple-present-a2" }
+                        ] },
+                    { class_id: "c72", title: "Class 72", objective: "Discuss future plans, make invitations, describe personal goals (Progress Check).", warmup: "Final Level A1 Review", resources: [
+                            { tag: "Wordwall", text: "Free time activities - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/1799615/free-time-activities" },
+                            { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" },
+                            { tag: "Wordwall", text: "Will/be going to - Cuestionario", link: "https://wordwall.net/es/resource/7383317/will-be-going-to" }
+                        ] }
+                ]
+            }
+        ];
+
+        // 2.
+        const container = document.getElementById("unitsContainer");
+
+        a1_data.forEach(unit => {
+            let classesHTML = "";
+            
+            unit.classes.forEach(cls => {
+                let resourcesHTML = "";
+                
+                if (cls.resources && cls.resources.length > 0) {
+                    cls.resources.forEach(res => {
+                        resourcesHTML += `
+                            <div class="resource-item">
+                                <span class="resource-tag">${res.tag}</span>
+                                <a href="${res.link}" target="_blank">${res.text}</a>
+                            </div>`;
+                    });
+                } else {
+                    resourcesHTML = `<div class="resource-item" style="color: #666; font-style: italic; font-size: 0.9em;">No resources added yet.</div>`;
+                }
+
+                classesHTML += `
+                    <div class="class-block">
+                        <div class="class-header" onclick="toggleElement('${cls.class_id}')">
+                            ▶ ${cls.title}
+                        </div>
+                        <div id="${cls.class_id}" class="class-content">
+                            <div class="resource-item">
+                                <strong>🎯 Objective:</strong> ${cls.objective}
+                            </div>
+                            <div class="resource-item">
+                                <span class="resource-tag" style="background-color: var(--smart-blue);">Warm-Up</span> 
+                                <strong>${cls.warmup}</strong>
+                            </div>
+                            ${resourcesHTML}
+                        </div>
+                    </div>`;
+            });
+
+            const unitHTML = `
+                <div class="unit-block">
+                    <div class="unit-header" onclick="toggleElement('${unit.unit_id}')">
+                        ${unit.title}
+                    </div>
+                    <div id="${unit.unit_id}" class="unit-content">
+                        ${classesHTML}
+                    </div>
+                </div>`;
+            
+            container.innerHTML += unitHTML;
+        });
+
+        // 3. LOGICA
+        function toggleElement(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var savedNames = localStorage.getItem("smart_students");
+            if(savedNames) {
+                document.getElementById("studentList").value = savedNames;
+            }
+        });
+
+        // SPIN
+function spinRoulette() {
+    var input = document.getElementById("studentList").value;
+    localStorage.setItem("smart_students", input);
+    if(!input) {
+        alert("Please add some names first!");
+        return;
+    }
+    var names = input.split(",").map(n => n.trim()).filter(n => n !== "");
+    if(names.length > 0) {
+        var winner = names[Math.floor(Math.random() * names.length)];
+        document.getElementById("rouletteResult").innerText = "Result: " + winner + "!";
+    }
+}
+
+// Clear
+function resetRoulette() {
+    document.getElementById("studentList").value = "";
+    document.getElementById("rouletteResult").innerText = "";
+    localStorage.removeItem("smart_students");
+}
+    </script>
+    <div class="footer-signature">© 2026 Luis Almanza</div>
+</body>
+</html>

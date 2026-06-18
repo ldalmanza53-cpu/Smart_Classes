@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level C1 - Smart English Resources</title>
+    <style>
+        :root {
+            --smart-red: #E3000F;
+            --smart-blue: #00205B;
+            --smart-white: #FFFFFF;
+            --light-gray: #f4f4f4;
+            --class-gray: #e9ecef;
+        }
+        body { font-family: Arial, sans-serif; background-color: var(--light-gray); margin: 0; padding: 0; color: #333; }
+        header { background-color: var(--smart-blue); color: var(--smart-white); padding: 20px; text-align: center; border-bottom: 5px solid var(--smart-red); }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .back-btn { background-color: var(--smart-blue); color: var(--smart-white); text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; }
+        .toolkit { background-color: var(--smart-white); border: 2px solid var(--smart-blue); border-radius: 8px; padding: 15px; flex-grow: 1; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .toolkit input { padding: 8px; width: 60%; border: 1px solid #ccc; border-radius: 4px; }
+        .toolkit button { background-color: var(--smart-red); color: var(--smart-white); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .unit-block { background-color: var(--smart-white); margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
+        .unit-header { background-color: var(--smart-blue); color: var(--smart-white); padding: 15px; cursor: pointer; font-size: 1.2em; font-weight: bold; }
+        .unit-header:hover { background-color: #003380; }
+        .unit-content { display: none; padding: 10px; }
+        
+        .class-block { background-color: var(--class-gray); margin-bottom: 10px; border-radius: 4px; border-left: 4px solid var(--smart-red); }
+        .class-header { padding: 12px; cursor: pointer; font-weight: bold; color: var(--smart-blue); }
+        .class-header:hover { background-color: #dadddf; }
+        .class-content { display: none; padding: 15px; background-color: var(--smart-white); border: 1px solid var(--class-gray); }
+        
+        .resource-tag { display: inline-block; background-color: var(--smart-red); color: var(--smart-white); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 10px; min-width: 80px; text-align: center; }
+        .resource-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .resource-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .resource-item a { color: var(--smart-blue); text-decoration: none; font-weight: bold; }
+        .resource-item a:hover { text-decoration: underline; }
+        
+        .active { display: block; }
+        
+        @media (max-width: 600px) {
+            .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
+            .toolkit input { width: 100%; box-sizing: border-box; }
+        }
+        /* Marca de agua / Firma */
+.footer-signature {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    font-size: 0.7em;
+    color: rgba(0, 32, 91, 0.3); /* Color azul oscuro con 30% de transparencia */
+    pointer-events: none; /* Esto evita que tape los clics */
+    z-index: 1000;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Level C1 - Communicative Objectives</h1>
+        <p>Smart English Academy</p>
+    </header>
+
+    <div class="container">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn">⬅ Home</a>
+            <div class="toolkit">
+    <div style="flex-grow: 1; display: flex; gap: 10px;">
+        <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
+        <button onclick="spinRoulette()">Spin</button>
+        <!-- BOTÓN NUEVO -->
+        <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
+    </div>
+    <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
+</div>
+        </div>
+
+        <div id="unitsContainer"></div>
+    </div>
+
+    <script>
+        // 1. DATA STRUCTURE C1 (12 Units: 6 Classes + 1 Video per unit)
+        const c1_data = [
+    {
+        unit_id: "u1", title: "Unit 1 (Classes 1-6 & Video 1)",
+        classes: [
+            { class_id: "c1_c1", title: "Class 1", objective: "Define friendship and express opinions towards it.", warmup: "What makes a true friend? (Debate)", resources: [{"tag": "YouTube", "text": "Unit 1 A | Phrasal verbs | Passages 2", "link": "https://www.youtube.com/watch?v=s90ssA1js5s&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc"}, {"tag": "Resource", "text": "Common phrasal verbs 1-10", "link": "https://agendaweb.org/exercises/verbs/phrasal-verbs/common-phrasal-verbs-1.htm"}, {"tag": "Wordwall", "text": "Separable Phrasal Verbs - Cuestionario", "link": "https://wordwall.net/es/resource/24285710/english/separable-phrasal-verbs"}] },
+            { class_id: "c1_c2", title: "Class 2", objective: "Talk about what friends should have in common. Learn how to develop a thesis statement.", warmup: "Thesis statement rapid-fire", resources: [{"tag": "YouTube", "text": "The Purpose of Friendship", "link": "https://www.youtube.com/watch?v=aGedUxTAfBk"}, {"tag": "YouTube", "text": "Thesis Statement Writing Guide", "link": "https://www.youtube.com/watch?v=kHDHuumS9Xs"}, {"tag": "Resource", "text": "Writing Thesis Statements | Sterling College", "link": "https://www.sterling.edu/documents/academics/ThesisStatement.pdf"}] },
+            { class_id: "c1_c3", title: "Class 3", objective: "Validate knowledge about describing friendships using adjectives and phrasal verbs (Grammar Plus).", warmup: "Phrasal verbs for relationships", resources: [{"tag": "YouTube", "text": "Unit 1 A | Phrasal verbs | Passages 2", "link": "https://www.youtube.com/watch?v=s90ssA1js5s&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc"}, {"tag": "Resource", "text": "Common phrasal verbs 1-10", "link": "https://agendaweb.org/exercises/verbs/phrasal-verbs/common-phrasal-verbs-1.htm"}, {"tag": "Wordwall", "text": "Separable Phrasal Verbs - Cuestionario", "link": "https://wordwall.net/es/resource/24285710/english/separable-phrasal-verbs"}] },
+            { class_id: "c1_c4", title: "Class 4", objective: "Discuss ways of meeting new people and disagree politely.", warmup: "Polite disagreement roleplay", resources: [{"tag": "YouTube", "text": "Unit 1 B | Gerund and infinitive constructions | Passages 2", "link": "https://www.youtube.com/watch?v=j097qFy_09A&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=2"}, {"tag": "YouTube", "text": "GERUND (-ing) or INFINITIVE (to) - When & How to Use them! (+ Free PDF & Quiz)", "link": "https://www.youtube.com/watch?v=1VaoDZpzWTw"}, {"tag": "Wordwall", "text": "GERUND OR INFINITIVE? ESL - Cuestionario", "link": "https://wordwall.net/es/resource/8697097/gerund-or-infinitive-esl"}] },
+            { class_id: "c1_c5", title: "Class 5", objective: "Discuss ways to maintain friendship.", warmup: "Long-distance friendship strategies", resources: [{"tag": "YouTube", "text": "Friendship Vocabulary in English (Upper Intermediate B1.2/B2.1 Level)", "link": "https://www.youtube.com/watch?v=El-WcV1RrZo"}, {"tag": "Wordwall", "text": "Friendship idioms - Parejas", "link": "https://wordwall.net/es/resource/49979914/friendship-idioms"}, {"tag": "Wordwall", "text": "Friendship idioms - Parejas", "link": "https://wordwall.net/es/resource/92745174/friendship-idioms"}] },
+            { class_id: "c1_c6", title: "Class 6", objective: "Validate and complement knowledge about ways of meeting new people using gerund and infinitive constructions (Grammar Plus).", warmup: "Gerund vs Infinitive challenge", resources: [{"tag": "YouTube", "text": "Unit 1 B | Gerund and infinitive constructions | Passages 2", "link": "https://www.youtube.com/watch?v=j097qFy_09A&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=2"}, {"tag": "YouTube", "text": "GERUND (-ing) or INFINITIVE (to) - When & How to Use them! (+ Free PDF & Quiz)", "link": "https://www.youtube.com/watch?v=1VaoDZpzWTw"}, {"tag": "Wordwall", "text": "GERUND OR INFINITIVE? ESL - Cuestionario", "link": "https://wordwall.net/es/resource/8697097/gerund-or-infinitive-esl"}] },
+            { class_id: "c1_v1", title: "Video 1", objective: "Watch in context a video about different kinds of personalities.", warmup: "Personality archetypes discussion", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u2", title: "Unit 2 (Classes 7-12 & Video 2)",
+        classes: [
+            { class_id: "c1_c7", title: "Class 7", objective: "Discuss different points of view on fashion.", warmup: "Fashion vs Function debate", resources: [{"tag": "YouTube", "text": "Unit 2 A | Review of verb patterns | Passages 2", "link": "https://www.youtube.com/watch?v=lyQssXFcxEo&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=3"}, {"tag": "Resource", "text": "Verb + object + infinitive/gerund: Verb patterns - Test-English", "link": "https://test-english.com/grammar-points/b2/verb-object-infinitive-gerund/"}, {"tag": "Resource", "text": "Resource Resource", "link": "https://elt.oup.com/student/solutions/int/grammar/grammar_01_022e?srsltid=AfmBOopSJ87DXgPCY8C943F6I17ZhOlUEvbsIVmSPbAA_S3vZL3wdvVr&cc=co&selLanguage=es"}] },
+            { class_id: "c1_c8", title: "Class 8", objective: "Discuss fashion changes over the years. Learn how to express a personal belief.", warmup: "Decades of fashion timeline", resources: [{"tag": "Resource", "text": "Go Find It! | Baamboozle", "link": "https://www.baamboozle.com/game/185286"}, {"tag": "Resource", "text": "Personal Beliefs Essay Examples", "link": "https://hub.edubirdie.com/examples/personal-beliefs/"}, {"tag": "Resource", "text": "This I Believe: Personal Belief Brainstorming Worksheet - Studocu", "link": "https://www.studocu.com/pe/document/instituto-continental/ingles/this-i-believe-brainstorming-worksheet/123044626"}] },
+            { class_id: "c1_c9", title: "Class 9", objective: "Discuss tips to make a good first impression.", warmup: "First impressions brainstorm", resources: [{"tag": "YouTube", "text": "Unit 2 A | Review of verb patterns | Passages 2", "link": "https://www.youtube.com/watch?v=lyQssXFcxEo&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=3"}, {"tag": "Resource", "text": "Verb + object + infinitive/gerund: Verb patterns - Test-English", "link": "https://test-english.com/grammar-points/b2/verb-object-infinitive-gerund/"}, {"tag": "Resource", "text": "Resource Resource", "link": "https://elt.oup.com/student/solutions/int/grammar/grammar_01_022e?srsltid=AfmBOopSJ87DXgPCY8C943F6I17ZhOlUEvbsIVmSPbAA_S3vZL3wdvVr&cc=co&selLanguage=es"}] },
+            { class_id: "c1_c10", title: "Class 10", objective: "Compare first impressions and apply new ways to present relevant information.", warmup: "Elevator pitch practice", resources: [{"tag": "YouTube", "text": "Unit 2 B | Cleft sentences with what | Passages 2", "link": "https://www.youtube.com/watch?v=tiv9gHcmyBg&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=4"}, {"tag": "Wordwall", "text": "Cleft sentences - Quiz", "link": "https://wordwall.net/resource/30326777/cleft-sentences"}, {"tag": "Wordwall", "text": "Cleft sentences - Match up", "link": "https://wordwall.net/resource/10016270/cleft-sentences"}] },
+            { class_id: "c1_c11", title: "Class 11", objective: "Express opinions on someone's appearance and consider how people perceive different kinds of faces.", warmup: "Facial perception and psychology", resources: [{"tag": "Wordwall", "text": "Adjectives - Une las parejas", "link": "https://wordwall.net/es/resource/80426122/ingl%C3%A9s/adjectives"}, {"tag": "Resource", "text": "Describing people's appearance – A2 English Vocabulary", "link": "https://test-english.com/vocabulary/a2/describing-peoples-appearance-a2-english-vocabulary/"}, {"tag": "YouTube", "text": "Describing People’s Appearance | ESL Vocabulary Exercises", "link": "https://www.youtube.com/watch?v=LB2vHy-EZa0"}] },
+            { class_id: "c1_c12", title: "Class 12", objective: "Validate previous knowledge about expressing opinions on good and bad first impressions (Grammar Plus).", warmup: "Grammar consolidation", resources: [{"tag": "YouTube", "text": "Unit 2 B | Cleft sentences with what | Passages 2", "link": "https://www.youtube.com/watch?v=tiv9gHcmyBg&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=4"}, {"tag": "Wordwall", "text": "Cleft sentences - Quiz", "link": "https://wordwall.net/resource/30326777/cleft-sentences"}, {"tag": "Wordwall", "text": "Cleft sentences - Match up", "link": "https://wordwall.net/resource/10016270/cleft-sentences"}] },
+            { class_id: "c1_v2", title: "Video 2", objective: "Watch in context a description of the role of fashion in different contexts.", warmup: "Pre-video context discussion", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u3", title: "Unit 3 (Classes 13-18 & Video 3)",
+        classes: [
+            { class_id: "c1_c13", title: "Class 13", objective: "Share views about scientific advances and analyze the effects of science and technology.", warmup: "Greatest scientific advance?", resources: [{"tag": "YouTube", "text": "Unit 3 A | Indefinite and definitive articles | Passages 2", "link": "https://www.youtube.com/watch?v=O-il6iWUgWk&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=5"}, {"tag": "Resource", "text": "Articles: a / an / the - exercise 1.", "link": "https://agendaweb.org/exercises/grammar/articles/a-an-the-1.htm"}, {"tag": "Wordwall", "text": "Definite/Indefinite articles A, An, The. Practice - Cuestionario", "link": "https://wordwall.net/es/resource/11701209/definite-indefinite-articles-a-an-the-practice"}] },
+            { class_id: "c1_c14", title: "Class 14", objective: "Learn how to identify essential information for a summary of a text.", warmup: "Skimming and scanning practice", resources: [{"tag": "Resource", "text": "The Internet", "link": "https://www.eslconversationquestions.com/the-internet/"}, {"tag": "Resource", "text": "Summarizing Worksheets & Activities | Reading Comprehension", "link": "https://www.ereadingworksheets.com/free-reading-worksheets/reading-comprehension-worksheets/summarizing-worksheets-and-activities/"}, {"tag": "Resource", "text": "Exercise : Basic-level Paraphrase and Summary Writing", "link": "https://owl.purdue.edu/owl_exercises/multilingual_exercises/paraphrase_and_summary_exercises/basic_level_paraphrase_and_summary_writing.html"}] },
+            { class_id: "c1_c15", title: "Class 15", objective: "Discuss the positive effects and negative consequences of technology and science.", warmup: "Tech pros and cons list", resources: [{"tag": "YouTube", "text": "Unit 3 A | Indefinite and definitive articles | Passages 2", "link": "https://www.youtube.com/watch?v=O-il6iWUgWk&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=5"}, {"tag": "Resource", "text": "Articles: a / an / the - exercise 1.", "link": "https://agendaweb.org/exercises/grammar/articles/a-an-the-1.htm"}, {"tag": "Wordwall", "text": "Definite/Indefinite articles A, An, The. Practice - Cuestionario", "link": "https://wordwall.net/es/resource/11701209/definite-indefinite-articles-a-an-the-practice"}] },
+            { class_id: "c1_c16", title: "Class 16", objective: "Exchange personal experiences about trouble with technology.", warmup: "My worst tech fail story", resources: [{"tag": "YouTube", "text": "Unit 3 B | -Ing clauses | Passages 2", "link": "https://www.youtube.com/watch?v=WTNc5qAFLIk&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=6"}, {"tag": "Resource", "text": "Infinitive vs gerund - exercise 1", "link": "https://agendaweb.org/exercises/verbs/infinitive-gerund/exercise-1.htm"}, {"tag": "Resource", "text": "Infinitive vs gerund - exercise 2", "link": "https://agendaweb.org/exercises/verbs/infinitive-gerund/exercise-2.htm"}] },
+            { class_id: "c1_c17", title: "Class 17", objective: "Discuss feelings about new technology.", warmup: "AI and the future discussion", resources: [{"tag": "Resource", "text": "Adjective and Adverb Exercise | PDF", "link": "https://www.scribd.com/document/340031915/English-test"}, {"tag": "Resource", "text": "Adverbs of manner (slowly) or adjectives (slow)? - Test-English", "link": "https://test-english.com/grammar-points/a1/adverbs-manner/"}, {"tag": "Resource", "text": "115 Adverbs adjectives English ESL worksheets pdf & doc", "link": "https://en.islcollective.com/english-esl-worksheets/search/adverbs+adjectives"}] },
+            { class_id: "c1_c18", title: "Class 18", objective: "Discuss whether technology is good or bad.", warmup: "Ethics in technology debate", resources: [{"tag": "YouTube", "text": "Unit 3 B | -Ing clauses | Passages 2", "link": "https://www.youtube.com/watch?v=WTNc5qAFLIk&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=6"}, {"tag": "Resource", "text": "Infinitive vs gerund - exercise 1", "link": "https://agendaweb.org/exercises/verbs/infinitive-gerund/exercise-1.htm"}, {"tag": "Resource", "text": "Infinitive vs gerund - exercise 2", "link": "https://agendaweb.org/exercises/verbs/infinitive-gerund/exercise-2.htm"}] },
+            { class_id: "c1_v3", title: "Video 3", objective: "Watch in context a description of technological advances in the last years.", warmup: "Predicting future tech", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u4", title: "Unit 4 (Classes 19-24 & Video 4)",
+        classes: [
+            { class_id: "c1_c19", title: "Class 19", objective: "Explore superstitions from different cultures and compare personal beliefs.", warmup: "Global superstitions matching", resources: [{"tag": "YouTube", "text": "Unit 4 A | Reporting clauses | Passages 2", "link": "https://www.youtube.com/watch?v=3eXRyguSxjA&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=7"}, {"tag": "Resource", "text": "Reporting Clause | Definition & Examples - Twinkl", "link": "https://www.twinkl.com.co/teaching-wiki/reporting-clause"}, {"tag": "British Council", "text": "Reported speech: reporting verbs | LearnEnglish", "link": "https://learnenglish.britishcouncil.org/grammar/b1-b2-grammar/reported-speech-reporting-verbs"}] },
+            { class_id: "c1_c20", title: "Class 20", objective: "Describe superstitions from your country or culture. Practice how to restate a thesis statement.", warmup: "Paraphrasing practice", resources: [{"tag": "YouTube", "text": "restate thesis/topic sentence mini lesson", "link": "https://www.youtube.com/watch?v=ivrmA_9SgH0"}, {"tag": "Resource", "text": "How to Restate a Thesis: Techniques for Effective Conclusions", "link": "https://essaypro.com/blog/how-to-restate-a-thesis"}, {"tag": "Resource", "text": "How to Restate a Thesis: Avoid Repetition in Conclusion", "link": "https://domyessay.com/blog/how-to-restate-a-thesis"}] },
+            { class_id: "c1_c21", title: "Class 21", objective: "Validate and complement previous knowledge about expressing superstitions and personal beliefs using reporting clauses (Grammar Plus).", warmup: "Reporting clauses exercises", resources: [{"tag": "YouTube", "text": "Unit 4 A | Reporting clauses | Passages 2", "link": "https://www.youtube.com/watch?v=3eXRyguSxjA&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=7"}, {"tag": "Resource", "text": "Reporting Clause | Definition & Examples - Twinkl", "link": "https://www.twinkl.com.co/teaching-wiki/reporting-clause"}, {"tag": "British Council", "text": "Reported speech: reporting verbs | LearnEnglish", "link": "https://learnenglish.britishcouncil.org/grammar/b1-b2-grammar/reported-speech-reporting-verbs"}] },
+            { class_id: "c1_c22", title: "Class 22", objective: "Debate news stories and share your opinions about interesting facts using reporting clauses in the passive.", warmup: "Passive reporting structures", resources: [{"tag": "Wordwall", "text": "Unit 4 B | Reporting clauses in the passive | Passages 2", "link": "https://wordwall.net/es/resource/103355062/discussion-passive-in-reportinghttps:/www.youtube.com/watch?v=CftkvkicdL4&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=8"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/34326140/passive-reporting-structures"}, {"tag": "Wordwall", "text": "REPORTING PASSIVE VOICE - Cuestionario", "link": "https://wordwall.net/es/resource/23955836/reporting-passive-voice"}] },
+            { class_id: "c1_c23", title: "Class 23", objective: "Discuss internet hoaxes (Listening & Reading).", warmup: "Spot the fake news game", resources: [{"tag": "Resource", "text": "Adjectives for Truth: A Comprehensive Grammar Guide", "link": "https://grammartactics.com/adjectives-for-truth/"}, {"tag": "Resource", "text": "Synonyms: Adjectives Describing Authenticity, Truth, Existence, and Understanding", "link": "https://www.varsitytutors.com/practice/subjects/isee-lower-level-verbal-reasoning/help/synonyms-adjectives-describing-authenticity-truth-existence-and-understanding"}, {"tag": "Resource", "text": "English Vocabulary Exercises for B2 - Truth and lies - ESL Tasks", "link": "https://english4real.com/practice/b2_v-truth-n-lies.html"}] },
+            { class_id: "c1_c24", title: "Class 24", objective: "Validate previous knowledge about news stories and sharing opinions using reporting clauses (Grammar Plus).", warmup: "Grammar review", resources: [{"tag": "Wordwall", "text": "Unit 4 B | Reporting clauses in the passive | Passages 2", "link": "https://wordwall.net/es/resource/103355062/discussion-passive-in-reportinghttps:/www.youtube.com/watch?v=CftkvkicdL4&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=8"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/34326140/passive-reporting-structures"}, {"tag": "Wordwall", "text": "REPORTING PASSIVE VOICE - Cuestionario", "link": "https://wordwall.net/es/resource/23955836/reporting-passive-voice"}] },
+            { class_id: "c1_v4", title: "Video 4", objective: "Watch in context a video about superstitions around the world and the reasons behind them.", warmup: "Pre-video belief check", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u5", title: "Unit 5 (Classes 25-30 & Video 5)",
+        classes: [
+            { class_id: "c1_c25", title: "Class 25", objective: "Notice different movie trends and express attitude towards them.", warmup: "Current cinema trends", resources: [{"tag": "YouTube", "text": "Unit 5 A | Sentence adverbs | Passages 2", "link": "https://www.youtube.com/watch?v=zrOFCoGp0O0&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=9"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/96515901/sentence-adverbs"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/63461386/sentence-adverbs"}] },
+            { class_id: "c1_c26", title: "Class 26", objective: "Discuss preferences regarding movies. Practice how to write a movie review.", warmup: "Review writing tips", resources: [{"tag": "Resource", "text": "ESL Conversation Questions - Television", "link": "https://www.eslconversationquestions.com/television/"}, {"tag": "British Council", "text": "Film review | LearnEnglish Teens", "link": "https://learnenglishteens.britishcouncil.org/skills/writing/a2-writing/film-review"}, {"tag": "Resource", "text": "Film Review Writing Worksheet | English Resources | Twinkl", "link": "https://www.twinkl.ie/resource/t2-e-1438-film-review-writing-template"}] },
+            { class_id: "c1_c27", title: "Class 27", objective: "Validate and complement previous knowledge about expressing attitudes towards different movie trends (Grammar Plus).", warmup: "Attitude adjectives", resources: [{"tag": "YouTube", "text": "Unit 5 A | Sentence adverbs | Passages 2", "link": "https://www.youtube.com/watch?v=zrOFCoGp0O0&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=9"}, {"tag": "Wordwall", "text": "Adjectives to describe places. - Une las parejas", "link": "https://wordwall.net/es/resource/4931820/adjectives-to-describe-places"}, {"tag": "Wordwall", "text": "Adjectives to describe movies 2 - Completar la frase", "link": "https://wordwall.net/es/resource/23770607/adjectives-to-describe-movies-2"}] },
+            { class_id: "c1_c28", title: "Class 28", objective: "Communicate your preferences when discussing TV shows and explain their popularity.", warmup: "Why is this show so popular?", resources: [{"tag": "YouTube", "text": "Unit 5 B | Such ... that and so ... that | Passages 2", "link": "https://www.youtube.com/watch?v=H_Xmyto7XFo&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=10&pp=iAQB"}, {"tag": "Resource", "text": "grammarbank.com/so-that-such-that.html", "link": "http://grammarbank.com/so-that-such-that.html"}, {"tag": "Resource", "text": "So - such - exercise 1", "link": "https://agendaweb.org/exercises/grammar/so-such/exercise-1.htm"}] },
+            { class_id: "c1_c29", title: "Class 29", objective: "Discuss and present an idea for a new TV show.", warmup: "Pitch a TV series concept", resources: [{"tag": "YouTube", "text": "Create Your Own TV Series For The Internet - Ross Brown [FULL INTERVIEW]", "link": "https://www.youtube.com/watch?v=mU0TI4AUMgY"}, {"tag": "Resource", "text": "Create Your Own TV Show", "link": "https://www.twinkl.com/resource/create-your-own-storyboard-au-l-1638313577"}, {"tag": "Resource", "text": "A Step-by-Step Guide on How to Make a TV Show", "link": "https://www.teleprompter.com/blog/a-step-by-step-guide-on-how-to-make-a-tv-show"}] },
+            { class_id: "c1_c30", title: "Class 30", objective: "Validate and complement previous knowledge about expressing tv shows preferences (Grammar Plus).", warmup: "Grammar review", resources: [{"tag": "YouTube", "text": "Unit 5 B | Such ... that and so ... that | Passages 2", "link": "https://www.youtube.com/watch?v=H_Xmyto7XFo&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=10&pp=iAQB"}, {"tag": "Resource", "text": "grammarbank.com/so-that-such-that.html", "link": "http://grammarbank.com/so-that-such-that.html"}, {"tag": "Resource", "text": "So - such - exercise 1", "link": "https://agendaweb.org/exercises/grammar/so-such/exercise-1.htm"}] },
+            { class_id: "c1_v5", title: "Video 5", objective: "Watch in context a description about how to make a movie.", warmup: "Behind the scenes vocabulary", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u6", title: "Unit 6 (Classes 31-36 & Video 6)",
+        classes: [
+            { class_id: "c1_c31", title: "Class 31", objective: "Recognize people's taste in music and support your own ideas using double comparatives.", warmup: "The more I listen, the more I...", resources: [{"tag": "YouTube", "text": "Unit 6 A | Double comparatives | Passages 2", "link": "https://www.youtube.com/watch?v=xu2z4FvYies&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=11&pp=iAQB"}, {"tag": "Wordwall", "text": "double comparatives - Une las parejas", "link": "https://wordwall.net/es/resource/13017895/double-comparatives"}, {"tag": "Wordwall", "text": "Double comparatives - Reordenar", "link": "https://wordwall.net/es/resource/35362157/double-comparatives"}] },
+            { class_id: "c1_c32", title: "Class 32", objective: "Describe music using adjectives related. Practice how to write compare-and-contrast essays.", warmup: "Compare two music genres", resources: [{"tag": "YouTube", "text": "POP CULTURE: Why Music Works", "link": "https://www.youtube.com/watch?v=6GeM-E8gMzk"}, {"tag": "Resource", "text": "Compare and Contrast Essays 1", "link": "https://docenti.unimc.it/rebecca.odoherty/teaching/2022/27539/files/l11-28-feb-1/compare-and-contrast-essays-1"}, {"tag": "Resource", "text": "Compare and Contrast Essays EAP Worksheets Games", "link": "https://www.teach-this.com/academic-english/compare-and-contrast-essays"}] },
+            { class_id: "c1_c33", title: "Class 33", objective: "Validate and complement previous knowledge about talking about people's taste in music (Grammar Plus).", warmup: "Music vocabulary brainstorm", resources: [{"tag": "YouTube", "text": "Unit 6 A | Double comparatives | Passages 2", "link": "https://www.youtube.com/watch?v=xu2z4FvYies&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=11&pp=iAQB"}, {"tag": "Wordwall", "text": "double comparatives - Une las parejas", "link": "https://wordwall.net/es/resource/13017895/double-comparatives"}, {"tag": "Wordwall", "text": "Double comparatives - Reordenar", "link": "https://wordwall.net/es/resource/35362157/double-comparatives"}] },
+            { class_id: "c1_c34", title: "Class 34", objective: "Share your ideas about music success stories, as well as habits and general truths in context.", warmup: "What makes a hit song?", resources: [{"tag": "YouTube", "text": "Unit 6 B | Will and would for habits and general truths | Passages 2", "link": "https://www.youtube.com/watch?v=3unWYAbXQzs&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=12&pp=iAQB"}, {"tag": "Wordwall", "text": "Habits and General Truths (will and would) - Reordenar", "link": "https://wordwall.net/es/resource/87215935/habits-and-general-truths-will-and-would"}, {"tag": "Wordwall", "text": "Will and Would for habits and general truths - Une las parejas", "link": "https://wordwall.net/es/resource/53367652/ingl%C3%A9s/will-and-would-for-habits-and-general-truths"}] },
+            { class_id: "c1_c35", title: "Class 35", objective: "Discuss the secrets to success (Reading).", warmup: "Success definition discussion", resources: [{"tag": "YouTube", "text": "25+ English Expressions for Musicians & Music Lovers", "link": "https://www.youtube.com/watch?v=fO8m9BDWfJs"}, {"tag": "Resource", "text": "Idioms/Quizzes/Music | Vocabulary | EnglishClub", "link": "https://www.englishclub.com/ref/Idioms/Quizzes/Music/"}, {"tag": "Resource", "text": "171 Music business English ESL worksheets pdf & doc", "link": "https://en.islcollective.com/english-esl-worksheets/search/music+business"}] },
+            { class_id: "c1_c36", title: "Class 36", objective: "Validate and complement previous knowledge about expressing habits and general truths (Grammar Plus).", warmup: "General truths structures", resources: [{"tag": "YouTube", "text": "Unit 6 B | Will and would for habits and general truths | Passages 2", "link": "https://www.youtube.com/watch?v=3unWYAbXQzs&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=12&pp=iAQB"}, {"tag": "Wordwall", "text": "Habits and General Truths (will and would) - Reordenar", "link": "https://wordwall.net/es/resource/87215935/habits-and-general-truths-will-and-would"}, {"tag": "Wordwall", "text": "Will and Would for habits and general truths - Une las parejas", "link": "https://wordwall.net/es/resource/53367652/ingl%C3%A9s/will-and-would-for-habits-and-general-truths"}] },
+            { class_id: "c1_v6", title: "Video 6", objective: "Watch in context a description about what bands do in order to be successful.", warmup: "Pre-video bands discussion", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u7", title: "Unit 7 (Classes 37-42 & Video 7)",
+        classes: [
+            { class_id: "c1_c37", title: "Class 37", objective: "Identify and contrast the different changing lifestyles, together with current trends.", warmup: "Lifestyle trends of the decade", resources: [{"tag": "YouTube", "text": "Unit 7 A | Optional and required relative pronouns | Passages 2", "link": "https://www.youtube.com/watch?v=t_H1S-9UvZU&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=13&pp=iAQB"}, {"tag": "Wordwall", "text": "Optional and Required relative pronouns - Unjumble", "link": "https://wordwall.net/resource/64483891/optional-and-required-relative-pronouns"}, {"tag": "Resource", "text": "Optional and required relative pronouns | Baamboozle", "link": "https://www.baamboozle.com/game/1091467"}] },
+            { class_id: "c1_c38", title: "Class 38", objective: "Express your perspectives towards certain opinions using prefixes. Describe a personal experience.", warmup: "Prefixes challenge (un-, dis-, mis-)", resources: [{"tag": "Wordwall", "text": "PREFIXES - ANTONYMS - Ordenar por grupo", "link": "https://wordwall.net/es/resource/93209602/prefixes-antonyms"}, {"tag": "YouTube", "text": "Writing Your Life Story: Get Started with this Exercise", "link": "https://www.youtube.com/watch?v=-9rdvJhkzXE"}, {"tag": "British Council", "text": "Tell a story or personal anecdote | LearnEnglish Teens", "link": "https://learnenglishteens.britishcouncil.org/exams/speaking-exams/tell-story-or-personal-anecdote"}] },
+            { class_id: "c1_c39", title: "Class 39", objective: "Validate and complement previous knowledge related to expressing opinions about lifestyle changes (Grammar Plus).", warmup: "Grammar review", resources: [{"tag": "YouTube", "text": "Unit 7 A | Optional and required relative pronouns | Passages 2", "link": "https://www.youtube.com/watch?v=t_H1S-9UvZU&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=13&pp=iAQB"}, {"tag": "Wordwall", "text": "Optional and Required relative pronouns - Unjumble", "link": "https://wordwall.net/resource/64483891/optional-and-required-relative-pronouns"}, {"tag": "Resource", "text": "Optional and required relative pronouns | Baamboozle", "link": "https://www.baamboozle.com/game/1091467"}] },
+            { class_id: "c1_c40", title: "Class 40", objective: "Discuss making lifestyle changes and practice useful expressions to talk about feelings or behavior.", warmup: "Expressions for behavior", resources: [{"tag": "YouTube", "text": "Unit 7 B | As if, as though, as, the way, and like | Passages 2", "link": "https://www.youtube.com/watch?v=VMfooLj5pkU&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=14&pp=iAQB"}, {"tag": "YouTube", "text": "-Optional and required relative pronouns: https://www.coursehero.com/file/45928061/4-Relative-Pronounsdocx/#:~:text=Optional%20and%20Required%20Relative%20PronounsIn%20defining%20relative%20clauses%2C%20when,object%2C%20it%20is%20usually%20optional.\n-As if, as though, as, the way, and like: https://www.youtube.com/watch?v=TItI5ucoZnA", "link": "https://www.youtube.com/watch?v=TItI5ucoZnA"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/83631507/as-though-as-if"}] },
+            { class_id: "c1_c41", title: "Class 41", objective: "Discuss how to cope with changes using certain collocations.", warmup: "Collocations for change", resources: [{"tag": "Wordwall", "text": "B2 M2L5/ Collocations with 'change' - Quiz", "link": "https://wordwall.net/resource/78114289/b2-m2l5-collocations-with-change"}, {"tag": "Liveworksheets", "text": "Collocations wi… | Free Interactive Worksheets | 6092765", "link": "https://www.liveworksheets.com/node/6092765"}, {"tag": "Resource", "text": "change | collocation examples, Usage and Definition", "link": "https://www.freecollocation.com/search?word=change"}] },
+            { class_id: "c1_c42", title: "Class 42", objective: "Validate and complement previous knowledge about making lifestyle changes (Grammar Plus).", warmup: "Review exercises", resources: [{"tag": "YouTube", "text": "Unit 7 B | As if, as though, as, the way, and like | Passages 2", "link": "https://www.youtube.com/watch?v=VMfooLj5pkU&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=14&pp=iAQB"}, {"tag": "YouTube", "text": "-Optional and required relative pronouns: https://www.coursehero.com/file/45928061/4-Relative-Pronounsdocx/#:~:text=Optional%20and%20Required%20Relative%20PronounsIn%20defining%20relative%20clauses%2C%20when,object%2C%20it%20is%20usually%20optional.\n-As if, as though, as, the way, and like: https://www.youtube.com/watch?v=TItI5ucoZnA", "link": "https://www.youtube.com/watch?v=TItI5ucoZnA"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/83631507/as-though-as-if"}] },
+            { class_id: "c1_v7", title: "Video 7", objective: "Watch in context a video about work and gender roles.", warmup: "Gender roles in the workplace discussion", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u8", title: "Unit 8 (Classes 43-48 & Video 8)",
+        classes: [
+            { class_id: "c1_c43", title: "Class 43", objective: "Talk about bargain shopping and examine differences in shopping experiences (placement of direct and indirect objects).", warmup: "Object placement practice", resources: [{"tag": "YouTube", "text": "Unit 8 A | Placement of direct and indirect objects | Passages 2", "link": "https://www.youtube.com/watch?v=HN9fFveI1eo&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=15&pp=iAQB0gcJCU0KAYcqIYzv"}, {"tag": "YouTube", "text": "ESL - Direct and Indirect Objects", "link": "https://www.youtube.com/watch?v=D8ekdTgRb8c"}, {"tag": "Wordwall", "text": "direct vs indirect object - Completar la frase", "link": "https://wordwall.net/es/resource/32870275/direct-vs-indirect-object"}] },
+            { class_id: "c1_c44", title: "Class 44", objective: "Talk about the best ways to shop for different items. Practice how to write a supporting opinion text.", warmup: "Online vs In-store shopping", resources: [{"tag": "YouTube", "text": "Are we too Materialistic?", "link": "https://www.youtube.com/watch?v=24L7r7SoK_Y"}, {"tag": "YouTube", "text": "How to Explain and Support Your Opinions in English", "link": "https://www.youtube.com/watch?v=fa2W8VFdLU4"}, {"tag": "British Council", "text": "Giving your opinion | LearnEnglish Teens", "link": "https://learnenglishteens.britishcouncil.org/skills/speaking/a2-speaking/giving-your-opinion"}] },
+            { class_id: "c1_c45", title: "Class 45", objective: "Validate and complement previous knowledge about shopping, marketing strategies, and object placement (Grammar Plus).", warmup: "Grammar consolidation", resources: [{"tag": "YouTube", "text": "Unit 8 A | Placement of direct and indirect objects | Passages 2", "link": "https://www.youtube.com/watch?v=HN9fFveI1eo&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=15&pp=iAQB0gcJCU0KAYcqIYzv"}, {"tag": "YouTube", "text": "ESL - Direct and Indirect Objects", "link": "https://www.youtube.com/watch?v=D8ekdTgRb8c"}, {"tag": "Wordwall", "text": "direct vs indirect object - Completar la frase", "link": "https://wordwall.net/es/resource/32870275/direct-vs-indirect-object"}] },
+            { class_id: "c1_c46", title: "Class 46", objective: "Agree or disagree when discussing effective advertisement and use expressions to give or ask for advice.", warmup: "Analyze a controversial ad", resources: [{"tag": "YouTube", "text": "Unit 8 B | Verbs in the subjunctive | Passages 2", "link": "https://www.youtube.com/watch?v=s7my6z0A4-g&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=16&pp=iAQB"}, {"tag": "YouTube", "text": "The Subjunctive in English - Complete Advanced English Grammar Lesson", "link": "https://www.youtube.com/watch?v=OUwkVFgaL5E"}, {"tag": "Resource", "text": "Subjunctive – Grammar Practice Worksheets – ESL Library", "link": "https://literacyservices.org/class/wp-content/uploads/2023/03/Subjunctive.pdf"}] },
+            { class_id: "c1_c47", title: "Class 47", objective: "Discuss the ethics of undercover marketing strategies.", warmup: "What is undercover marketing?", resources: [{"tag": "Resource", "text": "Marketing strategy exercise templates", "link": "https://newsletter.mkt1.co/p/marketing-strategy-exercise-templates"}, {"tag": "Resource", "text": "recruit.foreignaffairs.gov.fj/HomePages/E09B9A/312582/MarketingExercisesForStudents.pdf", "link": "http://recruit.foreignaffairs.gov.fj/HomePages/E09B9A/312582/MarketingExercisesForStudents.pdf"}, {"tag": "Resource", "text": "7 Content Marketing Exercises For Your Workshop - Portland SEO Growth", "link": "https://www.portlandseogrowth.com/free-seo-resources/content-marketing-workshop-exercises/"}] },
+            { class_id: "c1_c48", title: "Class 48", objective: "Validate and complement previous knowledge about expressing opinions related to marketing using the subjunctive (Grammar Plus).", warmup: "Subjunctive mood practice", resources: [{"tag": "YouTube", "text": "Unit 8 B | Verbs in the subjunctive | Passages 2", "link": "https://www.youtube.com/watch?v=s7my6z0A4-g&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=16&pp=iAQB"}, {"tag": "YouTube", "text": "The Subjunctive in English - Complete Advanced English Grammar Lesson", "link": "https://www.youtube.com/watch?v=OUwkVFgaL5E"}, {"tag": "Resource", "text": "Subjunctive – Free Exercise", "link": "https://english.lingolia.com/en/grammar/verbs/subjunctive/exercises"}] },
+            { class_id: "c1_v8", title: "Video 8", objective: "Watch in context facts regarding the history of marketing.", warmup: "Marketing history trivia", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u9", title: "Unit 9 (Classes 49-54 & Video 9)",
+        classes: [
+            { class_id: "c1_c49", title: "Class 49", objective: "Illustrate your opinions about the role of animals and talk about specific and undetermined time and location.", warmup: "Role of animals in society", resources: [{"tag": "YouTube", "text": "Unit 9 A | Whenever and wherever contrasted with when and where | Passages 2", "link": "https://www.youtube.com/watch?v=-BdQv4PXOD8&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=17&pp=iAQB"}, {"tag": "Resource", "text": "Whatever, whenever, wherever, whoever, however - Test-English", "link": "https://test-english.com/grammar-points/b1-b2/whatever-whenever-wherever-whoever-however/"}, {"tag": "YouTube", "text": "How to use whatever, whenever, wherever, whoever | Advanced English grammar", "link": "https://www.youtube.com/watch?v=sSWtOMX6Wv4"}] },
+            { class_id: "c1_c50", title: "Class 50", objective: "Talk about categories and features of animals. Practice how to write a classification essay.", warmup: "Animal classification debate", resources: [{"tag": "Resource", "text": "Animals", "link": "https://www.eslconversationquestions.com/animals/"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/36627030/physical-characteristics"}] },
+            { class_id: "c1_c51", title: "Class 51", objective: "Validate previous knowledge about describing typical behaviors using contrast and exceptions (Grammar Plus).", warmup: "Contrast grammar check", resources: [{"tag": "YouTube", "text": "Unit 9 A | Whenever and wherever contrasted with when and where | Passages 2", "link": "https://www.youtube.com/watch?v=-BdQv4PXOD8&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=17&pp=iAQB"}, {"tag": "Resource", "text": "Whatever, whenever, wherever, whoever, however - Test-English", "link": "https://test-english.com/grammar-points/b1-b2/whatever-whenever-wherever-whoever-however/"}, {"tag": "YouTube", "text": "How to use whatever, whenever, wherever, whoever | Advanced English grammar", "link": "https://www.youtube.com/watch?v=sSWtOMX6Wv4"}] },
+            { class_id: "c1_c52", title: "Class 52", objective: "Explore the possibilities of nature-related jobs and state your own ideas.", warmup: "Green jobs brainstorm", resources: [{"tag": "YouTube", "text": "Unit 9 B | Noun clauses with whoever and whatever | Passages 2", "link": "https://www.youtube.com/watch?v=MKhGVdGy_-8"}, {"tag": "Resource", "text": "Noun clauses with WHOEVER and WHATEVER", "link": "https://prezi.com/_yhi4e-rxqyi/noun-clauses-with-whoever-and-whatever/"}, {"tag": "Resource", "text": "Whoever Whatever Whenever However Whichever - What is the Difference? | Learn English Grammar with Woodward English", "link": "https://www.grammar.cl/Notes/Whoever_Whatever_Whenever.htm"}] },
+            { class_id: "c1_c53", title: "Class 53", objective: "Discuss ways of being in touch with nature.", warmup: "Nature vs Urban life", resources: [{"tag": "Wordwall", "text": "Nature Idioms. Practice - Complete the sentence", "link": "https://wordwall.net/resource/60501476/nature-idioms-practice"}, {"tag": "YouTube", "text": "12 Nature Idioms: Learn English Idioms while enjoying Canadian Nature! Nature Idioms for Summer! ☀️", "link": "https://www.youtube.com/watch?v=i4K8f9UGavc"}, {"tag": "Resource", "text": "Nature-related Idioms | Baamboozle", "link": "https://www.baamboozle.com/game/1318472"}] },
+            { class_id: "c1_c54", title: "Class 54", objective: "Validate and complement previous knowledge about sharing opinions about nature-related jobs using certain noun clauses (Grammar Plus).", warmup: "Noun clauses review", resources: [{"tag": "YouTube", "text": "Unit 9 B | Noun clauses with whoever and whatever | Passages 2", "link": "https://www.youtube.com/watch?v=MKhGVdGy_-8"}, {"tag": "Resource", "text": "Noun clauses with WHOEVER and WHATEVER", "link": "https://prezi.com/_yhi4e-rxqyi/noun-clauses-with-whoever-and-whatever/"}, {"tag": "Resource", "text": "Whoever Whatever Whenever However Whichever - What is the Difference? | Learn English Grammar with Woodward English", "link": "https://www.grammar.cl/Notes/Whoever_Whatever_Whenever.htm"}] },
+            { class_id: "c1_v9", title: "Video 9", objective: "Watch in context a video about the relation between humans and animals throughout history.", warmup: "Pre-video discussion", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u10", title: "Unit 10 (Classes 55-60 & Video 10)",
+        classes: [
+            { class_id: "c1_c55", title: "Class 55", objective: "Explain the qualities of effective communicators and compare attitudes toward public speaking.", warmup: "Public speaking fears and tips", resources: [{"tag": "YouTube", "text": "Unit 10 A | Overview of passives | Passages 2", "link": "https://www.youtube.com/watch?v=VxIT4I7mbP8&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=19&pp=iAQB"}, {"tag": "Resource", "text": "Active and Passive Voice Exercise with Multiple Choice Questions - 1", "link": "https://agendaweb.org/exercises/verbs/passive-voice/active-passive-quiz-1.htm"}, {"tag": "Resource", "text": "Passive Voice - Online Exercises - English Grammar", "link": "https://www.english-grammar.at/online_exercises/passive-voice/passive-voice-index.htm"}] },
+            { class_id: "c1_c56", title: "Class 56", objective: "Express opinions related to communication using discourse markers. Practice how to write a persuasive text.", warmup: "Discourse markers sort", resources: [{"tag": "Resource", "text": "Persuasive Writing Prompts and Worksheets", "link": "https://www.superteacherworksheets.com/persuasive-writing.html"}, {"tag": "Resource", "text": "100 Persuasive Writing Prompts for Writers aged 8 to 18 | Summer Boarding Courses", "link": "https://www.summerboardingcourses.com/blogs/persuasive-writing-prompts/"}, {"tag": "Resource", "text": "Persuasive Writing | Reading Rockets", "link": "https://www.readingrockets.org/classroom/classroom-strategies/persuasive-writing"}] },
+            { class_id: "c1_c57", title: "Class 57", objective: "Validate and complement previous knowledge about qualities of effective communicators using passives (Grammar Plus).", warmup: "Passive voice transformations", resources: [{"tag": "YouTube", "text": "Unit 10 A | Overview of passives | Passages 2", "link": "https://www.youtube.com/watch?v=VxIT4I7mbP8&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=19&pp=iAQB"}, {"tag": "Resource", "text": "Active and Passive Voice Exercise with Multiple Choice Questions - 1", "link": "https://agendaweb.org/exercises/verbs/passive-voice/active-passive-quiz-1.htm"}, {"tag": "Resource", "text": "Passive Voice - Online Exercises - English Grammar", "link": "https://www.english-grammar.at/online_exercises/passive-voice/passive-voice-index.htm"}] },
+            { class_id: "c1_c58", title: "Class 58", objective: "Inspect correctness in language and deliberate about the use of language when text messaging.", warmup: "Texting slang vs Formal English", resources: [{"tag": "YouTube", "text": "Unit 10 B | Subject-verb agreement with quantifiers | Passages 2", "link": "https://www.youtube.com/watch?v=PS5Ec8Gxzsc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=20&pp=iAQB"}, {"tag": "Liveworksheets", "text": "Subject-Verb Agreement with Quantifiers worksheet", "link": "https://www.liveworksheets.com/worksheet/en/subject-verb-agreement-quantifiers/454478"}, {"tag": "Resource", "text": "SUBJECT VERB AGREEMENT WITH QUANTIFIERS Quiz", "link": "https://wayground.com/admin/quiz/604e9744157cb5001db94a6f/subject-verb-agreement-with-quantifiers"}] },
+            { class_id: "c1_c59", title: "Class 59", objective: "Discuss correct language use.", warmup: "Prescriptivism vs Descriptivism", resources: [{"tag": "Resource", "text": "Resource Resource", "link": "https://educasia.org/wp-content/uploads/Other%20Stuff%20page/Vocabulary/A%20Way%20with%20Words/A%20Way%20with%20Words%201.pdf"}, {"tag": "Resource", "text": "A Way with Words 1 | CJ Fallon", "link": "https://www.cjfallon.ie/book/a-way-with-words-1/"}, {"tag": "Resource", "text": "A Way with Words", "link": "https://www.tram.co.uk/uploads/activity_station/ways_with_words_1.pdf"}] },
+            { class_id: "c1_c60", title: "Class 60", objective: "Validate and complement previous knowledge about correctness in language taking into account subject-verb-agreement with quantifiers (Grammar Plus).", warmup: "Quantifier agreement rules", resources: [{"tag": "YouTube", "text": "Unit 10 B | Subject-verb agreement with quantifiers | Passages 2", "link": "https://www.youtube.com/watch?v=PS5Ec8Gxzsc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=20&pp=iAQB"}, {"tag": "Wordwall", "text": "SUBJECT-VERB AGREEMENT WITH QUANTIFIERS - Quiz", "link": "https://wordwall.net/resource/52600026/subject-verb-agreement-with-quantifiers"}, {"tag": "Liveworksheets", "text": "Subject-Verb Agreement with Quantifiers worksheet", "link": "https://www.liveworksheets.com/worksheet/en/subject-verb-agreement-quantifiers/454478"}] },
+            { class_id: "c1_v10", title: "Video 10", objective: "Watch in context a video about some tips for better presentations.", warmup: "Presentation skills checklist", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u11", title: "Unit 11 (Classes 61-66 & Video 11)",
+        classes: [
+            { class_id: "c1_c61", title: "Class 61", objective: "Speak about people who have had an impact and describe their values.", warmup: "Historical figures impact", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=LNTAeeGkvJM&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=21&pp=iAQB"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/34857742/ingl%C3%A9s/compound-adjectives"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/14838779/compound-adjectives-"}] },
+            { class_id: "c1_c62", title: "Class 62", objective: "Speak about exceptional people. Practice how to write a biography.", warmup: "Biography outlining", resources: [{"tag": "Resource", "text": "Biographical Profile Worksheet | PDF", "link": "https://www.scribd.com/document/895349934/Biographical-Profile-Worksheet"}, {"tag": "Resource", "text": "Biography Writing Format, Types, Examples, Exercises", "link": "https://www.successcds.net/learn-english/writing-skills/biography-writing"}, {"tag": "Resource", "text": "How to write a personal profile – A1 English writing - Test-English", "link": "https://test-english.com/writing/a1/how-to-write-a-personal-profile-a1-english-writing/"}] },
+            { class_id: "c1_c63", title: "Class 63", objective: "Validate and complement previous knowledge descriptions of people who have impacted the world using compound adjectives (Grammar Plus).", warmup: "Compound adjectives creation", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=LNTAeeGkvJM&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=21&pp=iAQB"}, {"tag": "Wordwall", "text": "Wordwall Resource", "link": "https://wordwall.net/es/resource/14838779/compound-adjectives-"}, {"tag": "Wordwall", "text": "Compound Adjectives - Une las parejas", "link": "https://wordwall.net/es/resource/4298455/compound-adjectives"}] },
+            { class_id: "c1_c64", title: "Class 64", objective: "Outline the qualities of a good role model and give your opinions about people who make a difference.", warmup: "What makes a role model?", resources: [{"tag": "YouTube", "text": "Unit 11 B | Superlative compound adjectives | Passages 2", "link": "https://www.youtube.com/watch?v=5GW1Km5sCOI&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=22&pp=iAQB"}, {"tag": "Resource", "text": "Superlative Compound Adjectives C24U11LB1 | Baamboozle", "link": "https://www.baamboozle.com/game/1757623"}, {"tag": "Wordwall", "text": "Superlative compound adjectives - Quiz", "link": "https://wordwall.net/resource/38022235/english/superlative-compound-adjectives"}] },
+            { class_id: "c1_c65", title: "Class 65", objective: "Talk about heroic behavior in everyday life.", warmup: "Everyday heroes sharing", resources: [{"tag": "Resource", "text": "Common phrasal verbs 1-10", "link": "https://agendaweb.org/exercises/verbs/phrasal-verbs/common-phrasal-verbs-1.htm"}, {"tag": "Resource", "text": "Phrasal verbs exercises: 11-20.", "link": "https://agendaweb.org/exercises/verbs/phrasal-verbs/common-phrasal-verbs-2.htm"}, {"tag": "Resource", "text": "Phrasal verbs exercises: 21-30.", "link": "https://agendaweb.org/exercises/verbs/phrasal-verbs/common-phrasal-verbs-3.htm"}] },
+            { class_id: "c1_c66", title: "Class 66", objective: "Validate previous knowledge about describing people who make the difference (Grammar Plus).", warmup: "Grammar and vocabulary check", resources: [{"tag": "YouTube", "text": "Unit 11 B | Superlative compound adjectives | Passages 2", "link": "https://www.youtube.com/watch?v=5GW1Km5sCOI&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=22&pp=iAQB"}, {"tag": "Resource", "text": "Superlative Compound Adjectives C24U11LB1 | Baamboozle", "link": "https://www.baamboozle.com/game/1757623"}, {"tag": "Wordwall", "text": "Superlative compound adjectives - Quiz", "link": "https://wordwall.net/resource/38022235/english/superlative-compound-adjectives"}] },
+            { class_id: "c1_v11", title: "Video 11", objective: "Watch in context a video about role models.", warmup: "Pre-video reflection", resources: [] }
+        ]
+    },
+    {
+        unit_id: "u12", title: "Unit 12 (Classes 67-72 & Video 12)",
+        classes: [
+            { class_id: "c1_c67", title: "Class 67", objective: "Discuss the goals and reasons behind successful entrepreneurs and talk about hypothetical situations.", warmup: "Entrepreneurial mindset", resources: [{"tag": "YouTube", "text": "Unit 12 A | Subject-verb inversion in conditional sentences | Passages 2", "link": "https://www.youtube.com/watch?v=lOqNPLmNnYY&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=23&pp=iAQB"}, {"tag": "YouTube", "text": "Inversion with conditional sentences", "link": "https://www.youtube.com/watch?v=BumOCZ1YwZc"}, {"tag": "Resource", "text": "Grammar Exercise – Inverted Conditionals (B2/C1) (with printable PDF) - EnglishSmarts - English with Suzanne", "link": "https://englishsmarts.com/2024/12/18/grammar-exercise-inverted-conditionals/"}] },
+            { class_id: "c1_c68", title: "Class 68", objective: "Discuss work using some expressions related. Practice how to write a formal letter.", warmup: "Formal letter components", resources: [{"tag": "YouTube", "text": "How to Find Fulfilling Work", "link": "https://www.youtube.com/watch?v=veriqDHLXsw"}, {"tag": "YouTube", "text": "Prepositions to Use with the Word 'Work' - Learn Correctly", "link": "https://www.youtube.com/watch?v=uqLFew5A_a4"}, {"tag": "Resource", "text": "Writing formal letter of complaint – Tips, examples and exercises - Test-English", "link": "https://test-english.com/writing/b2/a-formal-letter-of-complaint-tips-examples-exercises/"}] },
+            { class_id: "c1_c69", title: "Class 69", objective: "Validate and complement previous knowledge about expressing hypothetical situations putting into practice subject-verb-inversion (Grammar Plus).", warmup: "Inversion practice (Had I known...)", resources: [{"tag": "YouTube", "text": "Unit 12 A | Subject-verb inversion in conditional sentences | Passages 2", "link": "https://www.youtube.com/watch?v=lOqNPLmNnYY&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=23&pp=iAQB"}, {"tag": "YouTube", "text": "Inversion with conditional sentences", "link": "https://www.youtube.com/watch?v=BumOCZ1YwZc"}, {"tag": "Wordwall", "text": "Inversion in conditional sentences - Quiz", "link": "https://wordwall.net/resource/96595413/inversion-in-conditional-sentences"}] },
+            { class_id: "c1_c70", title: "Class 70", objective: "Express your values and preferences in work and business and compare your choices when talking about your ideal job.", warmup: "Ideal job description", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=b3MACwN63Qc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=24&pp=iAQB"}, {"tag": "Resource", "text": "Adverb clause of condition Quiz", "link": "https://wayground.com/admin/quiz/5ed1271e70816d001f2a0d39/adverb-clause-of-condition"}, {"tag": "Wordwall", "text": "Adverb clauses of condition - Complete the sentence", "link": "https://wordwall.net/resource/53094735/adverb-clauses-of-condition"}] },
+            { class_id: "c1_c71", title: "Class 71", objective: "Discuss the qualities of a successful worker.", warmup: "Top 5 professional skills", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=b3MACwN63Qc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=24&pp=iAQB"}, {"tag": "Resource", "text": "3 Crucial Qualities You Must Develop For Success (+ Real Life Examples) | by Dave Richards | Medium", "link": "https://daverich92.medium.com/3-crucial-qualities-you-must-develop-for-success-real-life-examples-b78183d6da30"}, {"tag": "Resource", "text": "Chapter 3: The Top 5 Skills for Success", "link": "https://www.linkedin.com/pulse/chapter-3-top-5-skills-success-jesus-vasquez-udeqe"}] },
+            { class_id: "c1_c72", title: "Class 72", objective: "Validate and complement previous knowledge about describing ideal jobs using adverb clauses of conditions (Grammar Plus).", warmup: "Conditional clauses review", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=b3MACwN63Qc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=24&pp=iAQB"}, {"tag": "Resource", "text": "Adverb clause of condition Quiz", "link": "https://wayground.com/admin/quiz/5ed1271e70816d001f2a0d39/adverb-clause-of-condition"}, {"tag": "Resource", "text": "Adverbial Clauses Of Condition-English", "link": "https://www.tolearnenglish.com/exercises/exercise-english-2/exercise-english-79667.php"}] },
+            { class_id: "c1_v12", title: "Video 12", objective: "Watch in context a video about the do's and don'ts in a job interview.", warmup: "Interview best practices", resources: [] }
+        ]
+    }
+];
+
+        // 2. RENDER LOGIC
+        const container = document.getElementById("unitsContainer");
+
+        c1_data.forEach(unit => {
+            let classesHTML = "";
+            
+            unit.classes.forEach(cls => {
+                let resourcesHTML = "";
+                
+                if (cls.resources && cls.resources.length > 0) {
+                    cls.resources.forEach(res => {
+                        resourcesHTML += `
+                            <div class="resource-item">
+                                <span class="resource-tag">${res.tag}</span>
+                                <a href="${res.link}" target="_blank">${res.text}</a>
+                            </div>`;
+                    });
+                } else {
+                    resourcesHTML = `<div class="resource-item" style="color: #666; font-style: italic; font-size: 0.9em;">No resources added yet.</div>`;
+                }
+
+                classesHTML += `
+                    <div class="class-block">
+                        <div class="class-header" onclick="toggleElement('${cls.class_id}')">
+                            ▶ ${cls.title}
+                        </div>
+                        <div id="${cls.class_id}" class="class-content">
+                            <div class="resource-item">
+                                <strong>🎯 Objective:</strong> ${cls.objective}
+                            </div>
+                            <div class="resource-item">
+                                <span class="resource-tag" style="background-color: var(--smart-blue);">Warm-Up</span> 
+                                <strong>${cls.warmup}</strong>
+                            </div>
+                            ${resourcesHTML}
+                        </div>
+                    </div>`;
+            });
+
+            const unitHTML = `
+                <div class="unit-block">
+                    <div class="unit-header" onclick="toggleElement('${unit.unit_id}')">
+                        ${unit.title}
+                    </div>
+                    <div id="${unit.unit_id}" class="unit-content">
+                        ${classesHTML}
+                    </div>
+                </div>`;
+            
+            container.innerHTML += unitHTML;
+        });
+
+        // 3. INTERACTIVITY
+        function toggleElement(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var savedNames = localStorage.getItem("smart_students");
+            if(savedNames) {
+                document.getElementById("studentList").value = savedNames;
+            }
+        });
+
+        // Tu código original que hace funcionar el "Spin"
+function spinRoulette() {
+    var input = document.getElementById("studentList").value;
+    localStorage.setItem("smart_students", input);
+    if(!input) {
+        alert("Please add some names first!");
+        return;
+    }
+    var names = input.split(",").map(n => n.trim()).filter(n => n !== "");
+    if(names.length > 0) {
+        var winner = names[Math.floor(Math.random() * names.length)];
+        document.getElementById("rouletteResult").innerText = "Result: " + winner + "!";
+    }
+}
+
+// La nueva función que acabamos de crear
+function resetRoulette() {
+    document.getElementById("studentList").value = "";
+    document.getElementById("rouletteResult").innerText = "";
+    localStorage.removeItem("smart_students");
+}
+    </script>
+    <div class="footer-signature">© 2026 Luis Almanza</div></body>
+</html>

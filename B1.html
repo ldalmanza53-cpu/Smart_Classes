@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level B1 - Smart English Resources</title>
+    <style>
+        :root {
+            --smart-red: #E3000F;
+            --smart-blue: #00205B;
+            --smart-white: #FFFFFF;
+            --light-gray: #f4f4f4;
+            --class-gray: #e9ecef;
+        }
+        body { font-family: Arial, sans-serif; background-color: var(--light-gray); margin: 0; padding: 0; color: #333; }
+        header { background-color: var(--smart-blue); color: var(--smart-white); padding: 20px; text-align: center; border-bottom: 5px solid var(--smart-red); }
+        .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        
+        /* Top Navigation & Toolkits */
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .back-btn { background-color: var(--smart-blue); color: var(--smart-white); text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; }
+        .toolkit { background-color: var(--smart-white); border: 2px solid var(--smart-blue); border-radius: 8px; padding: 15px; flex-grow: 1; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .toolkit input { padding: 8px; width: 60%; border: 1px solid #ccc; border-radius: 4px; }
+        .toolkit button { background-color: var(--smart-red); color: var(--smart-white); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        /* Unit Accordion */
+        .unit-block { background-color: var(--smart-white); margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
+        .unit-header { background-color: var(--smart-blue); color: var(--smart-white); padding: 15px; cursor: pointer; font-size: 1.2em; font-weight: bold; }
+        .unit-header:hover { background-color: #003380; }
+        .unit-content { display: none; padding: 10px; }
+        
+        /* Class Accordion (Nested) */
+        .class-block { background-color: var(--class-gray); margin-bottom: 10px; border-radius: 4px; border-left: 4px solid var(--smart-red); }
+        .class-header { padding: 12px; cursor: pointer; font-weight: bold; color: var(--smart-blue); }
+        .class-header:hover { background-color: #dadddf; }
+        .class-content { display: none; padding: 15px; background-color: var(--smart-white); border: 1px solid var(--class-gray); }
+        
+        /* Resources */
+        .resource-tag { display: inline-block; background-color: var(--smart-red); color: var(--smart-white); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 10px; min-width: 80px; text-align: center; }
+        .resource-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .resource-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .resource-item a { color: var(--smart-blue); text-decoration: none; font-weight: bold; }
+        .resource-item a:hover { text-decoration: underline; }
+        
+        .active { display: block; }
+        
+        @media (max-width: 600px) {
+            .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
+            .toolkit input { width: 100%; box-sizing: border-box; }
+        }
+        .footer-signature { position: fixed; bottom: 10px; right: 20px; font-size: 0.7em; color: rgba(0, 32, 91, 0.3); pointer-events: none; z-index: 1000; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Level B1 - Communicative Objectives</h1>
+        <p>Smart English Academy</p>
+    </header>
+
+    <div class="container">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn">⬅ Home</a>
+            <div class="toolkit">
+                <div style="flex-grow: 1; display: flex; gap: 10px;">
+                    <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
+                    <button onclick="spinRoulette()">Spin</button>
+                    <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
+                </div>
+                <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
+            </div>
+        </div>
+        <div id="unitsContainer"></div>
+    </div>
+
+    <script>
+        const b1_data = [
+            {
+                unit_id: "u1_2",
+                title: "Units 1 & 2 (Classes 1 - 9)",
+                classes: [
+                    { class_id: "b1_c1", title: "Class 1", objective: "Describe personalities and talk about strengths and weaknesses.", warmup: "Adjective brainstorm for personalities", resources: [{"tag": "Baamboozle", "text": "Personality | Baamboozle", "link": "https://www.baamboozle.com/game/117313"}, {"tag": "Wordwall", "text": "Relative clauses (who/that) - Concurso de preguntas", "link": "https://wordwall.net/es/resource/16404177/english/relative-clauses-who-that"}] },
+                    { class_id: "b1_c2", title: "Class 2", objective: "Express likes, dislikes, agreements and disagreements; and complain about common behaviors.", warmup: "Common annoyances discussion", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/game/590583"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/96843672/inglés/it-clauses-with-when"}] },
+                    { class_id: "b1_c3", title: "Class 3", objective: "Validate knowledge about descriptions of ideal friends and expressing likes and dislikes using relative pronouns and adverbial clauses (Grammar Plus).", warmup: "Relative clauses review", resources: [{"tag": "Baamboozle", "text": "Personality | Baamboozle", "link": "https://www.baamboozle.com/game/117313"}, {"tag": "Wordwall", "text": "Adverbial clauses: when... - Une las parejas", "link": "https://wordwall.net/es/resource/55249515/adverbial-clauses-when"}] },
+                    { class_id: "b1_c4", title: "Class 4", objective: "Watch in context people talking about an ideal partner and dating (Video).", warmup: "Pre-video discussion on dating", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/game/590583"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/96843672/inglés/it-clauses-with-when"}] },
+                    { class_id: "b1_c5", title: "Class 5", objective: "Talk about possible career choices and discuss pros and cons of some jobs.", warmup: "List the best and worst jobs", resources: [{"tag": "Baamboozle", "text": "Qualities for Jobs | Baamboozle", "link": "https://www.baamboozle.com/game/600596"}, {"tag": "Wordwall", "text": "Unit 5 Gerunds as subjects and objects - Reordenar", "link": "https://wordwall.net/es/resource/4270138/unit-5-gerunds-as-subjects-and-objects"}] },
+                    { class_id: "b1_c6", title: "Class 6", objective: "Describe and compare jobs in terms of different aspects.", warmup: "Job comparison chart", resources: [{"tag": "Baamboozle", "text": "Qualities for Jobs | Baamboozle", "link": "https://www.baamboozle.com/game/600596"}, {"tag": "Wordwall", "text": "Comparatives as... as / not as ... as", "link": "https://wordwall.net/es/resource/77406937/comparatives-as-as-not-as-as"}] },
+                    { class_id: "b1_c7", title: "Class 7", objective: "Validate knowledge about career choices using gerund phrases and compare jobs (Grammar Plus).", warmup: "Gerunds as subjects (Working as a...)", resources: [{"tag": "Baamboozle", "text": "Qualities for Jobs | Baamboozle", "link": "https://www.baamboozle.com/game/600596"}, {"tag": "Wordwall", "text": "COMPARISONS AS...AS - Reordenar", "link": "https://wordwall.net/es/resource/5137843/comparisons-asas"}] },
+                    { class_id: "b1_c8", title: "Class 8", objective: "Watch in context a description of certain types of personalities and career choices (Video).", warmup: "Personality test predictions", resources: [{"tag": "Baamboozle", "text": "Qualities for Jobs | Baamboozle", "link": "https://www.baamboozle.com/game/600596"}, {"tag": "Wordwall", "text": "Comparatives as... as / not as ... as", "link": "https://wordwall.net/es/resource/77406937/comparatives-as-as-not-as-as"}] },
+                    { class_id: "b1_c9", title: "Class 9", objective: "1.Describe personalities 2. Express preferences and complaints 3. Describe and compare jobs (Progress Check).", warmup: "Unit review carousel", resources: [{"tag": "Baamboozle", "text": "Qualities for Jobs | Baamboozle", "link": "https://www.baamboozle.com/game/600596"}, {"tag": "Wordwall", "text": "Comparatives as... as / not as ... as", "link": "https://wordwall.net/es/resource/77406937/comparatives-as-as-not-as-as"}] }
+                ]
+            },
+            {
+                unit_id: "u3_4",
+                title: "Units 3 & 4 (Classes 10 - 18)",
+                classes: [
+                    { class_id: "b1_c10", title: "Class 10", objective: "Make requests taking into account different levels of formality.", warmup: "Formal vs Informal request sort", resources: [{"tag": "Wordwall", "text": "Indirect questions - Spin the wheel", "link": "https://wordwall.net/resource/5255788/esl/indirect-questions"}, {"tag": "Wordwall", "text": "Requests with Modals, Gerunds and If Clauses - Complete the sentence", "link": "https://wordwall.net/resource/32869083/requests-with-modals-gerunds-and-if-clauses"}] },
+                    { class_id: "b1_c11", title: "Class 11", objective: "Make direct and indirect requests.", warmup: "Indirect request transformation", resources: [{"tag": "Wordwall", "text": "Indirect questions - Completar la frase", "link": "https://wordwall.net/es/resource/28221425/indirect-questions"}, {"tag": "Wordwall", "text": "Indirect questions - Reordenar", "link": "https://wordwall.net/es/resource/9418263/indirect-questions"}] },
+                    { class_id: "b1_c12", title: "Class 12", objective: "Validate previous knowledge about making formal and informal requests and indirect questions using modals, clauses, gerunds (Grammar Plus).", warmup: "Grammar translation challenge", resources: [{"tag": "Wordwall", "text": "Indirect questions - Spin the wheel", "link": "https://wordwall.net/resource/5255788/esl/indirect-questions"}, {"tag": "Wordwall", "text": "Indirect Questions - Cuestionario", "link": "https://wordwall.net/es/resource/17677863/indirect-questions"}] },
+                    { class_id: "b1_c13", title: "Class 13", objective: "Watch in context a video about asking for favors (Video).", warmup: "Favor request roleplay setup", resources: [{"tag": "Wordwall", "text": "Indirect questions - Completar la frase", "link": "https://wordwall.net/es/resource/28221425/indirect-questions"}, {"tag": "Wordwall", "text": "Indirect questions - Reordenar", "link": "https://wordwall.net/es/resource/9418263/indirect-questions"}] },
+                    { class_id: "b1_c14", title: "Class 14", objective: "Tell past stories and experiences by contrasting events accurately.", warmup: "Story sequence map", resources: [{"tag": "Resource", "text": "Simple Past", "link": "https://www.eslconversationquestions.com/simple-past/"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/58777713/inglés/past-simple-and-past-continuous-when-while"}] },
+                    { class_id: "b1_c15", title: "Class 15", objective: "Illustrate events that happened in different moments in the past.", warmup: "Timeline drawing activity", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/classic/106355"}, {"tag": "Wordwall", "text": "Past perfect - Gameshow quiz", "link": "https://wordwall.net/resource/55285205/past-perfect"}] },
+                    { class_id: "b1_c16", title: "Class 16", objective: "Validate previous knowledge about describing past events and experiences using simple past, past continuous, and past perfect (Grammar Plus).", warmup: "Past tenses contrast", resources: [{"tag": "Resource", "text": "Simple Past", "link": "https://www.eslconversationquestions.com/simple-past/"}, {"tag": "Resource", "text": "The past perfect tense- exercises", "link": "https://agendaweb.org/exercises/verbs/past-perfect/exercise-1.htm"}] },
+                    { class_id: "b1_c17", title: "Class 17", objective: "Watch in context people telling stories in a campfire (Video).", warmup: "Campfire story predictions", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/classic/106355"}, {"tag": "Wordwall", "text": "Past perfect - Gameshow quiz", "link": "https://wordwall.net/resource/55285205/past-perfect"}] },
+                    { class_id: "b1_c18", title: "Class 18", objective: "1.Ask for favors 2. Leave messages with requests 3. Understand the sequence of events in a story (Progress Check).", warmup: "Review Q&A", resources: [{"tag": "Resource", "text": "Simple Past", "link": "https://www.eslconversationquestions.com/simple-past/"}, {"tag": "Resource", "text": "Quiz: past simple or continuous?", "link": "https://agendaweb.org/exercises/verbs/past-continuous/past-continuous-past-simple-quiz-2.html"}] }
+                ]
+            },
+            {
+                unit_id: "u5_6",
+                title: "Units 5 & 6 (Classes 19 - 27)",
+                classes: [
+                    { class_id: "b1_c19", title: "Class 19", objective: "Talk about living abroad by expressing emotions about cultural exchange experiences.", warmup: "Living abroad pros and cons", resources: [{"tag": "Resource", "text": "Immigration", "link": "https://www.eslconversationquestions.com/immigration/"}, {"tag": "Wordwall", "text": "Noun phrases containing relative clauses - Gameshow quiz", "link": "https://wordwall.net/resource/52159746/noun-phrases-containing-relative-clauses"}] },
+                    { class_id: "b1_c20", title: "Class 20", objective: "Describe cultural expectations and give advice for blending in with different cultures.", warmup: "Cultural advice column", resources: [{"tag": "Resource", "text": "Resource", "link": "https://www.youtube.com/watch?v=z5EEz_R_RiE"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/101361106/be-supposed-to-questions"}] },
+                    { class_id: "b1_c21", title: "Class 21", objective: "Validate previous knowledge about moving and cultural expectations using noun clauses and relative pronouns (Grammar Plus).", warmup: "Noun clause matching", resources: [{"tag": "Resource", "text": "Immigration", "link": "https://www.eslconversationquestions.com/immigration/"}, {"tag": "Wordwall", "text": "Be supposed to / be not supposed to - Reordenar", "link": "https://wordwall.net/es/resource/24383802/esl-beginners/be-supposed-to-be-not-supposed-to"}] },
+                    { class_id: "b1_c22", title: "Class 22", objective: "Watch in context a video about cultural shock (Video).", warmup: "Culture shock sharing", resources: [{"tag": "Resource", "text": "Resource", "link": "https://www.youtube.com/watch?v=z5EEz_R_RiE"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/101361106/be-supposed-to-questions"}] },
+                    { class_id: "b1_c23", title: "Class 23", objective: "Describe problems related to everyday objects.", warmup: "What's wrong with this object?", resources: [{"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/5949408/more-practice-with-housing-repairs"}, {"tag": "Wordwall", "text": "Describing Problems with NOUNS or PARTICIPLE ADJECTIVES - Speak Up!", "link": "https://wordwall.net/resource/52219655/describing-problems-with-nouns-or-participle-adjectives-speak"}] },
+                    { class_id: "b1_c24", title: "Class 24", objective: "Explain something that needs to be done to fix or solve a problem.", warmup: "Needs + Gerund practice (It needs fixing)", resources: [{"tag": "Wordwall", "text": "DESCRIBING PROBLEMS 1 - Complete the sentence", "link": "https://wordwall.net/resource/34759623/describing-problems-1"}, {"tag": "Wordwall", "text": "Adjectives describing damage - Watch and memorize", "link": "https://wordwall.net/resource/20147842/adjectives-describing-damage"}] },
+                    { class_id: "b1_c25", title: "Class 25", objective: "Validate previous knowledge about describing problems (Grammar Plus).", warmup: "Problem description relay", resources: [{"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/5949408/more-practice-with-housing-repairs"}, {"tag": "Wordwall", "text": "Need + Passive infinitive / Gerund - Completar la frase", "link": "https://wordwall.net/es/resource/34614667/need-passive-infinitive-gerund"}] },
+                    { class_id: "b1_c26", title: "Class 26", objective: "Watch in context two people indicating problems in a hotel room (Video).", warmup: "Hotel complaint roleplay", resources: [{"tag": "Wordwall", "text": "DESCRIBING PROBLEMS 1 - Complete the sentence", "link": "https://wordwall.net/resource/34759623/describing-problems-1"}, {"tag": "Wordwall", "text": "Adjectives describing damage - Watch and memorize", "link": "https://wordwall.net/resource/20147842/adjectives-describing-damage"}] },
+                    { class_id: "b1_c27", title: "Class 27", objective: "1. Talk about feelings and expectations 2. Understand problems and complaints 3. Discuss what needs to be improved (Progress Check).", warmup: "Review stations", resources: [{"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/5949408/more-practice-with-housing-repairs"}, {"tag": "Wordwall", "text": "Need + Passive infinitive / Gerund - Completar la frase", "link": "https://wordwall.net/es/resource/34614667/need-passive-infinitive-gerund"}] }
+                ]
+            },
+            {
+                unit_id: "u7_8",
+                title: "Units 7 & 8 (Classes 28 - 36)",
+                classes: [
+                    { class_id: "b1_c28", title: "Class 28", objective: "Identify and describe social problems and environmental concerns, explaining their origin.", warmup: "Environmental issues brainstorm", resources: [{"tag": "Resource", "text": "Environmental Problems", "link": "https://www.eslconversationquestions.com/environmental-problems/"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/101797691/english/passive-voice-present-perfect"}] },
+                    { class_id: "b1_c29", title: "Class 29", objective: "Discuss what can be done to solve different issues.", warmup: "Solution proposal pitch", resources: [{"tag": "Resource", "text": "The Future of Working From Home", "link": "https://www.youtube.com/watch?v=huQy09FdFuI"}, {"tag": "Wordwall", "text": "Interchange 3 - Unit 7 (Infinitive clauses and phrases)", "link": "https://wordwall.net/es/resource/60190004/interchange-3-unit-7-infinitive-clauses-and-phrases"}] },
+                    { class_id: "b1_c30", title: "Class 30", objective: "Validate previous knowledge about environmental problems and give solutions using passive voice and infinitive clauses and phrases (Grammar Plus).", warmup: "Passive voice transformations", resources: [{"tag": "Resource", "text": "Environmental Problems", "link": "https://www.eslconversationquestions.com/environmental-problems/"}, {"tag": "Wordwall", "text": "Infinitive Clauses & Phrases: Match Up Problems and Solutions", "link": "https://wordwall.net/resource/34884551/infinitive-clauses-phrases-match-up-problems-and-solutions"}] },
+                    { class_id: "b1_c31", title: "Class 31", objective: "Watch in context a video about environmental problems and its consequences (Video).", warmup: "Pre-video vocabulary match", resources: [{"tag": "Resource", "text": "The Future of Working From Home", "link": "https://www.youtube.com/watch?v=huQy09FdFuI"}, {"tag": "Wordwall", "text": "Interchange 3 - Unit 7 (Infinitive clauses and phrases)", "link": "https://wordwall.net/es/resource/60190004/interchange-3-unit-7-infinitive-clauses-and-phrases"}] },
+                    { class_id: "b1_c32", title: "Class 32", objective: "Ask and talk about preferences, discussing pros and cons of different majors.", warmup: "College majors debate", resources: [{"tag": "Resource", "text": "Discover Your Learning Style", "link": "https://www.youtube.com/watch?v=_IopcOwfsoU"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/76822730/would-rather"}] },
+                    { class_id: "b1_c33", title: "Class 33", objective: "Talk about learning methods and how skills can be improved.", warmup: "Best way to learn a language", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/game/757277"}, {"tag": "Wordwall", "text": "BY + GERUND TO DESCRIBE HOW TO DO THINGS", "link": "https://wordwall.net/resource/57477270/by-gerund-to-describe-how-to-do-things"}] },
+                    { class_id: "b1_c34", title: "Class 34", objective: "Validate previous knowledge about preferences and learning methods using rather and prefer and 'by + gerund' structure (Grammar Plus).", warmup: "Would rather vs Prefer", resources: [{"tag": "Resource", "text": "Discover Your Learning Style", "link": "https://www.youtube.com/watch?v=_IopcOwfsoU"}, {"tag": "Wordwall", "text": "BY+ GERUND to describe how to do things - Open the box", "link": "https://wordwall.net/resource/77550769/by-gerund-to-describe-how-to-do-things"}] },
+                    { class_id: "b1_c35", title: "Class 35", objective: "Watch in context a video how to learn to dance Tango (Video).", warmup: "Skill building discussion", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/game/757277"}, {"tag": "Wordwall", "text": "BY + GERUND TO DESCRIBE HOW TO DO THINGS", "link": "https://wordwall.net/resource/57477270/by-gerund-to-describe-how-to-do-things"}] },
+                    { class_id: "b1_c36", title: "Class 36", objective: "1. Describe environmental problems 2. Discuss solutions to problems 3. Discuss personal preferences (Progress Check).", warmup: "Review trivia", resources: [{"tag": "Resource", "text": "Discover Your Learning Style", "link": "https://www.youtube.com/watch?v=_IopcOwfsoU"}, {"tag": "Wordwall", "text": "BY + GERUND TO DESCRIBE HOW TO DO THINGS", "link": "https://wordwall.net/resource/57477270/by-gerund-to-describe-how-to-do-things"}] }
+                ]
+            },
+            {
+                unit_id: "u9_10",
+                title: "Units 9 & 10 (Classes 37 - 45)",
+                classes: [
+                    { class_id: "b1_c37", title: "Class 37", objective: "Explain services and where or by whom they can be performed.", warmup: "Services matching game", resources: [{"tag": "Wordwall", "text": "services - Une las parejas", "link": "https://wordwall.net/es/resource/7057017/services"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/29018977/get-have-something-done"}] },
+                    { class_id: "b1_c38", title: "Class 38", objective: "Provide a variety of suggestions for different settings.", warmup: "Suggestion formulation (You could...)", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/game/67073"}, {"tag": "Wordwall", "text": "MAKING SUGGESTIONS - Cuestionario", "link": "https://wordwall.net/es/resource/32664128/making-suggestions"}] },
+                    { class_id: "b1_c39", title: "Class 39", objective: "Validate previous knowledge about expressing things to have done using the structure given, and making suggestions (Grammar Plus).", warmup: "Causative verbs (Have something done)", resources: [{"tag": "Wordwall", "text": "services - Une las parejas", "link": "https://wordwall.net/es/resource/7057017/services"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/26319644/english/making-suggestions"}] },
+                    { class_id: "b1_c40", title: "Class 40", objective: "Watch in context how to handle stress (Video).", warmup: "Stress relief ideas", resources: [{"tag": "Baamboozle", "text": "Resource", "link": "https://www.baamboozle.com/game/67073"}, {"tag": "Wordwall", "text": "MAKING SUGGESTIONS - Cuestionario", "link": "https://wordwall.net/es/resource/32664128/making-suggestions"}] },
+                    { class_id: "b1_c41", title: "Class 41", objective: "Talk about things to accomplish in the future by classifying situations according to different future tenses.", warmup: "Future goals timeline", resources: [{"tag": "Resource", "text": "The Future of Working From Home", "link": "https://www.youtube.com/watch?v=huQy09FdFuI"}, {"tag": "Wordwall", "text": "Future Perfect / Future Continuous - Completar la frase", "link": "https://wordwall.net/es/resource/61344984/future-continuous-future-perfect/future-perfect-future"}] },
+                    { class_id: "b1_c42", title: "Class 42", objective: "Describe important past events by using time expressions.", warmup: "Time expressions sort", resources: [{"tag": "Baamboozle", "text": "Famous Historical Figures | Baamboozle", "link": "https://www.baamboozle.com/game/244"}, {"tag": "Resource", "text": "English Prepositions: For, Since, Ago, Until, During", "link": "https://agendaweb.org/exercises/grammar/for-since/for-since-ago-until-during-1.html"}] },
+                    { class_id: "b1_c43", title: "Class 43", objective: "Validate previous knowledge about making predictions with different future structures and discussing important events using time expressions (Grammar Plus).", warmup: "Future tense comparison", resources: [{"tag": "Resource", "text": "The Future of Working From Home", "link": "https://www.youtube.com/watch?v=huQy09FdFuI"}, {"tag": "Wordwall", "text": "For / Since - Verdadero o falso", "link": "https://wordwall.net/es/resource/4955322/english/for-since"}] },
+                    { class_id: "b1_c44", title: "Class 44", objective: "Watch in context how people describe the future of work (Video).", warmup: "Future jobs brainstorm", resources: [{"tag": "Baamboozle", "text": "Famous Historical Figures | Baamboozle", "link": "https://www.baamboozle.com/game/244"}, {"tag": "Resource", "text": "English Prepositions: For, Since, Ago, Until, During", "link": "https://agendaweb.org/exercises/grammar/for-since/for-since-ago-until-during-1.html"}] },
+                    { class_id: "b1_c45", title: "Class 45", objective: "1.Discuss professional services 2. Understand and discuss historic events 3. Make predictions about the future (Progress Check).", warmup: "Unit review", resources: [{"tag": "Resource", "text": "The Future of Working From Home", "link": "https://www.youtube.com/watch?v=huQy09FdFuI"}, {"tag": "Resource", "text": "English Prepositions: For, Since, Ago, Until, During", "link": "https://agendaweb.org/exercises/grammar/for-since/for-since-ago-until-during-1.html"}] }
+                ]
+            },
+            {
+                unit_id: "u11_12",
+                title: "Units 11 & 12 (Classes 46 - 54)",
+                classes: [
+                    { class_id: "b1_c46", title: "Class 46", objective: "Describe life events and milestones.", warmup: "Major life events list", resources: [{"tag": "Resource", "text": "What is Milestone | Explained in 2 min", "link": "https://www.youtube.com/watch?v=RgCEnsrJsHk"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/65940217/before-and-after"}] },
+                    { class_id: "b1_c47", title: "Class 47", objective: "Express regrets and hypothetical situations related to past events.", warmup: "Past regrets (I wish I hadn't...)", resources: [{"tag": "Wordwall", "text": "Regrets (I wish / If only) - Cartas al azar", "link": "https://wordwall.net/es/resource/2869323/regrets-i-wish-if-only"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/53853684/third-conditional-sentences"}] },
+                    { class_id: "b1_c48", title: "Class 48", objective: "Validate previous knowledge about life events, regrets, and hypothetical situations using time clauses, past modals, and past conditionals (Grammar Plus).", warmup: "Third conditional practice", resources: [{"tag": "Resource", "text": "What is Milestone | Explained in 2 min", "link": "https://www.youtube.com/watch?v=RgCEnsrJsHk"}, {"tag": "Wordwall", "text": "Expressing Regret and Describing Hypothetical Situations - Unjumble", "link": "https://wordwall.net/resource/62728254/expressing-regret-and-describing-hypothetical-situations"}] },
+                    { class_id: "b1_c49", title: "Class 49", objective: "Watch in context how people describe regretful moments (Video).", warmup: "Story sharing: a funny regret", resources: [{"tag": "Wordwall", "text": "Regrets (I wish / If only) - Cartas al azar", "link": "https://wordwall.net/es/resource/2869323/regrets-i-wish-if-only"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/53853684/third-conditional-sentences"}] },
+                    { class_id: "b1_c50", title: "Class 50", objective: "Express purposes and qualities for success.", warmup: "What makes someone successful?", resources: [{"tag": "Resource", "text": "Qualities of an Entrepreneur", "link": "https://www.youtube.com/watch?v=s6cPmBSL-OQ"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/3484757/phrasal-verbs-about-success"}] },
+                    { class_id: "b1_c51", title: "Class 51", objective: "Give reasons and describe qualities.", warmup: "Infinitive clauses for reasons", resources: [{"tag": "Baamboozle", "text": "success | Baamboozle", "link": "https://www.baamboozle.com/game/140769"}, {"tag": "Wordwall", "text": "Because (= since = as) or Because Of (= Due to)?", "link": "https://wordwall.net/es/resource/73791780/because-since-as-or-because-of-due-to"}] },
+                    { class_id: "b1_c52", title: "Class 52", objective: "Validate previous knowledge about expressing personal opinions and giving reasons using infinitive clauses and reason clauses (Grammar Plus).", warmup: "Grammar review activity", resources: [{"tag": "Resource", "text": "Qualities of an Entrepreneur", "link": "https://www.youtube.com/watch?v=s6cPmBSL-OQ"}, {"tag": "Wordwall", "text": "Because of - Cuestionario", "link": "https://wordwall.net/es/resource/95285985/because-because-of"}] },
+                    { class_id: "b1_c53", title: "Class 53", objective: "Watch in context how a person describe features of her business (Video).", warmup: "Business pitch ideas", resources: [{"tag": "Baamboozle", "text": "success | Baamboozle", "link": "https://www.baamboozle.com/game/140769"}, {"tag": "Wordwall", "text": "Because (= since = as) or Because Of (= Due to)?", "link": "https://wordwall.net/es/resource/73791780/because-since-as-or-because-of-due-to"}] },
+                    { class_id: "b1_c54", title: "Class 54", objective: "1. Describe regrets and important life events 2. Describe hypothetical situations in the past 3. Understand and give reasons for success (Progress Check).", warmup: "Review board game", resources: [{"tag": "Resource", "text": "Qualities of an Entrepreneur", "link": "https://www.youtube.com/watch?v=s6cPmBSL-OQ"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/29686095/before-and-after-clauses"}] }
+                ]
+            },
+            {
+                unit_id: "u13_14",
+                title: "Units 13 & 14 (Classes 55 - 63)",
+                classes: [
+                    { class_id: "b1_c55", title: "Class 55", objective: "Make conclusions, offer explanations, and speculate about past events.", warmup: "Mystery solving (He must have...)", resources: [{"tag": "Resource", "text": "John F. Kennedy assassination records released: latest updates", "link": "https://www.youtube.com/watch?v=UUi-q0dyOb4"}, {"tag": "Resource", "text": "Exploring Ciudad Perdida | Lost Cities With Albert Lin", "link": "https://www.youtube.com/watch?v=-lwf1JmmdLY"}] },
+                    { class_id: "b1_c56", title: "Class 56", objective: "Give opinions and suggestions on real and hypothetical past events.", warmup: "Past Modals of deduction", resources: [{"tag": "Wordwall", "text": "Pet Peeves - Abrecajas", "link": "https://wordwall.net/es/resource/3636683/pet-peeves"}, {"tag": "Wordwall", "text": "Past modals of judgement and suggestion - Completar la frase", "link": "https://wordwall.net/es/resource/8756231/past-modals-of-judgement-and-suggestion"}] },
+                    { class_id: "b1_c57", title: "Class 57", objective: "Validate previous knowledge about giving explanations, reasons, judgements and speculations with past modals (Grammar Plus).", warmup: "Speculation scenarios", resources: [{"tag": "Resource", "text": "John F. Kennedy assassination records released: latest updates", "link": "https://www.youtube.com/watch?v=UUi-q0dyOb4"}, {"tag": "Wordwall", "text": "Past modals for judgments and suggestions - Gameshow quiz", "link": "https://wordwall.net/resource/52485502/past-modals-for-judgments-and-suggestions"}] },
+                    { class_id: "b1_c58", title: "Class 58", objective: "Watch in context a description of the possible story of a famous landmark (Video).", warmup: "Landmark mystery discussion", resources: [{"tag": "Wordwall", "text": "Pet Peeves - Abrecajas", "link": "https://wordwall.net/es/resource/3636683/pet-peeves"}, {"tag": "Wordwall", "text": "Past modals of judgement and suggestion - Completar la frase", "link": "https://wordwall.net/es/resource/8756231/past-modals-of-judgement-and-suggestion"}] },
+                    { class_id: "b1_c59", title: "Class 59", objective: "Describe how things can be done by explaining the process step by step.", warmup: "How to make a sandwich (Sequencing)", resources: [{"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/14217515/entertainment-vocabulary"}, {"tag": "Wordwall", "text": "The passive to describe process - Complete the sentence", "link": "https://wordwall.net/resource/64799880/the-passive-to-describe-process"}] },
+                    { class_id: "b1_c60", title: "Class 60", objective: "Give essential or extra information about people to complete ideas related to jobs.", warmup: "Defining vs Non-defining relative clauses", resources: [{"tag": "Resource", "text": "Explore Careers that Let You Put Your Creativity to Work", "link": "https://www.youtube.com/watch?v=1n66P5OC-CE"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/97665335/english/defining-non-defining-relative-clauses-"}] },
+                    { class_id: "b1_c61", title: "Class 61", objective: "Validate previous knowledge about describing how things can be done using passive voice and discussing jobs using relative clauses (Grammar Plus).", warmup: "Passive voice process description", resources: [{"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/14217515/entertainment-vocabulary"}, {"tag": "Wordwall", "text": "Non-defining relative clauses - Cuestionario", "link": "https://wordwall.net/es/resource/19975753/non-defining-relative-clauses"}] },
+                    { class_id: "b1_c62", title: "Class 62", objective: "Watch in context how people who belong to the music industry describe their job (Video).", warmup: "Music industry vocabulary", resources: [{"tag": "Resource", "text": "Explore Careers that Let You Put Your Creativity to Work", "link": "https://www.youtube.com/watch?v=1n66P5OC-CE"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/97665335/english/defining-non-defining-relative-clauses-"}] },
+                    { class_id: "b1_c63", title: "Class 63", objective: "1. Speculate about past events 2. Describe steps in processes 3. Use relative clauses to give information about people (Progress Check).", warmup: "Unit review", resources: [{"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/14217515/entertainment-vocabulary"}, {"tag": "Wordwall", "text": "Past modals of judgement and suggestion - Completar la frase", "link": "https://wordwall.net/es/resource/8756231/past-modals-of-judgement-and-suggestion"}] }
+                ]
+            },
+            {
+                unit_id: "u15_16",
+                title: "Units 15 & 16 (Classes 64 - 72)",
+                classes: [
+                    { class_id: "b1_c64", title: "Class 64", objective: "Give recommendations and opinions for and against controversial issues.", warmup: "Debate preparation", resources: [{"tag": "Resource", "text": "Debate Topics: Funny, Silly, Controversial, Interesting and More!", "link": "https://www.eslactivity.org/debate-topics-funny-silly-controversial-interesting/"}, {"tag": "Wordwall", "text": "Must - Reordenar", "link": "https://wordwall.net/es/resource/16426545/must"}] },
+                    { class_id: "b1_c65", title: "Class 65", objective: "Offer opinions on different issues.", warmup: "Agree/Disagree corners", resources: [{"tag": "Resource", "text": "What is plagiarism? | Scribbr 🎓", "link": "https://www.youtube.com/watch?v=Uk1pq8sb-eo"}, {"tag": "Wordwall", "text": "Question tags - Cuestionario", "link": "https://wordwall.net/es/resource/6530416/question-tags"}] },
+                    { class_id: "b1_c66", title: "Class 66", objective: "Validate previous knowledge about giving opinions about social issues using passive modals and tag questions (Grammar Plus).", warmup: "Tag question formation", resources: [{"tag": "Resource", "text": "Debate Topics: Funny, Silly, Controversial, Interesting and More!", "link": "https://www.eslactivity.org/debate-topics-funny-silly-controversial-interesting/"}, {"tag": "Resource", "text": "Question tags - quiz", "link": "https://agendaweb.org/exercises/grammar/questions/question-tags-quiz"}] },
+                    { class_id: "b1_c67", title: "Class 67", objective: "Watch in context how the residents of a city describe issues they have about transportation (Video).", warmup: "City transportation problems", resources: [{"tag": "Resource", "text": "What is plagiarism? | Scribbr 🎓", "link": "https://www.youtube.com/watch?v=Uk1pq8sb-eo"}, {"tag": "Wordwall", "text": "Question tags - Cuestionario", "link": "https://wordwall.net/es/resource/6530416/question-tags"}] },
+                    { class_id: "b1_c68", title: "Class 68", objective: "Talk about achievements and the challenges, frustrations, and rewards they bring.", warmup: "Personal achievements sharing", resources: [{"tag": "Wordwall", "text": "Vocabulary Describing Accomplishments (SK4U1L1) - Une las parejas", "link": "https://wordwall.net/es/resource/1601216/vocabulary-describing-accomplishments-sk4u1l1"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/25651864/talking-about-past-accomplishments"}] },
+                    { class_id: "b1_c69", title: "Class 69", objective: "Talk about future accomplishments and goals.", warmup: "Future Perfect intro (By next year, I will have...)", resources: [{"tag": "Baamboozle", "text": "Goals and Motivation | Baamboozle", "link": "https://www.baamboozle.com/game/241859"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/28661512/job-interview-vocabulary"}] },
+                    { class_id: "b1_c70", title: "Class 70", objective: "Validate previous knowledge about life frustrations, challenges and accomplishments suing simple past, present perfect and future perfect (Grammar Plus).", warmup: "Tense review for accomplishments", resources: [{"tag": "Wordwall", "text": "Vocabulary Describing Accomplishments (SK4U1L1) - Une las parejas", "link": "https://wordwall.net/es/resource/1601216/vocabulary-describing-accomplishments-sk4u1l1"}, {"tag": "Wordwall", "text": "Mixed Up Job Interview - Rueda aleatoria", "link": "https://wordwall.net/es/resource/2163948/special-education/mixed-up-job-interview"}] },
+                    { class_id: "b1_c71", title: "Class 71", objective: "Watch in context how a person describe his goals and what he has done in a social context (Video).", warmup: "Goal setting discussion", resources: [{"tag": "Baamboozle", "text": "Goals and Motivation | Baamboozle", "link": "https://www.baamboozle.com/game/241859"}, {"tag": "Wordwall", "text": "Resource", "link": "https://wordwall.net/es/resource/28661512/job-interview-vocabulary"}] },
+                    { class_id: "b1_c72", title: "Class 72", objective: "1. Give recommendations and opinions about rules 2. Understand and express opinions and seek agreement. 3. Ask about and describe personal achievements and future goals (Progress Check).", warmup: "Final Level B1 Review", resources: [{"tag": "Wordwall", "text": "Vocabulary Describing Accomplishments (SK4U1L1) - Une las parejas", "link": "https://wordwall.net/es/resource/1601216/vocabulary-describing-accomplishments-sk4u1l1"}, {"tag": "Wordwall", "text": "Job Interview Phrasal Verbs - Une las parejas", "link": "https://wordwall.net/es/resource/28662674/english/job-interview-phrasal-verbs"}] }
+                ]
+            }
+        ];
+
+        // 2. RENDER LOGIC
+        const container = document.getElementById("unitsContainer");
+
+        b1_data.forEach(unit => {
+            let classesHTML = "";
+            
+            unit.classes.forEach(cls => {
+                let resourcesHTML = "";
+                
+                if (cls.resources && cls.resources.length > 0) {
+                    cls.resources.forEach(res => {
+                        resourcesHTML += `
+                            <div class="resource-item">
+                                <span class="resource-tag">${res.tag}</span>
+                                <a href="${res.link}" target="_blank">${res.text}</a>
+                            </div>`;
+                    });
+                } else {
+                    resourcesHTML = `<div class="resource-item" style="color: #666; font-style: italic; font-size: 0.9em;">No resources added yet.</div>`;
+                }
+
+                classesHTML += `
+                    <div class="class-block">
+                        <div class="class-header" onclick="toggleElement('${cls.class_id}')">
+                            ▶ ${cls.title}
+                        </div>
+                        <div id="${cls.class_id}" class="class-content">
+                            <div class="resource-item">
+                                <strong>🎯 Objective:</strong> ${cls.objective}
+                            </div>
+                            <div class="resource-item">
+                                <span class="resource-tag" style="background-color: var(--smart-blue);">Warm-Up</span> 
+                                <strong>${cls.warmup}</strong>
+                            </div>
+                            ${resourcesHTML}
+                        </div>
+                    </div>`;
+            });
+
+            const unitHTML = `
+                <div class="unit-block">
+                    <div class="unit-header" onclick="toggleElement('${unit.unit_id}')">
+                        ${unit.title}
+                    </div>
+                    <div id="${unit.unit_id}" class="unit-content">
+                        ${classesHTML}
+                    </div>
+                </div>`;
+            
+            container.innerHTML += unitHTML;
+        });
+
+        // 3. INTERACTIVITY
+        function toggleElement(id) {
+            const el = document.getElementById(id);
+            el.classList.toggle("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var savedNames = localStorage.getItem("smart_students");
+            if(savedNames) {
+                document.getElementById("studentList").value = savedNames;
+            }
+        });
+
+        function spinRoulette() {
+            var input = document.getElementById("studentList").value;
+            localStorage.setItem("smart_students", input);
+            if(!input) {
+                alert("Please add some names first!");
+                return;
+            }
+            var names = input.split(",").map(n => n.trim()).filter(n => n !== "");
+            if(names.length > 0) {
+                var winner = names[Math.floor(Math.random() * names.length)];
+                document.getElementById("rouletteResult").innerText = "Result: " + winner + "!";
+            }
+        }
+
+        function resetRoulette() {
+            document.getElementById("studentList").value = "";
+            document.getElementById("rouletteResult").innerText = "";
+            localStorage.removeItem("smart_students");
+        }
+    </script>
+    <div class="footer-signature">© 2026 Luis Almanza</div></body>
+</html>
