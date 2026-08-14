@@ -16,26 +16,22 @@
         header { background-color: var(--smart-blue); color: var(--smart-white); padding: 20px; text-align: center; border-bottom: 5px solid var(--smart-red); }
         .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
         
-        /* Top Navigation & Toolkits */
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .back-btn { background-color: var(--smart-blue); color: var(--smart-white); text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; }
         .toolkit { background-color: var(--smart-white); border: 2px solid var(--smart-blue); border-radius: 8px; padding: 15px; flex-grow: 1; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .toolkit input { padding: 8px; width: 60%; border: 1px solid #ccc; border-radius: 4px; }
         .toolkit button { background-color: var(--smart-red); color: var(--smart-white); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         
-        /* Unit Accordion */
         .unit-block { background-color: var(--smart-white); margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
         .unit-header { background-color: var(--smart-blue); color: var(--smart-white); padding: 15px; cursor: pointer; font-size: 1.2em; font-weight: bold; }
         .unit-header:hover { background-color: #003380; }
         .unit-content { display: none; padding: 10px; }
         
-        /* Class Accordion (Nested) */
         .class-block { background-color: var(--class-gray); margin-bottom: 10px; border-radius: 4px; border-left: 4px solid var(--smart-red); }
         .class-header { padding: 12px; cursor: pointer; font-weight: bold; color: var(--smart-blue); }
         .class-header:hover { background-color: #dadddf; }
         .class-content { display: none; padding: 15px; background-color: var(--smart-white); border: 1px solid var(--class-gray); }
         
-        /* Resources */
         .resource-tag { display: inline-block; background-color: var(--smart-red); color: var(--smart-white); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 10px; min-width: 80px; text-align: center; }
         .resource-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .resource-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
@@ -48,14 +44,13 @@
             .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
             .toolkit input { width: 100%; box-sizing: border-box; }
         }
-        /* Marca de agua / Firma */
 .footer-signature {
     position: fixed;
     bottom: 10px;
     right: 20px;
     font-size: 0.7em;
-    color: rgba(0, 32, 91, 0.3); /* Color azul oscuro con 30% de transparencia */
-    pointer-events: none; /* Esto evita que tape los clics */
+    color: rgba(0, 32, 91, 0.3);
+    pointer-events: none;
     z-index: 1000;
 }
     </style>
@@ -74,7 +69,6 @@
     <div style="flex-grow: 1; display: flex; gap: 10px;">
         <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
         <button onclick="spinRoulette()">Spin</button>
-        <!-- BOTÓN NUEVO -->
         <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
     </div>
     <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
@@ -85,7 +79,6 @@
     </div>
 
     <script>
-        // 1. DATA STRUCTURE A2 (Classes 1-72 divided in 8 blocks)
         const a2_data = [
     {
         unit_id: "u1_2",
