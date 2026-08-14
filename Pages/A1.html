@@ -16,33 +16,28 @@
         header { background-color: var(--smart-blue); color: var(--smart-white); padding: 20px; text-align: center; border-bottom: 5px solid var(--smart-red); }
         .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
         
-        /* Top Navigation */
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .back-btn { background-color: var(--smart-blue); color: var(--smart-white); text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; }
         .toolkit { background-color: var(--smart-white); border: 2px solid var(--smart-blue); border-radius: 8px; padding: 15px; flex-grow: 1; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .toolkit input { padding: 8px; width: 60%; border: 1px solid #ccc; border-radius: 4px; }
         .toolkit button { background-color: var(--smart-red); color: var(--smart-white); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         
-        /* Units*/
         .unit-block { background-color: var(--smart-white); margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
         .unit-header { background-color: var(--smart-blue); color: var(--smart-white); padding: 15px; cursor: pointer; font-size: 1.2em; font-weight: bold; }
         .unit-header:hover { background-color: #003380; }
         .unit-content { display: none; padding: 10px; }
         
-        /* Classes*/
         .class-block { background-color: var(--class-gray); margin-bottom: 10px; border-radius: 4px; border-left: 4px solid var(--smart-red); }
         .class-header { padding: 12px; cursor: pointer; font-weight: bold; color: var(--smart-blue); }
         .class-header:hover { background-color: #dadddf; }
         .class-content { display: none; padding: 15px; background-color: var(--smart-white); border: 1px solid var(--class-gray); }
         
-        /* Resources */
         .resource-tag { display: inline-block; background-color: var(--smart-red); color: var(--smart-white); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 10px; min-width: 80px; text-align: center; }
         .resource-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .resource-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .resource-item a { color: var(--smart-blue); text-decoration: none; font-weight: bold; }
         .resource-item a:hover { text-decoration: underline; }
         
-        /* Visibility*/
         .active { display: block; }
         
         @media (max-width: 600px) {
@@ -84,8 +79,7 @@
     </div>
 
     <script>
-        // 1. DATOS
-        const a1_data = [
+                const a1_data = [
             {
                 unit_id: "u1_2",
                 title: "Units 1 & 2 (Classes 1 - 9)",
@@ -161,8 +155,7 @@
             { unit_id: "u15_16", title: "Units 15 & 16 (Classes 64 - 72)", classes: [ { class_id: "c64", title: "Class 64", objective: "Make plans and arrangements.", warmup: "Weekend plans brainstorm", resources: [ { tag: "Wordwall", text: "Free time activities - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/1799615/free-time-activities" }, { tag: "Wordwall", text: "Be going to & Present Continuous", link: "https://wordwall.net/es/resource/9411151/be-going-to-present-continuous" }, { tag: "Wordwall", text: "FUTURE: Present continuous or Be going to? - Cuestionario", link: "https://wordwall.net/es/resource/54555493/future-present-continuous-or-be-going-to" } ] }, { class_id: "c65", title: "Class 65", objective: "Give messages for other people when I can't contact them.", warmup: "Telephone game (Whisper messages)", resources: [ { tag: "Wordwall", text: "Making invitations - Rueda aleatoria", link: "https://wordwall.net/es/resource/3268453/making-invitations" }, { tag: "Wordwall", text: "Formal messages with tell and ask", link: "https://wordwall.net/es/resource/33337461/formal-messages-with-tell-and-ask" }, { tag: "Wordwall", text: "Formal and Informal messages with tell and ask - Unjumble", link: "https://wordwall.net/resource/30632512/formal-and-informal-messages-with-tell-and-ask" } ] }, { class_id: "c66", title: "Class 66", objective: "Validate previous knowledge about future plans and giving messages using tell and ask (Grammar Plus).", warmup: "Present continuous for future practice", resources: [ { tag: "Wordwall", text: "Summer Activities - Wordwall", link: "https://wordwall.net/resource/6215586/english/vocabulary-summer-activities" }, { tag: "Wordwall", text: "Present Continuous - Une las parejas", link: "https://wordwall.net/es/resource/4592609/present-continuous/present-continuous" }, { tag: "Wordwall", text: "Formal and Informal messages with tell and ask - Unjumble", link: "https://wordwall.net/resource/30632512/formal-and-informal-messages-with-tell-and-ask" } ] }, { class_id: "c67", title: "Class 67", objective: "Watch in context how to make requests for a special event (Video).", warmup: "Event planning checklist", resources: [ { tag: "Wordwall", text: "Making invitations - Rueda aleatoria", link: "https://wordwall.net/es/resource/3268453/making-invitations" }, { tag: "Wordwall", text: "Present Continuous vs Simple Present (A2) - Completar la frase", link: "https://wordwall.net/es/resource/86744578/esl/present-continuous-vs-simple-present-a2" }, { tag: "Wordwall", text: "Formal and Informal messages with tell and ask - Unjumble", link: "https://wordwall.net/resource/30632512/formal-and-informal-messages-with-tell-and-ask" } ] }, { class_id: "c68", title: "Class 68", objective: "Describe changes in my life.", warmup: "Then vs Now (5 years ago vs Today)", resources: [ { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" }, { tag: "Liveworksheets", text: "Describing changes interactive worksheet", link: "https://www.liveworksheets.com/worksheet/en/english-second-language-esl/593193" }, { tag: "Liveworksheets", text: "Link", link: "https://www.liveworksheets.com/es/worksheet/en/english-second-language-esl/363465" } ] }, { class_id: "c69", title: "Class 69", objective: "Explain my objectives and expectations for the future.", warmup: "Bucket list creation", resources: [ { tag: "Wordwall", text: "Events in your Life - Wordwall", link: "https://wordwall.net/es/resource/4428473/events-in-your-life" }, { tag: "Wordwall", text: "Verbs + to + infinitive - Une las parejas", link: "https://wordwall.net/es/resource/30291720/verbs-to-infinitive" }, { tag: "Agendaweb", text: "Will vs Going To Exercise | Future Tense Practice Quiz", link: "https://agendaweb.org/exercises/verbs/future/will-be-going-to.htm" } ] }, { class_id: "c70", title: "Class 70", objective: "Validate previous knowledge about changes and future expectations and objectives (Grammar Plus).", warmup: "Future tense review", resources: [ { tag: "Wordwall", text: "Childhood Memories | Wordwall", link: "https://wordwall.net/resource/12903576/how-was-life-different-when-you-were-a-child" }, { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" }, { tag: "Wordwall", text: "Present Perfect Game - Cuestionario", link: "https://wordwall.net/es/resource/16902905/present-perfect-game" } ] }, { class_id: "c71", title: "Class 71", objective: "Watch in context how people talk about their life-changing experiences and plans for the future (Video).", warmup: "Pre-video reflection", resources: [ { tag: "Wordwall", text: "Future Plans | Wordwall", link: "https://wordwall.net/resource/47387360/esl/going-to-future-plans-and-predictions" }, { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" }, { tag: "Wordwall", text: "Present Continuous vs Simple Present (A2) - Completar la frase", link: "https://wordwall.net/es/resource/86744578/esl/present-continuous-vs-simple-present-a2" } ] }, { class_id: "c72", title: "Class 72", objective: "Discuss future plans, make invitations, describe personal goals (Progress Check).", warmup: "Final Level A1 Review", resources: [ { tag: "Wordwall", text: "Free time activities - Cada oveja con su pareja", link: "https://wordwall.net/es/resource/1799615/free-time-activities" }, { tag: "Wordwall", text: "Describe Changes - Wordwall", link: "https://wordwall.net/resource/11203826/describing-changes" }, { tag: "Wordwall", text: "Will/be going to - Cuestionario", link: "https://wordwall.net/es/resource/7383317/will-be-going-to" } ] } ] }
         ];
 
-        // 2.
-        const container = document.getElementById("unitsContainer");
+                const container = document.getElementById("unitsContainer");
 
         a1_data.forEach(unit => {
             let classesHTML = "";
@@ -182,8 +175,7 @@
                     resourcesHTML = `<div class="resource-item" style="color: #666; font-style: italic; font-size: 0.9em;">No resources added yet.</div>`;
                 }
 
-                // Inyección del juego embebido si existe en la clase
-                let extraEmbed = cls.embedCode ? cls.embedCode : "";
+                                let extraEmbed = cls.embedCode ? cls.embedCode : "";
 
                 classesHTML += `
                     <div class="class-block">
@@ -217,8 +209,7 @@
             container.innerHTML += unitHTML;
         });
 
-        // 3. LOGICA
-        function toggleElement(id) {
+                function toggleElement(id) {
             const el = document.getElementById(id);
             el.classList.toggle("active");
         }
@@ -230,8 +221,7 @@
             }
         });
 
-        // SPIN
-        function spinRoulette() {
+                function spinRoulette() {
             var input = document.getElementById("studentList").value;
             localStorage.setItem("smart_students", input);
             if(!input) {
@@ -245,8 +235,7 @@
             }
         }
 
-        // Clear
-        function resetRoulette() {
+                function resetRoulette() {
             document.getElementById("studentList").value = "";
             document.getElementById("rouletteResult").innerText = "";
             localStorage.removeItem("smart_students");
