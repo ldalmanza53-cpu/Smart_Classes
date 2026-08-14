@@ -44,14 +44,13 @@
             .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
             .toolkit input { width: 100%; box-sizing: border-box; }
         }
-        /* Marca de agua / Firma */
 .footer-signature {
     position: fixed;
     bottom: 10px;
     right: 20px;
     font-size: 0.7em;
-    color: rgba(0, 32, 91, 0.3); /* Color azul oscuro con 30% de transparencia */
-    pointer-events: none; /* Esto evita que tape los clics */
+    color: rgba(0, 32, 91, 0.3);
+    pointer-events: none;
     z-index: 1000;
 }
     </style>
@@ -70,7 +69,6 @@
     <div style="flex-grow: 1; display: flex; gap: 10px;">
         <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
         <button onclick="spinRoulette()">Spin</button>
-        <!-- BOTÓN NUEVO -->
         <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
     </div>
     <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
@@ -81,7 +79,6 @@
     </div>
 
     <script>
-        // 1. DATA STRUCTURE C1 (12 Units: 6 Classes + 1 Video per unit)
         const c1_data = [
     {
         unit_id: "u1", title: "Unit 1 (Classes 1-6 & Video 1)",
@@ -229,7 +226,6 @@
     }
 ];
 
-        // 2. RENDER LOGIC
         const container = document.getElementById("unitsContainer");
 
         c1_data.forEach(unit => {
@@ -281,7 +277,6 @@
             container.innerHTML += unitHTML;
         });
 
-        // 3. INTERACTIVITY
         function toggleElement(id) {
             const el = document.getElementById(id);
             el.classList.toggle("active");
@@ -294,7 +289,6 @@
             }
         });
 
-        // Tu código original que hace funcionar el "Spin"
 function spinRoulette() {
     var input = document.getElementById("studentList").value;
     localStorage.setItem("smart_students", input);
@@ -309,7 +303,6 @@ function spinRoulette() {
     }
 }
 
-// La nueva función que acabamos de crear
 function resetRoulette() {
     document.getElementById("studentList").value = "";
     document.getElementById("rouletteResult").innerText = "";
