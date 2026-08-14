@@ -15,36 +15,35 @@
         body { font-family: Arial, sans-serif; background-color: var(--light-gray); margin: 0; padding: 0; color: #333; }
         header { background-color: var(--smart-blue); color: var(--smart-white); padding: 20px; text-align: center; border-bottom: 5px solid var(--smart-red); }
         .container { max-width: 900px; margin: 20px auto; padding: 0 15px; }
-        
+
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .back-btn { background-color: var(--smart-blue); color: var(--smart-white); text-decoration: none; padding: 10px 15px; border-radius: 4px; font-weight: bold; }
         .toolkit { background-color: var(--smart-white); border: 2px solid var(--smart-blue); border-radius: 8px; padding: 15px; flex-grow: 1; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .toolkit input { padding: 8px; width: 60%; border: 1px solid #ccc; border-radius: 4px; }
         .toolkit button { background-color: var(--smart-red); color: var(--smart-white); border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        
+
         .unit-block { background-color: var(--smart-white); margin-bottom: 15px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden; }
         .unit-header { background-color: var(--smart-blue); color: var(--smart-white); padding: 15px; cursor: pointer; font-size: 1.2em; font-weight: bold; }
         .unit-header:hover { background-color: #003380; }
         .unit-content { display: none; padding: 10px; }
-        
+
         .class-block { background-color: var(--class-gray); margin-bottom: 10px; border-radius: 4px; border-left: 4px solid var(--smart-red); }
         .class-header { padding: 12px; cursor: pointer; font-weight: bold; color: var(--smart-blue); }
         .class-header:hover { background-color: #dadddf; }
         .class-content { display: none; padding: 15px; background-color: var(--smart-white); border: 1px solid var(--class-gray); }
-        
+
         .resource-tag { display: inline-block; background-color: var(--smart-red); color: var(--smart-white); padding: 3px 8px; border-radius: 12px; font-size: 0.8em; margin-right: 10px; min-width: 80px; text-align: center; }
         .resource-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
         .resource-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .resource-item a { color: var(--smart-blue); text-decoration: none; font-weight: bold; }
         .resource-item a:hover { text-decoration: underline; }
-        
+
         .active { display: block; }
-        
+
         @media (max-width: 600px) {
             .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
             .toolkit input { width: 100%; box-sizing: border-box; }
         }
-        /* Marca de agua / Firma */
         .footer-signature {
             position: fixed;
             bottom: 10px;
@@ -226,7 +225,6 @@
         ]
     }
 ];
-        // RENDER LOGIC
         const container = document.getElementById("unitsContainer");
         b2_data.forEach(unit => {
             let classesHTML = "";
@@ -236,7 +234,7 @@
                         <span class="resource-tag">${res.tag}</span>
                         <a href="${res.link}" target="_blank">${res.text}</a>
                     </div>`).join('');
-                
+
                 classesHTML += `
                     <div class="class-block">
                         <div class="class-header" onclick="toggleElement('${cls.class_id}')">▶ ${cls.title}</div>
