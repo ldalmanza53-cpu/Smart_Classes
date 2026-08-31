@@ -44,15 +44,15 @@
             .toolkit { flex-direction: column; align-items: stretch; gap: 10px; }
             .toolkit input { width: 100%; box-sizing: border-box; }
         }
-.footer-signature {
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
-    font-size: 0.7em;
-    color: rgba(0, 32, 91, 0.3);
-    pointer-events: none;
-    z-index: 1000;
-}
+        .footer-signature {
+            position: fixed;
+            bottom: 10px;
+            right: 20px;
+            font-size: 0.7em;
+            color: rgba(0, 32, 91, 0.3);
+            pointer-events: none;
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -66,13 +66,13 @@
         <div class="top-bar">
             <a href="../index.html" class="back-btn">⬅ Home</a>
             <div class="toolkit">
-    <div style="flex-grow: 1; display: flex; gap: 10px;">
-        <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
-        <button onclick="spinRoulette()">Spin</button>
-        <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
-    </div>
-    <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
-</div>
+                <div style="flex-grow: 1; display: flex; gap: 10px;">
+                    <input type="text" id="studentList" placeholder="Student Roulette (e.g. Carlos, Maria)">
+                    <button onclick="spinRoulette()">Spin</button>
+                    <button onclick="resetRoulette()" style="background-color: #666;">Clear</button>
+                </div>
+                <div id="rouletteResult" style="font-weight: bold; color: var(--smart-blue); font-size: 1.1em; margin-left: 15px;"></div>
+            </div>
         </div>
 
         <div id="unitsContainer"></div>
@@ -217,7 +217,18 @@
         classes: [
             { class_id: "c1_c67", title: "Class 67", objective: "Discuss the goals and reasons behind successful entrepreneurs and talk about hypothetical situations.", warmup: "Entrepreneurial mindset", resources: [{"tag": "YouTube", "text": "Unit 12 A | Subject-verb inversion in conditional sentences | Passages 2", "link": "https://www.youtube.com/watch?v=lOqNPLmNnYY&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=23&pp=iAQB"}, {"tag": "YouTube", "text": "Inversion with conditional sentences", "link": "https://www.youtube.com/watch?v=BumOCZ1YwZc"}, {"tag": "Resource", "text": "Grammar Exercise – Inverted Conditionals (B2/C1) (with printable PDF) - EnglishSmarts - English with Suzanne", "link": "https://englishsmarts.com/2024/12/18/grammar-exercise-inverted-conditionals/"}] },
             { class_id: "c1_c68", title: "Class 68", objective: "Discuss work using some expressions related. Practice how to write a formal letter.", warmup: "Formal letter components", resources: [{"tag": "YouTube", "text": "How to Find Fulfilling Work", "link": "https://www.youtube.com/watch?v=veriqDHLXsw"}, {"tag": "YouTube", "text": "Prepositions to Use with the Word 'Work' - Learn Correctly", "link": "https://www.youtube.com/watch?v=uqLFew5A_a4"}, {"tag": "Resource", "text": "Writing formal letter of complaint – Tips, examples and exercises - Test-English", "link": "https://test-english.com/writing/b2/a-formal-letter-of-complaint-tips-examples-exercises/"}] },
-            { class_id: "c1_c69", title: "Class 69", objective: "Validate and complement previous knowledge about expressing hypothetical situations putting into practice subject-verb-inversion (Grammar Plus).", warmup: "Inversion practice (Had I known...)", resources: [{"tag": "YouTube", "text": "Unit 12 A | Subject-verb inversion in conditional sentences | Passages 2", "link": "https://www.youtube.com/watch?v=lOqNPLmNnYY&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=23&pp=iAQB"}, {"tag": "YouTube", "text": "Inversion with conditional sentences", "link": "https://www.youtube.com/watch?v=BumOCZ1YwZc"}, {"tag": "Wordwall", "text": "Inversion in conditional sentences - Quiz", "link": "https://wordwall.net/resource/96595413/inversion-in-conditional-sentences"}] },
+            { 
+                class_id: "c1_c69", 
+                title: "Class 69", 
+                objective: "Validate and complement previous knowledge about expressing hypothetical situations putting into practice subject-verb-inversion (Grammar Plus).", 
+                warmup: "Inversion practice (Had I known...)", 
+                resources: [
+                    {"tag": "YouTube", "text": "Unit 12 A | Subject-verb inversion in conditional sentences | Passages 2", "link": "https://www.youtube.com/watch?v=lOqNPLmNnYY&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=23&pp=iAQB"}, 
+                    {"tag": "YouTube", "text": "Inversion with conditional sentences", "link": "https://www.youtube.com/watch?v=BumOCZ1YwZc"}, 
+                    {"tag": "Wordwall", "text": "Inversion in conditional sentences - Quiz", "link": "https://wordwall.net/resource/96595413/inversion-in-conditional-sentences"}
+                ],
+                embedCode: `<iframe style="max-width:100%; margin-top:15px; border-radius:4px;" src="https://wordwall.net/embed/490e3a1af2174e2f99ba71381db80f7f?themeId=69&templateId=5&fontStackId=0" width="500" height="380" frameborder="0" allowfullscreen></iframe>`
+            },
             { class_id: "c1_c70", title: "Class 70", objective: "Express your values and preferences in work and business and compare your choices when talking about your ideal job.", warmup: "Ideal job description", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=b3MACwN63Qc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=24&pp=iAQB"}, {"tag": "Resource", "text": "Adverb clause of condition Quiz", "link": "https://wayground.com/admin/quiz/5ed1271e70816d001f2a0d39/adverb-clause-of-condition"}, {"tag": "Wordwall", "text": "Adverb clauses of condition - Complete the sentence", "link": "https://wordwall.net/resource/53094735/adverb-clauses-of-condition"}] },
             { class_id: "c1_c71", title: "Class 71", objective: "Discuss the qualities of a successful worker.", warmup: "Top 5 professional skills", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=b3MACwN63Qc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=24&pp=iAQB"}, {"tag": "Resource", "text": "3 Crucial Qualities You Must Develop For Success (+ Real Life Examples) | by Dave Richards | Medium", "link": "https://daverich92.medium.com/3-crucial-qualities-you-must-develop-for-success-real-life-examples-b78183d6da30"}, {"tag": "Resource", "text": "Chapter 3: The Top 5 Skills for Success", "link": "https://www.linkedin.com/pulse/chapter-3-top-5-skills-success-jesus-vasquez-udeqe"}] },
             { class_id: "c1_c72", title: "Class 72", objective: "Validate and complement previous knowledge about describing ideal jobs using adverb clauses of conditions (Grammar Plus).", warmup: "Conditional clauses review", resources: [{"tag": "YouTube", "text": "YouTube Resource", "link": "https://www.youtube.com/watch?v=b3MACwN63Qc&list=PLRg8KGU6iq0Ag1yLERwNBwnbRAAuXGxMc&index=24&pp=iAQB"}, {"tag": "Resource", "text": "Adverb clause of condition Quiz", "link": "https://wayground.com/admin/quiz/5ed1271e70816d001f2a0d39/adverb-clause-of-condition"}, {"tag": "Resource", "text": "Adverbial Clauses Of Condition-English", "link": "https://www.tolearnenglish.com/exercises/exercise-english-2/exercise-english-79667.php"}] },
@@ -246,6 +257,9 @@
                     resourcesHTML = `<div class="resource-item" style="color: #666; font-style: italic; font-size: 0.9em;">No resources added yet.</div>`;
                 }
 
+                // Inyección del juego interactivo si está definido
+                let extraEmbed = cls.embedCode ? cls.embedCode : "";
+
                 classesHTML += `
                     <div class="class-block">
                         <div class="class-header" onclick="toggleElement('${cls.class_id}')">
@@ -260,6 +274,7 @@
                                 <strong>${cls.warmup}</strong>
                             </div>
                             ${resourcesHTML}
+                            ${extraEmbed}
                         </div>
                     </div>`;
             });
@@ -289,25 +304,26 @@
             }
         });
 
-function spinRoulette() {
-    var input = document.getElementById("studentList").value;
-    localStorage.setItem("smart_students", input);
-    if(!input) {
-        alert("Please add some names first!");
-        return;
-    }
-    var names = input.split(",").map(n => n.trim()).filter(n => n !== "");
-    if(names.length > 0) {
-        var winner = names[Math.floor(Math.random() * names.length)];
-        document.getElementById("rouletteResult").innerText = "Result: " + winner + "!";
-    }
-}
+        function spinRoulette() {
+            var input = document.getElementById("studentList").value;
+            localStorage.setItem("smart_students", input);
+            if(!input) {
+                alert("Please add some names first!");
+                return;
+            }
+            var names = input.split(",").map(n => n.trim()).filter(n => n !== "");
+            if(names.length > 0) {
+                var winner = names[Math.floor(Math.random() * names.length)];
+                document.getElementById("rouletteResult").innerText = "Result: " + winner + "!";
+            }
+        }
 
-function resetRoulette() {
-    document.getElementById("studentList").value = "";
-    document.getElementById("rouletteResult").innerText = "";
-    localStorage.removeItem("smart_students");
-}
+        function resetRoulette() {
+            document.getElementById("studentList").value = "";
+            document.getElementById("rouletteResult").innerText = "";
+            localStorage.removeItem("smart_students");
+        }
     </script>
-    <div class="footer-signature">© 2026 Luis Almanza</div></body>
+    <div class="footer-signature">© 2026 Luis Almanza</div>
+</body>
 </html>
