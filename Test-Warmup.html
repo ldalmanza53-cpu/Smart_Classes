@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Quest - ESL A1 Interactive Learning App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        fredoka: ['Fredoka', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                        },
+                        funYellow: '#ffc107',
+                        funGreen: '#10b981',
+                        funPurple: '#8b5cf6',
+                        funRose: '#f43f5e',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .card-flip {
+            perspective: 1000px;
+        }
+        .card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-flip.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .eliminated {
+            opacity: 0.35;
+            filter: grayscale(85%);
+            position: relative;
+        }
+        .eliminated::after {
+            content: "✖";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: #ef4444;
+            font-weight: 900;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Header Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-tr from-brand-500 to-funPurple text-white rounded-2xl flex items-center justify-center shadow-lg text-2xl font-bold">
+                    💼
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900 tracking-tight leading-none">Job Quest</h1>
+                    <p class="text-xs font-semibold text-brand-600 tracking-wide uppercase mt-1">A1 ESL Interactive English</p>
+                </div>
+            </div>
+
+            <!-- Stats & Rewards Header -->
+            <div class="flex items-center space-x-4">
+                <div class="bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-full flex items-center space-x-2">
+                    <span class="text-amber-500 text-lg">⭐</span>
+                    <span id="star-count" class="font-bold text-amber-700 text-sm">0</span>
+                    <span class="text-xs text-amber-600 hidden sm:inline">Stars</span>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full flex items-center space-x-2">
+                    <span class="text-emerald-500 text-lg">🏆</span>
+                    <span id="score-count" class="font-bold text-emerald-700 text-sm">0</span>
+                    <span class="text-xs text-emerald-600 hidden sm:inline">Pts</span>
+                </div>
+                <button id="sound-toggle-btn" onclick="toggleAudio()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
+                    <i id="sound-icon" class="fas fa-volume-up"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-slate-100/80 border-t border-slate-200 px-4">
+            <div class="max-w-7xl mx-auto flex space-x-2 sm:space-x-4 overflow-x-auto py-2 no-scrollbar">
+                <button onclick="switchTab('vocab')" id="tab-vocab" class="tab-btn active-tab flex items-center space-x-2 px-4 py-2 rounded-xl font-bold text-sm transition whitespace-nowrap bg-white text-brand-600 shadow-sm">
+                    <span>📖 Vocab & Listening</span>
+                </button>
+                <button onclick="switchTab('guess')" id="tab-guess" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl font-bold text-sm text-slate-600 hover:bg-white/60 transition whitespace-nowrap">
+                    <span>🕵️ Guess Mystery Job</span>
+                </button>
+                <button onclick="switchTab('answer')" id="tab-answer" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl font-bold text-sm text-slate-600 hover:bg-white/60 transition whitespace-nowrap">
+                    <span>💬 Role-Play Answer</span>
+                </button>
+                <button onclick="switchTab('printable')" id="tab-printable" class="tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl font-bold text-sm text-slate-600 hover:bg-white/60 transition whitespace-nowrap">
+                    <span>🖨️ Pair-Work Cards</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+        <!-- TAB 1: VOCABULARY & LISTENING LAB -->
+        <section id="view-vocab" class="space-y-6">
+            <div class="bg-gradient-to-r from-brand-600 to-funPurple text-white p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="space-y-2 text-center md:text-left">
+                    <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">A1 Essential Vocabulary</span>
+                    <h2 class="text-3xl font-extrabold">Jobs & Workplaces</h2>
+                    <p class="text-brand-100 max-w-xl">Click the cards to hear standard English audio. Practice key A1 questions: <em class="underline decoration-amber-300">"Where do you work?"</em> and <em class="underline decoration-amber-300">"Do you wear a uniform?"</em></p>
+                </div>
+                <button onclick="playRandomVocabQuiz()" class="bg-funYellow hover:bg-amber-400 text-slate-900 font-extrabold px-6 py-3 rounded-2xl shadow-lg transform hover:-translate-y-0.5 transition flex items-center space-x-2">
+                    <i class="fas fa-play-circle text-lg"></i>
+                    <span>Quick Listening Game</span>
+                </button>
+            </div>
+
+            <!-- Sentence Helper Scaffolding Bar -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-2 text-slate-700 font-semibold text-sm">
+                    <span class="bg-amber-100 text-amber-800 p-2 rounded-lg"><i class="fas fa-lightbulb"></i></span>
+                    <span>A1 Grammar Sentence Starters:</span>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs font-medium">
+                    <span class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200">I am a... [Job]</span>
+                    <span class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200">I work in a... [Place]</span>
+                    <span class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200">Yes, I do. / No, I don't.</span>
+                    <span class="bg-slate-100 text-slate-700 px-3 py-1.5 rounded-lg border border-slate-200">Yes, I am. / No, I'm not.</span>
+                </div>
+            </div>
+
+            <!-- Job Cards Grid -->
+            <div id="vocab-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Javascript will inject interactive job cards here -->
+            </div>
+        </section>
+
+        <!-- TAB 2: GUESS THE MYSTERY JOB -->
+        <section id="view-guess" class="hidden space-y-6">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col lg:flex-row gap-6 items-start">
+                
+                <!-- Left Panel: Interactive Question Dashboard -->
+                <div class="w-full lg:w-1/3 space-y-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-heading text-xl text-slate-800 font-bold flex items-center gap-2">
+                            <span>❓ Ask Questions</span>
+                        </h3>
+                        <span id="questions-asked-badge" class="text-xs font-bold bg-brand-100 text-brand-700 px-2.5 py-1 rounded-full">0 Questions Asked</span>
+                    </div>
+
+                    <p class="text-xs text-slate-500">Ask the mystery worker questions to figure out who they are. Non-matching jobs will auto-eliminated or you can click to manually eliminate!</p>
+
+                    <div id="question-buttons-container" class="space-y-2">
+                        <!-- Questions will be injected dynamically -->
+                    </div>
+
+                    <!-- Virtual Worker Chat Log -->
+                    <div class="mt-4 bg-white border border-slate-200 rounded-xl p-3 h-40 overflow-y-auto space-y-2 text-xs" id="chat-log">
+                        <div class="text-slate-400 italic text-center py-4">Click a question above to start interviewing the mystery character!</div>
+                    </div>
+
+                    <!-- Make a Guess Button -->
+                    <div class="pt-2">
+                        <button onclick="openGuessModal()" class="w-full bg-funGreen hover:bg-emerald-600 text-white font-bold py-3 px-4 rounded-xl shadow transition flex items-center justify-center space-x-2">
+                            <i class="fas fa-bullseye"></i>
+                            <span>I Know! Make a Final Guess!</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Jobs Elimination Grid -->
+                <div class="w-full lg:w-2/3 space-y-4">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <div>
+                            <h3 class="font-heading text-2xl font-bold text-slate-800">Mystery Job Candidates</h3>
+                            <p class="text-xs text-slate-500">Click a job to manually toggle elimination (X) or click "Guess This Job".</p>
+                        </div>
+                        <button onclick="initGuessGame()" class="text-xs font-bold bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-xl transition flex items-center gap-1">
+                            <i class="fas fa-redo"></i>
+                            <span>New Mystery Game</span>
+                        </button>
+                    </div>
+
+                    <div id="guess-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        <!-- Jobs grid injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: ANSWER THE QUESTIONS MODE -->
+        <section id="view-answer" class="hidden space-y-6">
+            <div class="max-w-3xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-funPurple to-brand-600 p-6 text-white text-center">
+                    <span class="bg-white/20 text-xs font-bold px-3 py-1 rounded-full uppercase">Role-Play Practice Mode</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold mt-2">Answer The Questions!</h2>
+                    <p class="text-purple-100 text-sm mt-1">You are given a secret job. Listen to the character and pick the correct A1 answer!</p>
+                </div>
+
+                <div class="p-6 space-y-6">
+                    <!-- Player Assigned Secret Role Card -->
+                    <div id="role-assigned-card" class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                        <!-- Assigned job injected here -->
+                    </div>
+
+                    <!-- Virtual Interviewer Character -->
+                    <div class="flex items-start space-x-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                        <div class="w-16 h-16 rounded-full bg-brand-100 border-2 border-brand-500 flex-shrink-0 flex items-center justify-center text-3xl shadow-sm">
+                            🤖
+                        </div>
+                        <div class="flex-grow space-y-1">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-sm text-slate-700">Interviewer Character</span>
+                                <button id="replay-question-btn" onclick="speakQuestionAudio()" class="text-xs text-brand-600 hover:text-brand-700 font-bold flex items-center gap-1">
+                                    <i class="fas fa-volume-up"></i> Listen Question
+                                </button>
+                            </div>
+                            <p id="interviewer-question" class="text-lg font-extrabold text-brand-700">"Where do you work?"</p>
+                        </div>
+                    </div>
+
+                    <!-- Multiple Choice Answers -->
+                    <div class="space-y-3">
+                        <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Select your answer:</p>
+                        <div id="answer-options-container" class="grid grid-cols-1 gap-3">
+                            <!-- Injected JS options -->
+                        </div>
+                    </div>
+
+                    <!-- Mode Feedback Banner -->
+                    <div id="answer-feedback" class="hidden p-4 rounded-2xl text-center font-bold text-sm">
+                    </div>
+
+                    <div class="flex justify-between items-center pt-2">
+                        <div class="text-xs text-slate-500">
+                            Question <span id="rp-current-q">1</span> of <span id="rp-total-q">5</span>
+                        </div>
+                        <button id="next-rp-btn" onclick="nextRolePlayQuestion()" class="hidden bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-2.5 rounded-xl shadow transition">
+                            Next Question <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: CLASSROOM PAIR-WORK CARD GENERATOR -->
+        <section id="view-printable" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4 no-print">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-800">Classroom Pair-Work Role Cards</h2>
+                    <p class="text-sm text-slate-500">Print or view secret role cards for offline Student A / Student B speaking practice!</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="window.print()" class="bg-funPurple hover:bg-purple-700 text-white font-bold px-5 py-2.5 rounded-xl shadow transition flex items-center space-x-2">
+                        <i class="fas fa-print"></i>
+                        <span>Print Cards PDF</span>
+                    </button>
+                    <button onclick="generatePrintableCards()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2.5 rounded-xl transition">
+                        <i class="fas fa-sync"></i> Refresh Cards
+                    </button>
+                </div>
+            </div>
+
+            <!-- Classroom instructions helper banner -->
+            <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 text-indigo-900 text-xs sm:text-sm space-y-1 no-print">
+                <span class="font-bold flex items-center gap-2 text-indigo-700">
+                    <i class="fas fa-info-circle"></i> Classroom Activity Instructions:
+                </span>
+                <p>1. Cut cards into pairs (Student A & Student B). Keep secrets! 2. Student A asks Student B questions (e.g. <em>"Where do you work?", "Do you wear a uniform?"</em>). 3. Student A guesses Student B's job. Then switch roles!</p>
+            </div>
+
+            <!-- Print Printable Container -->
+            <div id="print-area" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Printable cards injected by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Guess Modal Popup -->
+    <div id="guess-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl border border-slate-100 transform transition-all">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 class="font-heading text-xl font-bold text-slate-800">Are you ready to guess?</h3>
+                <button onclick="closeGuessModal()" class="text-slate-400 hover:text-slate-600 text-lg"><i class="fas fa-times"></i></button>
+            </div>
+            <p class="text-xs text-slate-500">Pick the mystery job you think the character is working as:</p>
+
+            <div id="modal-guess-options" class="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto p-1">
+                <!-- Injected guess buttons -->
+            </div>
+
+            <div class="flex justify-end space-x-2 pt-2 border-t border-slate-100">
+                <button onclick="closeGuessModal()" class="px-4 py-2 rounded-xl text-slate-600 bg-slate-100 hover:bg-slate-200 text-xs font-bold">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Celebration Banner / Popup Toast -->
+    <div id="toast-notification" class="fixed bottom-6 right-6 bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl z-50 hidden flex items-center space-x-3 transition-all duration-300">
+        <span id="toast-icon" class="text-2xl">🎉</span>
+        <div>
+            <h4 id="toast-title" class="font-bold text-sm">Great Job!</h4>
+            <p id="toast-msg" class="text-xs text-slate-300">Correct Answer!</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto no-print">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p>🎓 Job Quest - Interactive ESL A1 Learning Resource</p>
+            <p class="text-slate-400">Designed for Asking & Answering Questions about Jobs</p>
+        </div>
+    </footer>
+
+    <script>
+        const JOBS_DATA = [
+            {
+                id: 'doctor',
+                title: 'Doctor',
+                article: 'a',
+                emoji: '👨‍⚕️',
+                workplace: 'hospital',
+                uniform: true,
+                animals: false,
+                computer: true,
+                inside: true,
+                food: false,
+                drive: false,
+                clue: 'Helps sick people get healthy.',
+                sampleQ: 'Where do you work?',
+                sampleA: 'I work in a hospital.'
+            },
+            {
+                id: 'chef',
+                title: 'Chef',
+                article: 'a',
+                emoji: '👨‍🍳',
+                workplace: 'restaurant kitchen',
+                uniform: true,
+                animals: false,
+                computer: false,
+                inside: true,
+                food: true,
+                drive: false,
+                clue: 'Cooks delicious meals for customers.',
+                sampleQ: 'Do you work with food?',
+                sampleA: 'Yes, I cook food every day!'
+            },
+            {
+                id: 'teacher',
+                title: 'Teacher',
+                article: 'a',
+                emoji: '👩‍🏫',
+                workplace: 'school',
+                uniform: false,
+                animals: false,
+                computer: true,
+                inside: true,
+                food: false,
+                drive: false,
+                clue: 'Helps students learn new things.',
+                sampleQ: 'Do you wear a uniform?',
+                sampleA: 'No, I don\'t wear a uniform.'
+            },
+            {
+                id: 'taxi_driver',
+                title: 'Taxi Driver',
+                article: 'a',
+                emoji: '🚕',
+                workplace: 'taxi car',
+                uniform: false,
+                animals: false,
+                computer: false,
+                inside: false,
+                food: false,
+                drive: true,
+                clue: 'Drives people around the city.',
+                sampleQ: 'Do you drive a vehicle?',
+                sampleA: 'Yes, I drive a taxi.'
+            },
+            {
+                id: 'vet',
+                title: 'Vet (Veterinarian)',
+                article: 'a',
+                emoji: '👩‍⚕️',
+                workplace: 'animal clinic',
+                uniform: true,
+                animals: true,
+                computer: true,
+                inside: true,
+                food: false,
+                drive: false,
+                clue: 'Helps sick animals feel better.',
+                sampleQ: 'Do you work with animals?',
+                sampleA: 'Yes, I love animals!'
+            },
+            {
+                id: 'firefighter',
+                title: 'Firefighter',
+                article: 'a',
+                emoji: '👨‍🚒',
+                workplace: 'fire station',
+                uniform: true,
+                animals: false,
+                computer: false,
+                inside: false,
+                food: false,
+                drive: true,
+                clue: 'Puts out fires and keeps people safe.',
+                sampleQ: 'Where do you work?',
+                sampleA: 'I work at a fire station.'
+            },
+            {
+                id: 'pilot',
+                title: 'Pilot',
+                article: 'a',
+                emoji: '👨‍✈️',
+                workplace: 'airport and airplane',
+                uniform: true,
+                animals: false,
+                computer: true,
+                inside: true,
+                food: false,
+                drive: true,
+                clue: 'Flies airplanes across the sky.',
+                sampleQ: 'Do you wear a uniform?',
+                sampleA: 'Yes, I wear a pilot uniform.'
+            },
+            {
+                id: 'farmer',
+                title: 'Farmer',
+                article: 'a',
+                emoji: '👨‍🌾',
+                workplace: 'farm',
+                uniform: false,
+                animals: true,
+                computer: false,
+                inside: false,
+                food: true,
+                drive: true,
+                clue: 'Grows vegetables and looks after animals.',
+                sampleQ: 'Do you work inside?',
+                sampleA: 'No, I work outside on a farm.'
+            },
+            {
+                id: 'police_officer',
+                title: 'Police Officer',
+                article: 'a',
+                emoji: '👮',
+                workplace: 'police station',
+                uniform: true,
+                animals: false,
+                computer: false,
+                inside: false,
+                food: false,
+                drive: true,
+                clue: 'Protects the city and helps citizens.',
+                sampleQ: 'Do you wear a uniform?',
+                sampleA: 'Yes, I wear a blue uniform.'
+            },
+            {
+                id: 'shop_assistant',
+                title: 'Shop Assistant',
+                article: 'a',
+                emoji: '🧑‍💼',
+                workplace: 'store / shop',
+                uniform: true,
+                animals: false,
+                computer: true,
+                inside: true,
+                food: false,
+                drive: false,
+                clue: 'Helps customers buy products.',
+                sampleQ: 'Where do you work?',
+                sampleA: 'I work in a shop.'
+            },
+            {
+                id: 'astronaut',
+                title: 'Astronaut',
+                article: 'an',
+                emoji: '👨‍🚀',
+                workplace: 'space station',
+                uniform: true,
+                animals: false,
+                computer: true,
+                inside: true,
+                food: false,
+                drive: true,
+                clue: 'Travels to space and explores planets.',
+                sampleQ: 'Do you wear a uniform?',
+                sampleA: 'Yes, I wear a spacesuit.'
+            },
+            {
+                id: 'artist',
+                title: 'Artist',
+                article: 'an',
+                emoji: '🎨',
+                workplace: 'art studio',
+                uniform: false,
+                animals: false,
+                computer: false,
+                inside: true,
+                food: false,
+                drive: false,
+                clue: 'Paints pictures and draws art.',
+                sampleQ: 'Do you work with food?',
+                sampleA: 'No, I work with paint!'
+            }
+        ];
+
+        let state = {
+            stars: 0,
+            score: 0,
+            soundEnabled: true,
+            // Guess game state
+            mysteryJob: null,
+            eliminatedJobIds: new Set(),
+            questionsAskedCount: 0,
+            // Role play game state
+            rpRole: null,
+            rpQuestions: [],
+            rpCurrentIndex: 0,
+            rpScore: 0
+        };
+
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function playSound(type) {
+            if (!state.soundEnabled) return;
+            try {
+                if (!audioCtx) audioCtx = new AudioContext();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                const now = audioCtx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(400, now);
+                    osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+                    osc.start(now);
+                    osc.stop(now + 0.05);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now); // C5
+                    osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                    osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(220, now);
+                    osc.frequency.linearRampToValueAtTime(130, now + 0.2);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                } else if (type === 'win') {
+                    // Win fanfare
+                    const notes = [523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((freq, idx) => {
+                        const noteOsc = audioCtx.createOscillator();
+                        const noteGain = audioCtx.createGain();
+                        noteOsc.connect(noteGain);
+                        noteGain.connect(audioCtx.destination);
+                        noteOsc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                        noteGain.gain.setValueAtTime(0.15, now + idx * 0.1);
+                        noteGain.gain.linearRampToValueAtTime(0.01, now + idx * 0.1 + 0.25);
+                        noteOsc.start(now + idx * 0.1);
+                        noteOsc.stop(now + idx * 0.1 + 0.25);
+                    });
+                }
+            } catch (e) {
+                console.log("Audio not supported or blocked", e);
+            }
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel(); // Stop ongoing speech
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 0.88; // Slightly slower for A1 learners
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function toggleAudio() {
+            state.soundEnabled = !state.soundEnabled;
+            const btn = document.getElementById('sound-icon');
+            if (state.soundEnabled) {
+                btn.className = 'fas fa-volume-up';
+                showToast('🔊 Sound Enabled', 'Audio effects turned on.');
+            } else {
+                btn.className = 'fas fa-volume-mute';
+                showToast('🔇 Sound Muted', 'Audio effects turned off.');
+            }
+        }
+
+        function switchTab(tabId) {
+            playSound('click');
+            const tabs = ['vocab', 'guess', 'answer', 'printable'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const view = document.getElementById(`view-${t}`);
+                if (t === tabId) {
+                    btn.className = 'tab-btn active-tab flex items-center space-x-2 px-4 py-2 rounded-xl font-bold text-sm transition whitespace-nowrap bg-white text-brand-600 shadow-sm';
+                    view.classList.remove('hidden');
+                } else {
+                    btn.className = 'tab-btn flex items-center space-x-2 px-4 py-2 rounded-xl font-bold text-sm text-slate-600 hover:bg-white/60 transition whitespace-nowrap';
+                    view.classList.add('hidden');
+                }
+            });
+
+            if (tabId === 'guess' && !state.mysteryJob) {
+                initGuessGame();
+            } else if (tabId === 'answer' && !state.rpRole) {
+                initRolePlayMode();
+            } else if (tabId === 'printable') {
+                generatePrintableCards();
+            }
+        }
+
+        function renderVocabCards() {
+            const container = document.getElementById('vocab-grid');
+            container.innerHTML = JOBS_DATA.map(job => `
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-4xl p-2 bg-slate-100 rounded-2xl">${job.emoji}</span>
+                            <button onclick="speakText('${job.title}')" class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 hover:bg-brand-100 flex items-center justify-center transition">
+                                <i class="fas fa-volume-up"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <h3 class="font-heading text-xl font-bold text-slate-800">${job.article.toUpperCase()} ${job.title}</h3>
+                            <p class="text-xs text-brand-600 font-semibold mt-0.5">Works in: ${job.workplace}</p>
+                        </div>
+                        <p class="text-xs text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-100">${job.clue}</p>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-3 space-y-2">
+                        <div class="text-[11px] bg-sky-50 text-sky-800 p-2 rounded-lg space-y-1">
+                            <div class="font-bold flex items-center justify-between cursor-pointer" onclick="speakText('${job.sampleQ}')">
+                                <span>❓ ${job.sampleQ}</span>
+                                <i class="fas fa-volume-up text-sky-600"></i>
+                            </div>
+                            <div class="font-semibold text-emerald-700 flex items-center justify-between cursor-pointer" onclick="speakText('${job.sampleA}')">
+                                <span>💬 ${job.sampleA}</span>
+                                <i class="fas fa-volume-up text-emerald-600"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function playRandomVocabQuiz() {
+            playSound('click');
+            const randomJob = JOBS_DATA[Math.floor(Math.random() * JOBS_DATA.length)];
+            speakText(`Find the worker who works in a ${randomJob.workplace}. ${randomJob.title}`);
+            showToast('👂 Listening Challenge', `Listen! "Who works in a ${randomJob.workplace}?"`);
+        }
+
+        const QUESTION_PROMPTS = [
+            { id: 'uniform', text: 'Do you wear a uniform?', key: 'uniform', isBool: true },
+            { id: 'animals', text: 'Do you work with animals?', key: 'animals', isBool: true },
+            { id: 'computer', text: 'Do you use a computer?', key: 'computer', isBool: true },
+            { id: 'inside', text: 'Do you work inside?', key: 'inside', isBool: true },
+            { id: 'food', text: 'Do you work with food?', key: 'food', isBool: true },
+            { id: 'drive', text: 'Do you drive a vehicle?', key: 'drive', isBool: true },
+            { id: 'workplace', text: 'Where do you work?', key: 'workplace', isBool: false }
+        ];
+
+        function initGuessGame() {
+            state.mysteryJob = JOBS_DATA[Math.floor(Math.random() * JOBS_DATA.length)];
+            state.eliminatedJobIds.clear();
+            state.questionsAskedCount = 0;
+
+            document.getElementById('questions-asked-badge').innerText = `0 Questions Asked`;
+            document.getElementById('chat-log').innerHTML = `
+                <div class="bg-brand-50 p-2.5 rounded-xl text-brand-800 font-semibold text-center text-xs">
+                    👋 Hello! I have a secret job. Ask me questions to guess who I am!
+                </div>
+            `;
+
+            renderQuestionButtons();
+            renderGuessGrid();
+        }
+
+        function renderQuestionButtons() {
+            const container = document.getElementById('question-buttons-container');
+            container.innerHTML = QUESTION_PROMPTS.map(q => `
+                <button onclick="askMysteryQuestion('${q.id}')" class="w-full text-left bg-white hover:bg-brand-50 border border-slate-200 hover:border-brand-300 p-2.5 rounded-xl font-bold text-xs text-slate-700 transition flex items-center justify-between group">
+                    <span>💬 "${q.text}"</span>
+                    <i class="fas fa-chevron-right text-slate-300 group-hover:text-brand-500"></i>
+                </button>
+            `).join('');
+        }
+
+        function renderGuessGrid() {
+            const container = document.getElementById('guess-grid');
+            container.innerHTML = JOBS_DATA.map(job => {
+                const isEliminated = state.eliminatedJobIds.has(job.id);
+                return `
+                    <div class="bg-white border ${isEliminated ? 'border-red-200 eliminated' : 'border-slate-200 hover:border-brand-400'} rounded-2xl p-3 shadow-sm transition text-center flex flex-col justify-between space-y-2">
+                        <div>
+                            <span class="text-3xl">${job.emoji}</span>
+                            <h4 class="font-heading font-bold text-sm text-slate-800 mt-1">${job.title}</h4>
+                            <span class="text-[10px] text-slate-400 block">${job.workplace}</span>
+                        </div>
+                        <div class="flex items-center space-x-1 pt-1">
+                            <button onclick="toggleEliminate('${job.id}')" class="w-full text-[10px] font-bold ${isEliminated ? 'bg-slate-200 text-slate-700' : 'bg-red-50 text-red-600 hover:bg-red-100'} py-1.5 rounded-lg transition">
+                                ${isEliminated ? 'Restore' : '✖ Cross Out'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function askMysteryQuestion(qId) {
+            playSound('click');
+            const prompt = QUESTION_PROMPTS.find(q => q.id === qId);
+            if (!prompt || !state.mysteryJob) return;
+
+            state.questionsAskedCount++;
+            document.getElementById('questions-asked-badge').innerText = `${state.questionsAskedCount} Questions Asked`;
+
+            let answerText = '';
+            if (prompt.isBool) {
+                const isYes = state.mysteryJob[prompt.key];
+                answerText = isYes ? "Yes, I do!" : "No, I don't.";
+
+                // Auto eliminate non-matching jobs
+                JOBS_DATA.forEach(job => {
+                    if (job[prompt.key] !== isYes) {
+                        state.eliminatedJobIds.add(job.id);
+                    }
+                });
+            } else {
+                answerText = `I work in a ${state.mysteryJob.workplace}.`;
+                JOBS_DATA.forEach(job => {
+                    if (job.workplace !== state.mysteryJob.workplace) {
+                        state.eliminatedJobIds.add(job.id);
+                    }
+                });
+            }
+
+            // Append to chat log
+            const chatLog = document.getElementById('chat-log');
+            const entry = document.createElement('div');
+            entry.className = "space-y-1 my-2";
+            entry.innerHTML = `
+                <div class="text-right text-brand-700 font-bold">You: "${prompt.text}"</div>
+                <div class="text-left bg-slate-100 p-2 rounded-xl text-slate-800 font-semibold">
+                    Mystery Worker: <strong>"${answerText}"</strong>
+                </div>
+            `;
+            chatLog.appendChild(entry);
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            speakText(answerText);
+            renderGuessGrid();
+        }
+
+        function toggleEliminate(jobId) {
+            playSound('click');
+            if (state.eliminatedJobIds.has(jobId)) {
+                state.eliminatedJobIds.delete(jobId);
+            } else {
+                state.eliminatedJobIds.add(jobId);
+            }
+            renderGuessGrid();
+        }
+
+        function openGuessModal() {
+            playSound('click');
+            const container = document.getElementById('modal-guess-options');
+            container.innerHTML = JOBS_DATA.map(job => `
+                <button onclick="makeFinalGuess('${job.id}')" class="p-3 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-400 rounded-xl flex items-center space-x-2 font-bold text-xs text-slate-800 transition">
+                    <span class="text-xl">${job.emoji}</span>
+                    <span>${job.title}</span>
+                </button>
+            `).join('');
+            document.getElementById('guess-modal').classList.remove('hidden');
+        }
+
+        function closeGuessModal() {
+            document.getElementById('guess-modal').classList.add('hidden');
+        }
+
+        function makeFinalGuess(jobId) {
+            closeGuessModal();
+            if (jobId === state.mysteryJob.id) {
+                playSound('win');
+                addReward(50, 2);
+                showToast('🎉 CONGRATULATIONS!', `Correct! The mystery worker is ${state.mysteryJob.article.toUpperCase()} ${state.mysteryJob.title.toUpperCase()}!`);
+                speakText(`Great job! Yes, I am ${state.mysteryJob.article} ${state.mysteryJob.title}!`);
+                setTimeout(() => {
+                    initGuessGame();
+                }, 3000);
+            } else {
+                playSound('wrong');
+                showToast('❌ Not Quite!', 'That is not the correct job. Try asking another question!');
+                speakText("No, I'm not. Try again!");
+            }
+        }
+
+        function initRolePlayMode() {
+            state.rpRole = JOBS_DATA[Math.floor(Math.random() * JOBS_DATA.length)];
+            state.rpCurrentIndex = 0;
+            state.rpScore = 0;
+
+            // Generate question sequence for this role
+            state.rpQuestions = [
+                {
+                    q: "Where do you work?",
+                    correct: `I work in a ${state.rpRole.workplace}.`,
+                    distractors: [
+                        `I work in a ${getDifferentWorkplace(state.rpRole.workplace)}.`,
+                        `I work in a ${getDifferentWorkplace(state.rpRole.workplace)}.`
+                    ]
+                },
+                {
+                    q: "Do you wear a uniform?",
+                    correct: state.rpRole.uniform ? "Yes, I do." : "No, I don't.",
+                    distractors: [
+                        state.rpRole.uniform ? "No, I don't." : "Yes, I do.",
+                        "I am a doctor."
+                    ]
+                },
+                {
+                    q: "Do you work with animals?",
+                    correct: state.rpRole.animals ? "Yes, I do." : "No, I don't.",
+                    distractors: [
+                        state.rpRole.animals ? "No, I don't." : "Yes, I do.",
+                        "I work in a school."
+                    ]
+                },
+                {
+                    q: "What do you do?",
+                    correct: state.rpRole.clue,
+                    distractors: [
+                        "I eat pizza every day.",
+                        "I sleep in a tent."
+                    ]
+                },
+                {
+                    q: `Are you ${state.rpRole.article} ${state.rpRole.title}?`,
+                    correct: "Yes, I am!",
+                    distractors: [
+                        "No, I'm not.",
+                        "No, I work in a restaurant."
+                    ]
+                }
+            ];
+
+            renderRolePlayCard();
+            renderRolePlayQuestion();
+        }
+
+        function getDifferentWorkplace(current) {
+            const otherPlaces = JOBS_DATA.map(j => j.workplace).filter(p => p !== current);
+            return otherPlaces[Math.floor(Math.random() * otherPlaces.length)];
+        }
+
+        function renderRolePlayCard() {
+            const card = document.getElementById('role-assigned-card');
+            card.innerHTML = `
+                <div class="text-5xl p-3 bg-white rounded-2xl shadow-sm border border-amber-200">
+                    ${state.rpRole.emoji}
+                </div>
+                <div class="space-y-1">
+                    <span class="text-[10px] font-extrabold uppercase bg-amber-200 text-amber-800 px-2.5 py-0.5 rounded-full">Your Secret Role</span>
+                    <h3 class="text-xl font-bold text-slate-800">You are ${state.rpRole.article.toUpperCase()} ${state.rpRole.title.toUpperCase()}</h3>
+                    <p class="text-xs text-slate-600">Workplace: <strong>${state.rpRole.workplace}</strong> | Uniform: <strong>${state.rpRole.uniform ? 'Yes' : 'No'}</strong> | Animals: <strong>${state.rpRole.animals ? 'Yes' : 'No'}</strong></p>
+                </div>
+            `;
+        }
+
+        function renderRolePlayQuestion() {
+            const currentQ = state.rpQuestions[state.rpCurrentIndex];
+            document.getElementById('interviewer-question').innerText = `"${currentQ.q}"`;
+            document.getElementById('rp-current-q').innerText = state.rpCurrentIndex + 1;
+            document.getElementById('rp-total-q').innerText = state.rpQuestions.length;
+
+            const feedback = document.getElementById('answer-feedback');
+            feedback.className = 'hidden';
+
+            const nextBtn = document.getElementById('next-rp-btn');
+            nextBtn.classList.add('hidden');
+
+            // Shuffle choices
+            const options = [currentQ.correct, ...currentQ.distractors].sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('answer-options-container');
+            optionsContainer.innerHTML = options.map((opt, idx) => `
+                <button onclick="selectRolePlayAnswer('${encodeURIComponent(opt)}')" class="role-opt-btn w-full text-left p-3.5 bg-slate-50 hover:bg-brand-50 border border-slate-200 hover:border-brand-400 rounded-xl font-bold text-sm text-slate-700 transition flex items-center justify-between">
+                    <span>${opt}</span>
+                    <i class="fas fa-circle text-slate-300"></i>
+                </button>
+            `).join('');
+
+            speakQuestionAudio();
+        }
+
+        function speakQuestionAudio() {
+            const currentQ = state.rpQuestions[state.rpCurrentIndex];
+            speakText(currentQ.q);
+        }
+
+        function selectRolePlayAnswer(encodedOpt) {
+            const selectedOpt = decodeURIComponent(encodedOpt);
+            const currentQ = state.rpQuestions[state.rpCurrentIndex];
+            const feedback = document.getElementById('answer-feedback');
+            const nextBtn = document.getElementById('next-rp-btn');
+
+            // Disable all option buttons
+            document.querySelectorAll('.role-opt-btn').forEach(btn => btn.disabled = true);
+
+            if (selectedOpt === currentQ.correct) {
+                playSound('correct');
+                addReward(20, 1);
+                feedback.className = 'p-4 rounded-2xl text-center font-bold text-sm bg-emerald-100 text-emerald-800 border border-emerald-200 block';
+                feedback.innerHTML = `✅ Excellent! "${selectedOpt}" is correct!`;
+                speakText(`Correct! ${selectedOpt}`);
+            } else {
+                playSound('wrong');
+                feedback.className = 'p-4 rounded-2xl text-center font-bold text-sm bg-red-100 text-red-800 border border-red-200 block';
+                feedback.innerHTML = `❌ Oops! The correct response is: <strong>"${currentQ.correct}"</strong>`;
+            }
+
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextRolePlayQuestion() {
+            playSound('click');
+            state.rpCurrentIndex++;
+            if (state.rpCurrentIndex < state.rpQuestions.length) {
+                renderRolePlayQuestion();
+            } else {
+                playSound('win');
+                showToast('🎉 Role-Play Complete!', 'Great speaking practice! Loading new role...');
+                setTimeout(() => {
+                    initRolePlayMode();
+                }, 2000);
+            }
+        }
+
+        function generatePrintableCards() {
+            const container = document.getElementById('print-area');
+            // Select 4 random jobs for pair practice
+            const shuffled = [...JOBS_DATA].sort(() => Math.random() - 0.5).slice(0, 4);
+
+            container.innerHTML = shuffled.map((job, idx) => {
+                const partner = (idx % 2 === 0) ? 'Student A Card' : 'Student B Card';
+                const badgeColor = (idx % 2 === 0) ? 'bg-brand-600' : 'bg-funPurple';
+
+                return `
+                    <div class="bg-white border-2 border-slate-800 rounded-2xl p-6 shadow-none flex flex-col justify-between space-y-4 relative">
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+                            <span class="${badgeColor} text-white font-extrabold text-xs px-3 py-1 rounded-full uppercase">${partner}</span>
+                            <span class="text-xs text-slate-400 font-bold">✂️ Cut along line</span>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <span class="text-6xl p-3 bg-slate-100 rounded-2xl border border-slate-200">${job.emoji}</span>
+                            <div>
+                                <h3 class="font-heading text-2xl font-bold text-slate-900">${job.article.toUpperCase()} ${job.title.toUpperCase()}</h3>
+                                <p class="text-xs text-slate-600">Workplace: <strong>${job.workplace}</strong></p>
+                                <p class="text-xs text-slate-600">Uniform: <strong>${job.uniform ? 'Yes' : 'No'}</strong> | Animals: <strong>${job.animals ? 'Yes' : 'No'}</strong></p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1">
+                            <div class="font-bold text-slate-800">💬 Prompt Answers for Partner:</div>
+                            <div class="text-slate-600">• "I work in a ${job.workplace}."</div>
+                            <div class="text-slate-600">• "${job.uniform ? 'Yes, I wear a uniform.' : 'No, I don\'t wear a uniform.'}"</div>
+                            <div class="text-slate-600">• "${job.animals ? 'Yes, I work with animals.' : 'No, I don\'t work with animals.'}"</div>
+                        </div>
+
+                        <div class="border-t border-slate-200 pt-2 text-[10px] text-slate-400 flex justify-between">
+                            <span>Job Quest Pair-Work Card</span>
+                            <span>Ask: "Where do you work?" / "Do you wear a uniform?"</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addReward(pts, stars) {
+            state.score += pts;
+            state.stars += stars;
+            document.getElementById('score-count').innerText = state.score;
+            document.getElementById('star-count').innerText = state.stars;
+        }
+
+        function showToast(title, msg) {
+            const toast = document.getElementById('toast-notification');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        window.onload = function () {
+            renderVocabCards();
+            initGuessGame();
+        };
+    </script>
+</body>
+</html>
